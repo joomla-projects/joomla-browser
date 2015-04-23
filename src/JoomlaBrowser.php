@@ -60,6 +60,7 @@ class JoomlaBrowser extends WebDriver
 
         $I->click("//div[@id='jform_language_chzn']/a"); // Language Selector
         $I->click("//li[text()='English (United Kingdom)']"); // English (United Kingdom)
+        sleep(1);
         $I->fillField('Site Name', 'Joomla CMS test');
         $I->fillField('Description', 'Site for testing Joomla CMS');
 
