@@ -15,15 +15,23 @@ class JoomlaBrowser extends WebDriver
         'url',
         'browser',
         'username',
-        'password'
+        'password',
+        'database type',
+        'database host',
+        'database user',
+        'database password',
+        'database name',
+        'database type',
+        'database prefix',
+        'admin email',
+        'language',
+
     );
 
     /**
      * Function to Do Admin Login In Joomla!
-     *
-     * @return void
      */
-    public function doAdminLogin()
+    public function doAdministratorLogin()
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php');
@@ -33,6 +41,9 @@ class JoomlaBrowser extends WebDriver
         $I->waitForText('Control Panel', 10, 'H1');
     }
 
+    /**
+     * Installs Joomla
+     */
     public function installJoomla()
     {
         $I = $this;
@@ -83,5 +94,24 @@ class JoomlaBrowser extends WebDriver
 
         // Wait while Joomla gets installed
         $I->waitForText('Congratulations! Joomla! is now installed.', 30, 'h3');
+    }
+
+    /**
+     * Sets in Adminitrator->Global Configuration the Error reporting to Development
+     */
+    public function setErrorReportingtoDevelopment()
+    {
+        $I = $this;
+        $I->doAdministratorLogin();
+
+        $I->amOnPage('/administrator/index.php?option=com_config');
+        $I->waitForText('Global Configuration',10,'.page-title');
+        $I->click('Server');
+        $I->waitForElementVisible("//div[@id='jform_error_reporting_chzn']/a"); // Error reporting Dropdown
+        $I->click("//div[@id='jform_error_reporting_chzn']/a");
+        $I->click("//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]"); // Development
+        $I->click('Save');
+        $I->waitForText('Global Configuration',10,'.page-title');
+        $I->see('Configuration successfully saved.','#system-message-container');
     }
 }
