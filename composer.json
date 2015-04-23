@@ -1,6 +1,8 @@
 {
     "name": "joomla-projects/joomla-browser",
     "description": "joomla-browser Codeception Module",
+    "keywords":["BDD", "acceptance testing", "tdd", "joomla"],
+    "homepage":"https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
     "authors": [
         {
             "name": "Puneet Kala",
