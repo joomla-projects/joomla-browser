@@ -98,12 +98,12 @@ class JoomlaBrowser extends WebDriver
 
     /**
      * Sets in Adminitrator->Global Configuration the Error reporting to Development
+     *
+     * @note: doAdminLogin() before
      */
     public function setErrorReportingtoDevelopment()
     {
         $I = $this;
-        $I->doAdministratorLogin();
-
         $I->amOnPage('/administrator/index.php?option=com_config');
         $I->waitForText('Global Configuration',10,'.page-title');
         $I->click('Server');
@@ -113,5 +113,21 @@ class JoomlaBrowser extends WebDriver
         $I->click('Save');
         $I->waitForText('Global Configuration',10,'.page-title');
         $I->see('Configuration successfully saved.','#system-message-container');
+    }
+
+    /**
+     * Sets in Adminitrator->Global Configuration the Error reporting to Development
+     *
+     * @note: doAdminLogin() before
+     */
+    public function installExtensionFromDirectory($path)
+    {
+        $I = $this;
+        $I->amOnPage('/administrator/index.php?option=com_installer');
+        $I->click('Install from Directory');
+        $I->fillField('#install_directory', $path);
+        // @todo: we need to find a better locator for the following Install button
+        $I->click("//input[contains(@onclick,'Joomla.submitbutton3()')]"); // Install button
+        $I->waitForText('was successful', 10, '#system-message-container');
     }
 }
