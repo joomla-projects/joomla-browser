@@ -14,7 +14,7 @@ Update Composer.json file in your project, adding
 ### Download
 
 ```
-"require" : "joomla-browser/codeception": "dev-master"
+"require" :  "joomla-projects/joomla-browser": "dev-develop"
 ```
 then do a
 ```
