@@ -1,0 +1,40 @@
+# OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# PHPStorm
+.idea/
+
+# Sublime Text
+*.sublime*
+
+# Eclipse
+.buildpath
+.project
+.settings
+
+# Temp files
+*.tmp
+*.bak
+*.swp
+*~.nib
+*~
+
+# Ignore mergetool files
+*.orig
+
+# Phing build script
+build.properties
+phing-latest.phar
+
+# Composer
+composer.lock
+composer.phar
+vendor/*
+tests/vendor/*

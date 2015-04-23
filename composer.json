@@ -1,0 +1,18 @@
+{
+    "name": "joomla-browser/codeception",
+    "description": "joomla-browser Codeception Module",
+    "authors": [
+        {
+            "name": "Puneet Kala",
+            "email": "puneet.kala@community.joomla.org"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Codeception\\Module\\": "src"
+        }
+    }
+}
