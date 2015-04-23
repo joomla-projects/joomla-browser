@@ -3,7 +3,7 @@
 * [The JoomlaBrowser](#the-joomla-browser)
 * [Using the JoomlaBrowser to test Joomla Sites](#using-instructions)
   * [Download](#download)
-  * [Loading the Module in Codeception]loading-the-module-in-codeception)
+  * [Loading the Module in Codeception](loading-the-module-in-codeception)
 
 ## The Joomla Browser
 Joomla Browser with Codeception Module Functionality
