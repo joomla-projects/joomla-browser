@@ -2,7 +2,8 @@
 
 * [The JoomlaBrowser](#the-joomla-browser)
 * [Using the JoomlaBrowser to test Joomla Sites](#using-instructions)
-  * [Download](#downlload)
+  * [Download](#download)
+  * [Loading the Module in Codeception]loading-the-module-in-codeception)
 
 ## The Joomla Browser
 Joomla Browser with Codeception Module Functionality
@@ -19,6 +20,9 @@ then do a
 ```
 composer update 
 ```
+
+### Loading the Module in Codeception
+
 Finally Make changes in Acceptance.suite.yml add JoomlaBrowser as a Module 
 
 Your original `acceptance.suite.yml`probably looks like:
