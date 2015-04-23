@@ -1,10 +1,14 @@
 {
-    "name": "joomla-browser/codeception",
+    "name": "joomla-projects/joomla-browser",
     "description": "joomla-browser Codeception Module",
     "authors": [
         {
             "name": "Puneet Kala",
-            "email": "puneet.kala@community.joomla.org"
+          "email": "puneet.kala@community.joomla.org"
+        },
+        {
+          "name": "Javier Gomez",
+          "email": "javier.gomez@community.joomla.org"
         }
     ],
     "require": {
