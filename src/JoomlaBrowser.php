@@ -35,9 +35,10 @@ class JoomlaBrowser extends WebDriver
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php');
-        $I->fillField('username', $this->config['username']);
-        $I->fillField('Password', $this->config['password']);
-        $I->click('Log in');
+        $I->fillField('#mod-login-username', $this->config['username']);
+        $I->fillField('#mod-login-password', $this->config['password']);
+        // @todo: update login button in joomla login screen to make this xPath more friendly
+        $I->click("//form[@id='form-login']/fieldset/div[3]/div/div/button");
         $I->waitForText('Control Panel', 10, 'H1');
     }
 
@@ -54,6 +55,7 @@ class JoomlaBrowser extends WebDriver
         //$I->expect('no configuration.php is in the Joomla CMS folder');
         //$I->dontSeeFileFound('configuration.php', $this->config['Joomla folder')];
         $I->amOnPage('/installation/index.php');
+        $this->debug('I open Joomla Installation Configuration Page and fill the fields');
 
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $I->waitForText('Main Configuration', 10, 'h3');
@@ -71,7 +73,8 @@ class JoomlaBrowser extends WebDriver
         $I->fillField('Confirm Admin Password', $this->config['password']);
         $I->click("//fieldset[@id='jform_site_offline']/label[2]"); // ['No Site Offline']
         $I->click('Next');
-        // I Fill the form for creating the Joomla site Database'
+
+        $this->debug('I Fill the form for creating the Joomla site Database');
         $I->waitForText('Database Configuration', 10, 'h3');
 
         $I->selectOption('#jform_db_type', $this->config['database type']);
@@ -83,7 +86,7 @@ class JoomlaBrowser extends WebDriver
         $I->click("//label[@for='jform_db_old1']"); // Remove Old Database button
         $I->click('Next');
 
-        // I Fill the form for creating the Joomla site database
+        $this->debug('I install joomla with or without sample data');
         $I->waitForText('Finalisation', 10, 'h3');
 
         if ($this->config['install sample data']) :
@@ -95,6 +98,7 @@ class JoomlaBrowser extends WebDriver
 
         // Wait while Joomla gets installed
         $I->waitForText('Congratulations! Joomla! is now installed.', 30, 'h3');
+        $this->debug('Joomla is now installed');
     }
 
     /**
@@ -102,7 +106,7 @@ class JoomlaBrowser extends WebDriver
      *
      * @note: doAdminLogin() before
      */
-    public function setErrorReportingToDevelopment()
+    public function setErrorReportingtoDevelopment()
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_config');
