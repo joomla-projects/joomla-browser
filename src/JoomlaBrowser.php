@@ -102,7 +102,7 @@ class JoomlaBrowser extends WebDriver
      *
      * @note: doAdminLogin() before
      */
-    public function setErrorReportingtoDevelopment()
+    public function setErrorReportingToDevelopment()
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_config');
