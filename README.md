@@ -51,7 +51,7 @@ You are asked to remove WebDriver module and change it by the JoomlaBrowser modu
 ```yaml
     config:
         JoomlaBrowser:
-            url: 'http://joomla.box/repos/redmember2/tests/joomla-cms3/'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://localhost/joomla-cms/'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'firefox'
             window_size: 1024x768
             capabilities:
