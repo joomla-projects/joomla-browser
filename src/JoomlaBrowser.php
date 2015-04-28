@@ -34,11 +34,16 @@ class JoomlaBrowser extends WebDriver
     public function doAdministratorLogin()
     {
         $I = $this;
+        $this->debug('I open Joomla Administrator Login Page');
         $I->amOnPage('/administrator/index.php');
+        $this->debug('Fill Username Text Field');
         $I->fillField('#mod-login-username', $this->config['username']);
+        $this->debug('Fill Password Text Field');
         $I->fillField('#mod-login-password', $this->config['password']);
         // @todo: update login button in joomla login screen to make this xPath more friendly
+        $this->debug('I click Login button');
         $I->click("//form[@id='form-login']/fieldset/div[3]/div/div/button");
+        $this->debug('I wait to see Administrator Control Panel');
         $I->waitForText('Control Panel', 10, 'H1');
     }
 
@@ -107,13 +112,15 @@ class JoomlaBrowser extends WebDriver
 
         $this->debug('I install joomla with or without sample data');
         $I->waitForText('Finalisation', 10, 'h3');
-
-        $this->debug('I install Sample Data');
-        if ($this->config['install sample data']) :
-            $I->selectOption('#jform_sample_file', $this->config['sample data']);
-        else :
-            $I->selectOption('#jform_sample_file', '#jform_sample_file0'); // No sample data
-        endif;
+        // @todo: installation of sample data needs to be created
+        //if ($this->config['install sample data']) :
+        //    $this->debug('I install Sample Data:' . $this->config['sample data']);
+        //    $I->selectOption('#jform_sample_file', $this->config['sample data']);
+        //else :
+        //    $this->debug('I install Joomla without Sample Data');
+        //    $I->selectOption('#jform_sample_file', '#jform_sample_file0'); // No sample data
+        //endif;
+        $I->selectOption('#jform_sample_file', '#jform_sample_file0'); // No sample data
         $I->click('Install');
 
         // Wait while Joomla gets installed
