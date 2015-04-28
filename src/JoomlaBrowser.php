@@ -58,7 +58,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I open Joomla Installation Configuration Page and fill the fields');
 
         // I Wait for the text Main Configuration, meaning that the page is loaded
-        $this->debug('I for Main Configuration');
+        $this->debug('I wait for Main Configuration');
         $I->waitForText('Main Configuration', 10, 'h3');
 
         $this->debug('I click Language Selector');
@@ -142,7 +142,9 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
-     * Sets in Adminitrator->Global Configuration the Error reporting to Development
+     * Installs a Extension in Joomla that is located in a folder inside the server
+     *
+     * @param $path
      *
      * @note: doAdminLogin() before
      */
@@ -155,5 +157,25 @@ class JoomlaBrowser extends WebDriver
         // @todo: we need to find a better locator for the following Install button
         $I->click("//input[contains(@onclick,'Joomla.submitbutton3()')]"); // Install button
         $I->waitForText('was successful', 10, '#system-message-container');
+    }
+
+    /**
+     * Function to check for PHP Notices or Warnings
+     *
+     * @param string $page Optional, if not given checks will be done in the current page
+     *
+     * @note: doAdminLogin() before
+     */
+    public function checkForPhpNoticesOrWarnings($page = null)
+    {
+        $I = $this;
+
+        if($page)
+        {
+            $I->amOnPage($page);
+        }
+
+        $I->dontSeeInPageSource('Notice:');
+        $I->dontSeeInPageSource('Warning:');
     }
 }
