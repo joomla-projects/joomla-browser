@@ -102,7 +102,6 @@ class JoomlaBrowser extends WebDriver
         $I->fillField('Table Prefix', $this->config['database prefix']);
         $this->debug('I click Remove Old Database ');
         $I->click("//label[@for='jform_db_old1']"); // Remove Old Database button
-        $I->click('Next');
         $this->debug('I click Next');
         $I->click('Next');
 
