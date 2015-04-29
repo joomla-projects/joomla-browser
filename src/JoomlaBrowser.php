@@ -63,7 +63,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I click Login button');
         $I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
         $this->debug('I wait to see Frontend Member Profile Form');
-        $I->waitForElement(['xpath' => "//form[@id='member-profile']"], 10);
+        $I->waitForElement(['xpath' => "//input[@value='Log out']"], 10);
     }
 
     /**
