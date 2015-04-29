@@ -37,14 +37,14 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I open Joomla Administrator Login Page');
         $I->amOnPage('/administrator/index.php');
         $this->debug('Fill Username Text Field');
-        $I->fillField('#mod-login-username', $this->config['username']);
+        $I->fillField(['id' => 'mod-login-username'], $this->config['username']);
         $this->debug('Fill Password Text Field');
-        $I->fillField('#mod-login-password', $this->config['password']);
+        $I->fillField(['id' => 'mod-login-password'], $this->config['password']);
         // @todo: update login button in joomla login screen to make this xPath more friendly
         $this->debug('I click Login button');
-        $I->click("//form[@id='form-login']/fieldset/div[3]/div/div/button");
+        $I->click(['xpath' => "//form[@id='form-login']/fieldset/div[3]/div/div/button"]);
         $this->debug('I wait to see Administrator Control Panel');
-        $I->waitForText('Control Panel', 10, 'H1');
+        $I->waitForText('Control Panel', 4, ['css' => 'h1.page-title']);
     }
 
     /**
@@ -64,7 +64,7 @@ class JoomlaBrowser extends WebDriver
 
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
-        $I->waitForText('Main Configuration', 10, 'h3');
+        $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
 
         $this->debug('I click Language Selector');
         $I->click("//div[@id='jform_language_chzn']/a"); // Language Selector
@@ -91,7 +91,7 @@ class JoomlaBrowser extends WebDriver
         $I->click('Next');
 
         $this->debug('I Fill the form for creating the Joomla site Database');
-        $I->waitForText('Database Configuration', 10, 'h3');
+        $I->waitForText('Database Configuration', 10,['css' => 'h3']);
 
         $this->debug('I select MySQLi');
         $I->selectOption('#jform_db_type', $this->config['database type']);
@@ -125,9 +125,9 @@ class JoomlaBrowser extends WebDriver
 
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
-        $I->waitForText('Congratulations! Joomla! is now installed.', 10, '//h3');
+        $I->waitForText('Congratulations! Joomla! is now installed.', 10, ['xpath' => '//h3']);
         $this->debug('Joomla is now installed');
-        $I->see('Congratulations! Joomla! is now installed.','//h3');
+        $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
     }
 
     /**
@@ -135,18 +135,27 @@ class JoomlaBrowser extends WebDriver
      *
      * @note: doAdminLogin() before
      */
-    public function setErrorReportingtoDevelopment()
+    public function setErrorReportingToDevelopment()
     {
         $I = $this;
+        $this->debug('I open Joomla Global Configuration Page');
         $I->amOnPage('/administrator/index.php?option=com_config');
-        $I->waitForText('Global Configuration',10,'.page-title');
-        $I->click('Server');
-        $I->waitForElementVisible("//div[@id='jform_error_reporting_chzn']/a"); // Error reporting Dropdown
-        $I->click("//div[@id='jform_error_reporting_chzn']/a");
-        $I->click("//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]"); // Development
-        $I->click('Save');
-        $I->waitForText('Global Configuration',10,'.page-title');
-        $I->see('Configuration successfully saved.','#system-message-container');
+        $this->debug('I wait for Global Configuration title');
+        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $this->debug('I open the Server Tab');
+        $I->click(['link' => 'Server']);
+        $this->debug('I wait for error reporting dropdown');
+        $I->waitForElementVisible(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]); // Error reporting Dropdown
+        $this->debug('I click on error reporting dropdown');
+        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]);
+        $this->debug('I click on development option');
+        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]"]); // Development
+        $I->wait(1);
+        $this->debug('I click on save');
+        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
+        $this->debug('I wait for global configuration being saved');
+        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
     }
 
     /**
@@ -160,11 +169,11 @@ class JoomlaBrowser extends WebDriver
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
-        $I->click('Install from Directory');
-        $I->fillField('#install_directory', $path);
+        $I->click(['link' => 'Install from Directory']);
+        $I->fillField(['id' => 'Install from Directory'], $path);
         // @todo: we need to find a better locator for the following Install button
-        $I->click("//input[contains(@onclick,'Joomla.submitbutton3()')]"); // Install button
-        $I->waitForText('was successful', 10, '#system-message-container');
+        $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
+        $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
     }
 
     /**
