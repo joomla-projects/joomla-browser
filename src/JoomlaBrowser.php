@@ -37,14 +37,14 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I open Joomla Administrator Login Page');
         $I->amOnPage('/administrator/index.php');
         $this->debug('Fill Username Text Field');
-        $I->fillField('#mod-login-username', $this->config['username']);
+        $I->fillField(['id' => 'mod-login-username'], $this->config['username']);
         $this->debug('Fill Password Text Field');
-        $I->fillField('#mod-login-password', $this->config['password']);
+        $I->fillField(['id' => 'mod-login-password'], $this->config['password']);
         // @todo: update login button in joomla login screen to make this xPath more friendly
         $this->debug('I click Login button');
-        $I->click("//form[@id='form-login']/fieldset/div[3]/div/div/button");
+        $I->click(['xpath' => "//form[@id='form-login']/fieldset/div[3]/div/div/button"]);
         $this->debug('I wait to see Administrator Control Panel');
-        $I->waitForText('Control Panel', 10, 'H1');
+        $I->waitForText('Control Panel', 4, ['css' => 'h1.page-title']);
     }
 
     /**
