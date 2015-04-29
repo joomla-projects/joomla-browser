@@ -111,7 +111,7 @@ class JoomlaBrowser extends WebDriver
         $I->click('Next');
 
         $this->debug('I install joomla with or without sample data');
-        $I->waitForText('Finalisation', 10, 'h3');
+        $I->waitForText('Finalisation', 10, ['xpath' => '//h3']);
         // @todo: installation of sample data needs to be created
         //if ($this->config['install sample data']) :
         //    $this->debug('I install Sample Data:' . $this->config['sample data']);
