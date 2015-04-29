@@ -169,11 +169,11 @@ class JoomlaBrowser extends WebDriver
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
-        $I->click('Install from Directory');
-        $I->fillField('#install_directory', $path);
+        $I->click(['link' => 'Install from Directory']);
+        $I->fillField(['id' => 'Install from Directory'], $path);
         // @todo: we need to find a better locator for the following Install button
-        $I->click("//input[contains(@onclick,'Joomla.submitbutton3()')]"); // Install button
-        $I->waitForText('was successful', 10, '#system-message-container');
+        $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
+        $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
     }
 
     /**
