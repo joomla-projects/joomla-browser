@@ -135,18 +135,27 @@ class JoomlaBrowser extends WebDriver
      *
      * @note: doAdminLogin() before
      */
-    public function setErrorReportingtoDevelopment()
+    public function setErrorReportingToDevelopment()
     {
         $I = $this;
+        $this->debug('I open Joomla Global Configuration Page');
         $I->amOnPage('/administrator/index.php?option=com_config');
-        $I->waitForText('Global Configuration',10,'.page-title');
-        $I->click('Server');
-        $I->waitForElementVisible("//div[@id='jform_error_reporting_chzn']/a"); // Error reporting Dropdown
-        $I->click("//div[@id='jform_error_reporting_chzn']/a");
-        $I->click("//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]"); // Development
-        $I->click('Save');
-        $I->waitForText('Global Configuration',10,'.page-title');
-        $I->see('Configuration successfully saved.','#system-message-container');
+        $this->debug('I wait for Global Configuration title');
+        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $this->debug('I open the Server Tab');
+        $I->click(['link' => 'Server']);
+        $this->debug('I wait for error reporting dropdown');
+        $I->waitForElementVisible(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]); // Error reporting Dropdown
+        $this->debug('I click on error reporting dropdown');
+        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]);
+        $this->debug('I click on development option');
+        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]"]); // Development
+        $I->wait(1);
+        $this->debug('I click on save');
+        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
+        $this->debug('I wait for global configuration being saved');
+        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
     }
 
     /**
