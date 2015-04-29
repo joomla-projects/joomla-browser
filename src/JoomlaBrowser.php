@@ -64,7 +64,7 @@ class JoomlaBrowser extends WebDriver
 
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
-        $I->waitForText('Main Configuration', 10, 'h3');
+        $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
 
         $this->debug('I click Language Selector');
         $I->click("//div[@id='jform_language_chzn']/a"); // Language Selector
@@ -91,7 +91,7 @@ class JoomlaBrowser extends WebDriver
         $I->click('Next');
 
         $this->debug('I Fill the form for creating the Joomla site Database');
-        $I->waitForText('Database Configuration', 10, 'h3');
+        $I->waitForText('Database Configuration', 10,['css' => 'h3']);
 
         $this->debug('I select MySQLi');
         $I->selectOption('#jform_db_type', $this->config['database type']);
@@ -125,9 +125,9 @@ class JoomlaBrowser extends WebDriver
 
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
-        $I->waitForText('Congratulations! Joomla! is now installed.', 10, '//h3');
+        $I->waitForText('Congratulations! Joomla! is now installed.', 10, ['xpath' => '//h3']);
         $this->debug('Joomla is now installed');
-        $I->see('Congratulations! Joomla! is now installed.','//h3');
+        $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
     }
 
     /**
