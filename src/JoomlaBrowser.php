@@ -48,6 +48,25 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
+     * Function to Do frontend Login in Joomla!
+     */
+    public function doFrontEndLogin()
+    {
+        $I = $this;
+        $this->debug('I open Joomla Frontend Login Page');
+        $I->amOnPage('/index.php?option=com_users&view=login');
+        $this->debug('Fill Username Text Field');
+        $I->fillField(['id' => 'username'], $this->config['username']);
+        $this->debug('Fill Password Text Field');
+        $I->fillField(['id' => 'password'], $this->config['password']);
+        // @todo: update login button in joomla login screen to make this xPath more friendly
+        $this->debug('I click Login button');
+        $I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
+        $this->debug('I wait to see Frontend Member Profile Form');
+        $I->waitForElement(['xpath' => "//form[@id='member-profile']"], 10);
+    }
+
+    /**
      * Installs Joomla
      */
     public function installJoomla()
@@ -170,7 +189,8 @@ class JoomlaBrowser extends WebDriver
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
         $I->click(['link' => 'Install from Directory']);
-        $I->fillField(['id' => 'Install from Directory'], $path);
+        $this->debug('I enter the Path for extension');
+        $I->fillField(['id' => 'install_directory'], $path);
         // @todo: we need to find a better locator for the following Install button
         $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
         $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
