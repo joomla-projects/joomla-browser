@@ -48,6 +48,25 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
+     * Function to Do frontend Login in Joomla!
+     */
+    public function doFrontEndLogin()
+    {
+        $I = $this;
+        $this->debug('I open Joomla Frontend Login Page');
+        $I->amOnPage('/index.php?option=com_users&view=login');
+        $this->debug('Fill Username Text Field');
+        $I->fillField(['id' => 'username'], $this->config['username']);
+        $this->debug('Fill Password Text Field');
+        $I->fillField(['id' => 'password'], $this->config['password']);
+        // @todo: update login button in joomla login screen to make this xPath more friendly
+        $this->debug('I click Login button');
+        $I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
+        $this->debug('I wait to see Frontend Member Profile Form');
+        $I->waitForElement(['xpath' => "//input[@value='Log out']"], 10);
+    }
+
+    /**
      * Installs Joomla
      */
     public function installJoomla()
@@ -59,56 +78,57 @@ class JoomlaBrowser extends WebDriver
         // @todo: activate the filesystem module
         //$I->expect('no configuration.php is in the Joomla CMS folder');
         //$I->dontSeeFileFound('configuration.php', $this->config['Joomla folder')];
+        $this->debug('I open Joomla Installation Configuration Page');
         $I->amOnPage('/installation/index.php');
-        $this->debug('I open Joomla Installation Configuration Page and fill the fields');
-
+        $this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough permissions to install joomla and execution will be stoped');
+        $I->dontSeeElement(['id' => 'ftp']);
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
         $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
 
         $this->debug('I click Language Selector');
-        $I->click("//div[@id='jform_language_chzn']/a"); // Language Selector
+        $I->click(['xpath' => "//div[@id='jform_language_chzn']/a"]); // Language Selector
         $this->debug('I select en-GB');
-        $I->click("//li[text()='English (United Kingdom)']"); // English (United Kingdom)
-        sleep(1);
+        $I->click(['xpath' => "//li[text()='English (United Kingdom)']"]); // English (United Kingdom)
+        $I->wait(1);
         $this->debug('I fill Site Name');
-        $I->fillField('Site Name', 'Joomla CMS test');
+        $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
         $this->debug('I fill Site Description');
-        $I->fillField('Description', 'Site for testing Joomla CMS');
+        $I->fillField(['id' => 'jform_site_metadesc'], 'Site for testing Joomla CMS');
 
         // I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
         $this->debug('I fill Admin Email');
-        $I->fillField('Admin Email', $this->config['admin email']);
+        $I->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
         $this->debug('I fill Admin Username');
-        $I->fillField('Admin Username', $this->config['username']);
+        $I->fillField(['id' => 'jform_admin_user'], $this->config['username']);
         $this->debug('I fill Admin Password');
-        $I->fillField('Admin Password', $this->config['password']);
+        $I->fillField(['id' => 'jform_admin_password'], $this->config['password']);
         $this->debug('I fill Admin Password Confirmation');
-        $I->fillField('Confirm Admin Password', $this->config['password']);
+        $I->fillField(['id' => 'jform_admin_password2'], $this->config['password']);
         $this->debug('I click Site Offline: no');
-        $I->click("//fieldset[@id='jform_site_offline']/label[2]"); // ['No Site Offline']
+        $I->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[2]"]); // ['No Site Offline']
         $this->debug('I click Next');
-        $I->click('Next');
+        $I->click(['link' => 'Next']);
 
         $this->debug('I Fill the form for creating the Joomla site Database');
         $I->waitForText('Database Configuration', 10,['css' => 'h3']);
 
         $this->debug('I select MySQLi');
-        $I->selectOption('#jform_db_type', $this->config['database type']);
+        $I->selectOption(['id' => 'jform_db_type'], $this->config['database type']);
         $this->debug('I fill Database Host');
-        $I->fillField('Host Name', $this->config['database host']);
+        $I->fillField(['id' => 'jform_db_host'], $this->config['database host']);
         $this->debug('I fill Database User');
-        $I->fillField('Username', $this->config['database user']);
+        $I->fillField(['id' => 'jform_db_user'], $this->config['database user']);
         $this->debug('I fill Database Password');
-        $I->fillField('Password', $this->config['database password']);
+        $I->fillField(['id' => 'jform_db_pass'], $this->config['database password']);
         $this->debug('I fill Database Name');
-        $I->fillField('Database Name', $this->config['database name']);
+        $I->fillField(['id' => 'jform_db_name'], $this->config['database name']);
         $this->debug('I fill Database Prefix');
-        $I->fillField('Table Prefix', $this->config['database prefix']);
+        $I->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
         $this->debug('I click Remove Old Database ');
-        $I->click("//label[@for='jform_db_old1']"); // Remove Old Database button
+        $I->click(['xpath' => "//label[@for='jform_db_old1']"]); // Remove Old Database button
         $this->debug('I click Next');
-        $I->click('Next');
+        $I->click(['link' => 'Next']);
 
         $this->debug('I install joomla with or without sample data');
         $I->waitForText('Finalisation', 10, ['xpath' => '//h3']);
@@ -120,8 +140,8 @@ class JoomlaBrowser extends WebDriver
         //    $this->debug('I install Joomla without Sample Data');
         //    $I->selectOption('#jform_sample_file', '#jform_sample_file0'); // No sample data
         //endif;
-        $I->selectOption('#jform_sample_file', '#jform_sample_file0'); // No sample data
-        $I->click('Install');
+        $I->selectOption(['id' => 'jform_sample_file'], ['id' => 'jform_sample_file0']); // No sample data
+        $I->click(['link' => 'Install']);
 
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
@@ -170,7 +190,8 @@ class JoomlaBrowser extends WebDriver
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
         $I->click(['link' => 'Install from Directory']);
-        $I->fillField(['id' => 'Install from Directory'], $path);
+        $this->debug('I enter the Path for extension');
+        $I->fillField(['id' => 'install_directory'], $path);
         // @todo: we need to find a better locator for the following Install button
         $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
         $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
