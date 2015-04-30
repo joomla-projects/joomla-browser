@@ -78,9 +78,10 @@ class JoomlaBrowser extends WebDriver
         // @todo: activate the filesystem module
         //$I->expect('no configuration.php is in the Joomla CMS folder');
         //$I->dontSeeFileFound('configuration.php', $this->config['Joomla folder')];
+        $this->debug('I open Joomla Installation Configuration Page');
         $I->amOnPage('/installation/index.php');
-        $this->debug('I open Joomla Installation Configuration Page and fill the fields');
-
+        $this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough permissions to install joomla and execution will be stoped');
+        $I->dontSeeElement(['id' => 'ftp']);
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
         $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
