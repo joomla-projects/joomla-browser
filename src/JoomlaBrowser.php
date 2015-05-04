@@ -217,4 +217,24 @@ class JoomlaBrowser extends WebDriver
         $I->dontSeeInPageSource('Notice:');
         $I->dontSeeInPageSource('Warning:');
     }
+
+    /**
+     * Selects an option in a Chosen Selector based on its label
+     *
+     * @return void
+     */
+    public function selectOptionInChosen($label, $option)
+    {
+        $select = $this->findField($label);
+        $this->debug($select);
+        $selectID = $select->getAttribute('id');
+        $this->debug($selectID);
+        $chosenSelectID = $selectID . '_chzn';
+        $this->debug($chosenSelectID);
+        $I = $this;
+        $this->debug("I open the $label chosen selector");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
+        $this->debug("I select $option");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
+    }
 }
