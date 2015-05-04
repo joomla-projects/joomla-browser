@@ -86,7 +86,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I wait for Main Configuration');
         $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
 
-        $I->debug('I select en-GB as installation language')
+        $I->debug('I select en-GB as installation language');
         $I->selectOptionInChosen('Select Language', 'English (United Kingdom)');
         $I->wait(1);
         $this->debug('I fill Site Name');
