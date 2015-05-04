@@ -187,7 +187,7 @@ class JoomlaBrowser extends WebDriver
         // @todo: we need to find a better locator for the following Install button
         $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
         $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
-        $this->debug('Extension successfully installed from' . $path);
+        $this->debug('Extension successfully installed from ' . $path);
     }
 
     /**
