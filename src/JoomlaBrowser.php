@@ -88,7 +88,6 @@ class JoomlaBrowser extends WebDriver
 
         $I->debug('I select en-GB as installation language');
         $I->selectOptionInChosen('Select Language', 'English (United Kingdom)');
-        $I->wait(1);
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
         $this->debug('I fill Site Description');
@@ -163,12 +162,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I open the Server Tab');
         $I->click(['link' => 'Server']);
         $this->debug('I wait for error reporting dropdown');
-        $I->waitForElementVisible(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]); // Error reporting Dropdown
-        $this->debug('I click on error reporting dropdown');
-        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]);
-        $this->debug('I click on development option');
-        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]"]); // Development
-        $I->wait(1);
+        $I->selectOptionInChosen('Error Reporting', 'Development');
         $this->debug('I click on save');
         $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
         $this->debug('I wait for global configuration being saved');
@@ -231,5 +225,6 @@ class JoomlaBrowser extends WebDriver
         $I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
         $this->debug("I select $option");
         $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
+        $I->wait(1); // Gives time to chosen to close
     }
 }
