@@ -224,11 +224,8 @@ class JoomlaBrowser extends WebDriver
     public function selectOptionInChosen($label, $option)
     {
         $select = $this->findField($label);
-        $this->debug($select);
         $selectID = $select->getAttribute('id');
-        $this->debug($selectID);
         $chosenSelectID = $selectID . '_chzn';
-        $this->debug($chosenSelectID);
         $I = $this;
         $this->debug("I open the $label chosen selector");
         $I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
