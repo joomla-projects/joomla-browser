@@ -86,11 +86,8 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I wait for Main Configuration');
         $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
 
-        $this->debug('I click Language Selector');
-        $I->click(['xpath' => "//div[@id='jform_language_chzn']/a"]); // Language Selector
-        $this->debug('I select en-GB');
-        $I->click(['xpath' => "//li[text()='English (United Kingdom)']"]); // English (United Kingdom)
-        $I->wait(1);
+        $I->debug('I select en-GB as installation language');
+        $I->selectOptionInChosen('Select Language', 'English (United Kingdom)');
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
         $this->debug('I fill Site Description');
@@ -165,12 +162,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I open the Server Tab');
         $I->click(['link' => 'Server']);
         $this->debug('I wait for error reporting dropdown');
-        $I->waitForElementVisible(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]); // Error reporting Dropdown
-        $this->debug('I click on error reporting dropdown');
-        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/a"]);
-        $this->debug('I click on development option');
-        $I->click(['xpath' => "//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]"]); // Development
-        $I->wait(1);
+        $I->selectOptionInChosen('Error Reporting', 'Development');
         $this->debug('I click on save');
         $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
         $this->debug('I wait for global configuration being saved');
@@ -195,6 +187,7 @@ class JoomlaBrowser extends WebDriver
         // @todo: we need to find a better locator for the following Install button
         $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
         $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
+        $this->debug('Extension successfully installed from' . $path);
     }
 
     /**
@@ -215,5 +208,23 @@ class JoomlaBrowser extends WebDriver
 
         $I->dontSeeInPageSource('Notice:');
         $I->dontSeeInPageSource('Warning:');
+    }
+
+    /**
+     * Selects an option in a Chosen Selector based on its label
+     *
+     * @return void
+     */
+    public function selectOptionInChosen($label, $option)
+    {
+        $select = $this->findField($label);
+        $selectID = $select->getAttribute('id');
+        $chosenSelectID = $selectID . '_chzn';
+        $I = $this;
+        $this->debug("I open the $label chosen selector");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
+        $this->debug("I select $option");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
+        $I->wait(1); // Gives time to chosen to close
     }
 }
