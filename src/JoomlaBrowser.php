@@ -227,4 +227,20 @@ class JoomlaBrowser extends WebDriver
         $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
         $I->wait(1); // Gives time to chosen to close
     }
+
+    /**
+     * Function to Logout from Administrator Panel in Joomla!
+     * 
+     * @return void
+     */
+    public function doAdministratorLogout()
+    {
+        $I = $this;
+        $I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
+        $this->debug("I click on Top Right corner toggle to Logout from Admin");
+        $I->waitForElement(['xpath' => "//a[text() = 'Logout']"], 10);
+        $I->click(['xpath' => "//a[text() = 'Logout']"]);
+        $I->waitForText('Log in', 20);
+        $I->waitForElement(['id' => 'mod-login-username'], 10);
+    }
 }
