@@ -191,6 +191,26 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
+     * Installs a Plugin in Joomla that is located in a folder inside the server
+     *
+     * @param $path
+     *
+     * @note: doAdminLogin() before
+     */
+    public function installPluginFromDirectory($path)
+    {
+        $I = $this;
+        $I->amOnPage('/administrator/index.php?option=com_installer');
+        $I->click(['link' => 'Install from Directory']);
+        $this->debug('I enter the Path for Plugin');
+        $I->fillField(['id' => 'install_directory'], $path);
+        // @todo: we need to find a better locator for the following Install button
+        $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
+        $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
+        $this->debug('Installing plugin was successful.' . $path);
+    }
+
+    /**
      * Function to check for PHP Notices or Warnings
      *
      * @param string $page Optional, if not given checks will be done in the current page
