@@ -170,44 +170,32 @@ class JoomlaBrowser extends WebDriver
         $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
     }
 
-    /**
-     * Installs a Extension in Joomla that is located in a folder inside the server
-     *
-     * @param $path
-     *
-     * @note: doAdminLogin() before
-     */
-    public function installExtensionFromDirectory($path)
+	/**
+	 * Installs a Extension in Joomla that is located in a folder inside the server
+	 *
+	 * @param   String  $path  Path for the Extension
+	 * @param   string  $type  Type of Extension
+	 *
+	 * @note: doAdminLogin() before
+	 */
+	public function installExtensionFromDirectory($path, $type = 'Extension')
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
         $I->click(['link' => 'Install from Directory']);
-        $this->debug('I enter the Path for extension');
+        $this->debug('I enter the Path');
         $I->fillField(['id' => 'install_directory'], $path);
         // @todo: we need to find a better locator for the following Install button
         $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
         $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
-        $this->debug('Extension successfully installed from ' . $path);
-    }
-
-    /**
-     * Installs a Plugin in Joomla that is located in a folder inside the server
-     *
-     * @param $path
-     *
-     * @note: doAdminLogin() before
-     */
-    public function installPluginFromDirectory($path)
-    {
-        $I = $this;
-        $I->amOnPage('/administrator/index.php?option=com_installer');
-        $I->click(['link' => 'Install from Directory']);
-        $this->debug('I enter the Path for Plugin');
-        $I->fillField(['id' => 'install_directory'], $path);
-        // @todo: we need to find a better locator for the following Install button
-        $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
-        $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
-        $this->debug('Installing plugin was successful.' . $path);
+        if ($type == 'Extension')
+        {
+            $this->debug('Extension successfully installed from ' . $path);
+        }
+        if ($type == 'Plugin')
+        {
+            $this->debug('Installing plugin was successful.' . $path);
+        }       
     }
 
     /**
