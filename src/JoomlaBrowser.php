@@ -84,10 +84,10 @@ class JoomlaBrowser extends WebDriver
         $I->dontSeeElement(['id' => 'ftp']);
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
-        $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
+        $I->waitForElement('#jform_language', 10);
 
         $I->debug('I select en-GB as installation language');
-        $I->selectOptionInChosen('Select Language', 'English (United Kingdom)');
+        $I->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
         $this->debug('I fill Site Description');
