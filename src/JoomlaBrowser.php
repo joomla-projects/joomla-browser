@@ -142,7 +142,7 @@ class JoomlaBrowser extends WebDriver
 
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
-        $I->waitForText('Congratulations! Joomla! is now installed.', 10, ['xpath' => '//h3']);
+        $I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
         $this->debug('Joomla is now installed');
         $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
     }
