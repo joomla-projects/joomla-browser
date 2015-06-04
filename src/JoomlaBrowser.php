@@ -251,4 +251,41 @@ class JoomlaBrowser extends WebDriver
         $I->waitForText('Log in', 20);
         $I->waitForElement(['id' => 'mod-login-username'], 10);
     }
+
+	/**
+	 * Function to Enable a Plugin
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return void
+	 */
+	public function enablePlugin($pluginName)
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_plugins');
+		$this->debug('I check for Notices and Warnings');
+		$this->checkForPhpNoticesOrWarnings();
+		$I->fillField(['xpath' => "//input[@id='filter_search']"], $pluginName);
+		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->waitForElement($this->searchResultPluginName($pluginName), 30);
+		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
+		$I->see($pluginName, ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
+		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
+		$I->see('successfully enabled', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * Function to return Path for the Plugin Name to be searched for
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return string
+	 */
+	private function searchResultPluginName($pluginName)
+	{
+		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
+
+		return $path;
+	}
 }
