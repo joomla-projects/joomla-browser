@@ -182,12 +182,13 @@ class JoomlaBrowser extends WebDriver
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
+        $I->waitForText('Extension Manager: Install','30', ['css' => 'H1']);
         $I->click(['link' => 'Install from Directory']);
         $this->debug('I enter the Path');
         $I->fillField(['id' => 'install_directory'], $path);
         // @todo: we need to find a better locator for the following Install button
         $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
-        $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
+        $I->waitForText('was successful','30', ['id' => 'system-message-container']);
         if ($type == 'Extension')
         {
             $this->debug('Extension successfully installed from ' . $path);
@@ -287,5 +288,29 @@ class JoomlaBrowser extends WebDriver
 		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
 
 		return $path;
+	}
+
+	/**
+	 * Uninstall Extension based on a name
+	 *
+	 * @param   string  $extensionName  Is important to use a specific
+	 */
+	public function uninstallExtension($extensionName)
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
+		$I->waitForText('Extension Manager: Manage','30', ['css' => 'H1']);
+		$I->fillField(['id' => 'filter_search'], $extensionName);
+		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->waitForElement(['id' => 'manageList'],'30');
+		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
+		$I->see('was successful', ['id' => 'system-message-container']);
+		$I->fillField(['id' => 'filter_search'], $extensionName);
+		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->waitForText('There are no extensions installed matching your query.', 30, ['class' => 'alert-no-items']);
+		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
+		$this->debug('Extension successfully uninstalled');
 	}
 }
