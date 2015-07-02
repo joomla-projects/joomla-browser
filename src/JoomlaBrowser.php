@@ -147,7 +147,6 @@ class JoomlaBrowser extends WebDriver
         $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
 		$this->debug('Removing Installation Folder');
 		$I->click(['xpath' => "//input[@value='Remove installation folder']"]);
-		$I->waitForElement(['xpath' => "//input[@value='Installation folder successfully removed']"], 30);
     }
 
     /**
