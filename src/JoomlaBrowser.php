@@ -84,10 +84,10 @@ class JoomlaBrowser extends WebDriver
         $I->dontSeeElement(['id' => 'ftp']);
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
-        $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
+        $I->waitForElement('#jform_language', 10);
 
         $I->debug('I select en-GB as installation language');
-        $I->selectOptionInChosen('Select Language', 'English (United Kingdom)');
+        $I->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
         $this->debug('I fill Site Description');
@@ -142,7 +142,7 @@ class JoomlaBrowser extends WebDriver
 
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
-        $I->waitForText('Congratulations! Joomla! is now installed.', 10, ['xpath' => '//h3']);
+        $I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
         $this->debug('Joomla is now installed');
         $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
 		$this->debug('Removing Installation Folder');
@@ -185,12 +185,13 @@ class JoomlaBrowser extends WebDriver
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
+        $I->waitForText('Extension Manager: Install','30', ['css' => 'H1']);
         $I->click(['link' => 'Install from Directory']);
         $this->debug('I enter the Path');
         $I->fillField(['id' => 'install_directory'], $path);
         // @todo: we need to find a better locator for the following Install button
         $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
-        $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
+        $I->waitForText('was successful','30', ['id' => 'system-message-container']);
         if ($type == 'Extension')
         {
             $this->debug('Extension successfully installed from ' . $path);
@@ -254,4 +255,65 @@ class JoomlaBrowser extends WebDriver
         $I->waitForText('Log in', 20);
         $I->waitForElement(['id' => 'mod-login-username'], 10);
     }
+
+	/**
+	 * Function to Enable a Plugin
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return void
+	 */
+	public function enablePlugin($pluginName)
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_plugins');
+		$this->debug('I check for Notices and Warnings');
+		$this->checkForPhpNoticesOrWarnings();
+		$I->fillField(['xpath' => "//input[@id='filter_search']"], $pluginName);
+		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->waitForElement($this->searchResultPluginName($pluginName), 30);
+		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
+		$I->see($pluginName, ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
+		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
+		$I->see('successfully enabled', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * Function to return Path for the Plugin Name to be searched for
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return string
+	 */
+	private function searchResultPluginName($pluginName)
+	{
+		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
+
+		return $path;
+	}
+
+	/**
+	 * Uninstall Extension based on a name
+	 *
+	 * @param   string  $extensionName  Is important to use a specific
+	 */
+	public function uninstallExtension($extensionName)
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
+		$I->waitForText('Extension Manager: Manage','30', ['css' => 'H1']);
+		$I->fillField(['id' => 'filter_search'], $extensionName);
+		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->waitForElement(['id' => 'manageList'],'30');
+		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
+		$I->see('was successful', ['id' => 'system-message-container']);
+		$I->fillField(['id' => 'filter_search'], $extensionName);
+		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->waitForText('There are no extensions installed matching your query.', 30, ['class' => 'alert-no-items']);
+		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
+		$this->debug('Extension successfully uninstalled');
+	}
 }
