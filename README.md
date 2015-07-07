@@ -26,7 +26,7 @@ composer update
 
 ### Loading the Module in Codeception
 
-Finally Make changes in Acceptance.suite.yml add JoomlaBrowser as a Module 
+Finally make the following changes in Acceptance.suite.yml to add JoomlaBrowser as a Module. 
 
 Your original `acceptance.suite.yml`probably looks like:
 
