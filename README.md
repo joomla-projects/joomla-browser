@@ -46,7 +46,7 @@ modules:
             ...
 ```
 
-You are asked to remove WebDriver module and change it by the JoomlaBrowser module:
+You should remov the WebDriver module and replace it with the JoomlaBrowser module:
 
 ```yaml
     config:
