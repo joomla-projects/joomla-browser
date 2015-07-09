@@ -296,11 +296,14 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
-	 * Uninstall Extension based on a name
+	 * Function to uninstall Extension
 	 *
-	 * @param   string  $extensionName  Is important to use a specific
+	 * @param   String  $extensionName  Name of the Extension
+	 * @param   bool    $selectAll      Do we need to delete all the search Result Items
+	 *
+	 * @return void
 	 */
-	public function uninstallExtension($extensionName)
+	public function uninstallExtension($extensionName, $selectAll = false)
 	{
 		$I = $this;
 		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
@@ -308,7 +311,14 @@ class JoomlaBrowser extends WebDriver
 		$I->fillField(['id' => 'filter_search'], $extensionName);
 		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
 		$I->waitForElement(['id' => 'manageList'],'30');
-		$I->click(['xpath' => "//input[@id='cb0']"]);
+		if($selectAll == true)
+		{
+			$I->click(['xpath' => "//input[@onclick='Joomla.checkAll(this)']"]);
+		}
+		else
+		{
+			$I->click(['xpath' => "//input[@id='cb0']"]);
+		}
 		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
 		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
 		$I->see('was successful', ['id' => 'system-message-container']);
