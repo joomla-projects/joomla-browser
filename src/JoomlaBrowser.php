@@ -126,6 +126,8 @@ class JoomlaBrowser extends WebDriver
         $I->click(['xpath' => "//label[@for='jform_db_old1']"]); // Remove Old Database button
         $this->debug('I click Next');
         $I->click(['link' => 'Next']);
+        $this->debug('I wait Joomla to remove the old database if exist');
+        $I->waitForElementVisible(['id' => 'jform_sample_file-lbl'],30);
 
         $this->debug('I install joomla with or without sample data');
         $I->waitForText('Finalisation', 10, ['xpath' => '//h3']);
