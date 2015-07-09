@@ -9,7 +9,28 @@
   * [Loading the Module in Codeception](loading-the-module-in-codeception)
 
 ## The Joomla Browser
-Joomla Browser with Codeception Module Functionality
+Joomla Browser is a Codeception.com Module. It allows to build `system tests` for a Joomla site much faster providing a set of predefined tasks. 
+
+In between the available functions you can find:
+
+* install joomla
+* do administrator login
+* do frontend login
+* set error reporting to development
+* install extension from directory
+* check for php notices or warnings
+* select option in chosen
+* do administrator logout
+* enable plugin
+* search result plugin name
+* uninstall extension
+
+The Joomla Browser is constantly evolving and more methods are being added every month. 
+To find a full list of them check the public methods at: https://github.com/joomla-projects/joomla-browser/blob/develop/src/JoomlaBrowser.php
+
+
+## Joomla Browser in action
+If you want to see a working example of JoomlaBrowser check weblinks tests: https://github.com/joomla-extensions/weblinks#tests
 
 ## Using Instructions
 Update Composer.json file in your project, adding 
