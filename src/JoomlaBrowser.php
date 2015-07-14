@@ -318,4 +318,45 @@ class JoomlaBrowser extends WebDriver
 		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
 		$this->debug('Extension successfully uninstalled');
 	}
+
+	/**
+	 * Function to Search For an Item in Joomla! Administrator Lists views
+	 *
+	 * @param   String  $name  Name of the Item which we need to Search
+	 *
+	 * @return void
+	 */
+	public function searchForItem($name = null)
+	{
+		$I = $this;
+		if($name)
+		{
+			$this->debug("Searching for $name");
+			$I->fillField(['id' => "filter_search"],$name);
+			$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		}
+		else
+		{
+			$this->debug('clearing search filter');
+			$I->click(['xpath' => "//button[@type='button' and @data-original-title='Clear']"]);
+		}
+	}
+
+	/**
+	 * Function to Check of the Item Exist in Search Results in Administrator List
+	 *
+	 * note: on long lists of items the item that your are looking for may not appear in the first page. We recommend
+	 * the usage of searchForItem method before using the current method.
+	 *
+	 * @param   String  $name  Name of the Item which we are Searching For
+	 *
+	 * @return void
+	 */
+	public function checkExistenceOf($name)
+	{
+		$I = $this;
+		$this->debug("Verifying if $name exist in search result");
+		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
+		$I->see($name,['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
+	}
 }
