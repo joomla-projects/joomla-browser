@@ -320,7 +320,7 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
-	 * Function to Search For an Item in Joomla! Administrator
+	 * Function to Search For an Item in Joomla! Administrator Lists views
 	 *
 	 * @param   String  $name  Name of the Item which we need to Search
 	 *
