@@ -24,6 +24,8 @@ In between the available functions you can find:
 * enable plugin
 * search result plugin name
 * uninstall extension
+* search for item
+* check for item existence
 
 The Joomla Browser is constantly evolving and more methods are being added every month. 
 To find a full list of them check the public methods at: https://github.com/joomla-projects/joomla-browser/blob/develop/src/JoomlaBrowser.php
