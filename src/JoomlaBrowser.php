@@ -343,7 +343,7 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
-	 * Function to Check of the Item Exist in Search Results
+	 * Function to Check of the Item Exist in Search Results in Administrator List
 	 *
 	 * @param   String  $name  Name of the Item which we are Searching For
 	 *
