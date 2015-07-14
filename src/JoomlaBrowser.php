@@ -345,6 +345,9 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Function to Check of the Item Exist in Search Results in Administrator List
 	 *
+	 * note: on long lists of items the item that your are looking for may not appear in the first page. We recommend
+	 * the usage of searchForItem method before using the current method.
+	 *
 	 * @param   String  $name  Name of the Item which we are Searching For
 	 *
 	 * @return void
