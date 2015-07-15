@@ -123,7 +123,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I fill Database Prefix');
         $I->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
         $this->debug('I click Remove Old Database ');
-        $I->click(['xpath' => "//label[@for='jform_db_old1']"]); // Remove Old Database button
+        $I->selectOptionInRadioField('Old Database Process', 'Remove');
         $this->debug('I click Next');
         $I->click(['link' => 'Next']);
         $this->debug('I wait Joomla to remove the old database if exist');
@@ -222,6 +222,20 @@ class JoomlaBrowser extends WebDriver
 
         $I->dontSeeInPageSource('Notice:');
         $I->dontSeeInPageSource('Warning:');
+    }
+
+    /**
+     * Selects an option in a Joomla Radio Field based on its label
+     *
+     * @return void
+     */
+    public function selectOptionInRadioField($label, $option)
+    {
+        $I = $this;
+        $label = $I->findField(['xpath' => "//label[contains(normalize-space(string(.)), '$label')]"]);
+        $radioId = $label->getAttribute('for');
+
+        $I->click("//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]");
     }
 
     /**
