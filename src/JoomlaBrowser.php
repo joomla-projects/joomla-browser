@@ -145,6 +145,61 @@ class JoomlaBrowser extends WebDriver
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
         $I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
+    }
+
+    /**
+     * Install Joomla removing the Installation folder at the end of the execution
+     */
+    public function installJoomlaRemovingInstallationFolder()
+    {
+        $I = $this;
+
+        $I->installJoomla();
+
+        $this->debug('Removing Installation Folder');
+        $I->click(['xpath' => "//input[@value='Remove installation folder']"]);
+        $I->waitForElementVisible(['xpath' => "//input[@value='Installation folder successfully removed']"]);
+        $this->debug('Joomla is now installed');
+        $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
+    }
+
+    /**
+     * Installs Joomla with Multilingual Feature active
+     *
+     * @param   array  $languages  Array containing the language names to be installed
+     *
+     * @example: $I->installJoomlaMultilingualSite(['Spanish', 'French']);
+     */
+    public function installJoomlaMultilingualSite($languages = array())
+    {
+        if (!$languages)
+        {
+            // If no language is passed French will be installed by default
+            $languages[] = 'French';
+        }
+
+        $I = $this;
+
+        $I->installJoomla();
+
+        $this->debug('I go to Install Languages page');
+        $I->click(['id' => 'instLangs']);
+        $I->waitForText('Install Language packages', 60, ['xpath' => '//h3']);
+
+        foreach ($languages as $language) :
+            $I->debug('I mark the checkbox of the language: ' . $language);
+            $I->click(['xpath' => "//label[contains(text()[normalize-space()], '$language')]/input"]);
+        endforeach;
+
+        $I->click(['link' => 'Next']);
+        $I->waitForText('Multilingual', 60, ['xpath' => '//h3']);
+        $I->selectOptionInRadioField('Activate the multilingual feature', 'Yes');
+        $I->waitForElementVisible(['id' => 'jform_activatePluginLanguageCode-lbl']);
+        $I->selectOptionInRadioField('Install localised content', 'Yes');
+        $I->selectOptionInRadioField('Enable the language code plugin', 'Yes');
+        $I->click(['link' => 'Next']);
+
+        $I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
         $this->debug('Removing Installation Folder');
         $I->click(['xpath' => "//input[@value='Remove installation folder']"]);
         $I->waitForElementVisible(['xpath' => "//input[@value='Installation folder successfully removed']"]);
