@@ -425,4 +425,18 @@ class JoomlaBrowser extends WebDriver
 		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
 		$I->see($name,['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
 	}
+
+	/**
+	 * Function to select all the item in the Search results in Administrator List
+	 *
+	 * Note: We recommend use of checkAllResult function only after searchForItem to be sure you are selecting only the desired result set
+	 *
+	 * @return void
+	 */
+	public function checkAllResult()
+	{
+		$I = $this;
+		$this->debug("Selecting Checkall button");
+		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
+	}
 }
