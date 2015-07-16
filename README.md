@@ -44,16 +44,12 @@ To find a full list of them check the public methods at: https://github.com/joom
 If you want to see a working example of JoomlaBrowser check weblinks tests: https://github.com/joomla-extensions/weblinks#tests
 
 ## Using Instructions
-Update Composer.json file in your project, adding 
+Update Composer.json file in your project, and download
 
 ### Download
 
 ```
-"require" :  "joomla-projects/joomla-browser": "dev-develop"
-```
-then do a
-```
-composer install 
+composer require joomla-projects/joomla-browser:dev-develop
 ```
 
 ### Loading the Module in Codeception
