@@ -53,7 +53,7 @@ Update Composer.json file in your project, adding
 ```
 then do a
 ```
-composer update 
+composer install 
 ```
 
 ### Loading the Module in Codeception
