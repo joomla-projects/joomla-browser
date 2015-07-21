@@ -459,7 +459,7 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement($this->searchResultLanguageName($languageName), 30);
         $I->click(['xpath' => "//input[@id='cb0']"]);
         $I->click(['xpath' => "//*[@id=\"toolbar-upload\"]/button"]);
-        $I->see('was successful.', ['id' => 'system-message-container']);
+        $I->waitForText('was successful.',30,['id' => 'system-message-container']);
         $this->debug($languageName . ' successfully installed');
     }
 
