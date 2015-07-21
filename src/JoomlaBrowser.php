@@ -256,7 +256,7 @@ class JoomlaBrowser extends WebDriver
         if ($type == 'Plugin')
         {
             $this->debug('Installing plugin was successful.' . $path);
-        }       
+        }
     }
 
     /**
@@ -314,7 +314,7 @@ class JoomlaBrowser extends WebDriver
 
     /**
      * Function to Logout from Administrator Panel in Joomla!
-     * 
+     *
      * @return void
      */
     public function doAdministratorLogout()
@@ -439,4 +439,41 @@ class JoomlaBrowser extends WebDriver
 		$this->debug("Selecting Checkall button");
 		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
 	}
+
+    /**
+     * Function to install a language through the interface
+     *
+     * @param string $languageName Name of the language you want to install
+     *
+     * @return void
+     */
+    public function installLanguage($languageName)
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_installer&view=languages');
+        $this->debug('I check for Notices and Warnings');
+        $this->checkForPhpNoticesOrWarnings();
+        $this->debug('Refreshing languages');
+        $I->click(['xpath' => "//*[@id=\"toolbar-refresh\"]/button"]);
+        $I->searchForItem($languageName);
+        $I->waitForElement($this->searchResultLanguageName($languageName), 30);
+        $I->click(['xpath' => "//input[@id='cb0']"]);
+        $I->click(['xpath' => "//*[@id=\"toolbar-upload\"]/button"]);
+        $I->see('was successful.', ['id' => 'system-message-container']);
+        $this->debug($languageName . ' successfully installed');
+    }
+
+    /**
+     * Function to return Path for the Language Name to be searched for
+     *
+     * @param   String $languageName Name of the language
+     *
+     * @return string
+     */
+    private function searchResultLanguageName($languageName)
+    {
+        $xpath = "//*[@id=\"j-main-container\"]/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
+
+        return $xpath;
+    }
 }
