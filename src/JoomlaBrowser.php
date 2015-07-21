@@ -455,11 +455,13 @@ class JoomlaBrowser extends WebDriver
         $this->checkForPhpNoticesOrWarnings();
         $this->debug('Refreshing languages');
         $I->click(['xpath' => "//*[@id=\"toolbar-refresh\"]/button"]);
+        $I->waitForElement(['id' => 'j-main-container'], 30);
         $I->searchForItem($languageName);
         $I->waitForElement($this->searchResultLanguageName($languageName), 30);
-        $I->click(['xpath' => "//input[@id='cb0']"]);
-        $I->click(['xpath' => "//*[@id=\"toolbar-upload\"]/button"]);
-        $I->waitForText('was successful.',30,['id' => 'system-message-container']);
+        $I->click(['id' => "cb0"]);
+        $I->click(['xpath' => "//*[@id='toolbar-upload']/button"]);
+        $I->waitForText('was successful.', 30, ['id' => 'system-message-container']);
+        $I->see('No Matching Results',['class' => 'alert-no-items']);
         $this->debug($languageName . ' successfully installed');
     }
 
@@ -472,7 +474,7 @@ class JoomlaBrowser extends WebDriver
      */
     private function searchResultLanguageName($languageName)
     {
-        $xpath = "//*[@id=\"j-main-container\"]/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
+        $xpath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
 
         return $xpath;
     }
