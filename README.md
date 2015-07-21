@@ -21,12 +21,14 @@ In between the available functions you can find:
   * do administrator login
   * do administrator logout
   * set error reporting to development
-  * install extension from directory
-  * enable plugin
-  * search result plugin name
-  * uninstall extension
   * search for item
   * check for item existence
+  * EXTENSION MANAGER
+    * install extension from directory
+    * install extension from url
+    * enable plugin
+    * uninstall extension
+    * search result plugin name
 * FRONTEND:
   * do frontend login
 * ADMINISTRATOR USER INTERFACE:
