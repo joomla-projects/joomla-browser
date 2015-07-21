@@ -256,7 +256,40 @@ class JoomlaBrowser extends WebDriver
         if ($type == 'Plugin')
         {
             $this->debug('Installing plugin was successful.' . $path);
-        }       
+        }
+    }
+
+    /**
+     * Installs a Extension in Joomla that is located in a url
+     *
+     * @param   String  $url   Url address to the .zip file
+     * @param   string  $type  Type of Extension
+     *
+     * @note: doAdminLogin() before
+     */
+    public function installExtensionFromUrl($url, $type = 'Extension')
+    {
+        $I = $this;
+        $I->amOnPage('/administrator/index.php?option=com_installer');
+        $I->waitForText('Extension Manager: Install','30', ['css' => 'H1']);
+        $I->click(['link' => 'Install from URL']);
+        $this->debug('I enter the url');
+        $I->fillField(['id' => 'install_url'], $url);
+        // @todo: we need to find a better locator for the following Install button
+        $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton4()')]"]); // Install button
+        $I->waitForText('was successful','30', ['id' => 'system-message-container']);
+        if ($type == 'Extension')
+        {
+            $this->debug('Extension successfully installed from ' . $url);
+        }
+        if ($type == 'Plugin')
+        {
+            $this->debug('Installing plugin was successful.' . $url);
+        }
+        if ($type == 'Package')
+        {
+            $this->debug('Installation of the package was successful.' . $url);
+        }
     }
 
     /**
