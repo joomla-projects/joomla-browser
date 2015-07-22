@@ -347,7 +347,7 @@ class JoomlaBrowser extends WebDriver
 
     /**
      * Function to Logout from Administrator Panel in Joomla!
-     * 
+     *
      * @return void
      */
     public function doAdministratorLogout()
@@ -472,4 +472,43 @@ class JoomlaBrowser extends WebDriver
 		$this->debug("Selecting Checkall button");
 		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
 	}
+
+    /**
+     * Function to install a language through the interface
+     *
+     * @param string $languageName Name of the language you want to install
+     *
+     * @return void
+     */
+    public function installLanguage($languageName)
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_installer&view=languages');
+        $this->debug('I check for Notices and Warnings');
+        $this->checkForPhpNoticesOrWarnings();
+        $this->debug('Refreshing languages');
+        $I->click(['xpath' => "//*[@id=\"toolbar-refresh\"]/button"]);
+        $I->waitForElement(['id' => 'j-main-container'], 30);
+        $I->searchForItem($languageName);
+        $I->waitForElement($this->searchResultLanguageName($languageName), 30);
+        $I->click(['id' => "cb0"]);
+        $I->click(['xpath' => "//*[@id='toolbar-upload']/button"]);
+        $I->waitForText('was successful.', 30, ['id' => 'system-message-container']);
+        $I->see('No Matching Results',['class' => 'alert-no-items']);
+        $this->debug($languageName . ' successfully installed');
+    }
+
+    /**
+     * Function to return Path for the Language Name to be searched for
+     *
+     * @param   String $languageName Name of the language
+     *
+     * @return string
+     */
+    private function searchResultLanguageName($languageName)
+    {
+        $xpath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
+
+        return $xpath;
+    }
 }
