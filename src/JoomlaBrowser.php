@@ -242,7 +242,7 @@ class JoomlaBrowser extends WebDriver
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
-        $I->waitForText('Extension Manager: Install','30', ['css' => 'H1']);
+        $I->waitForText('Extensions: Install','30', ['css' => 'H1']);
         $I->click(['link' => 'Install from Directory']);
         $this->debug('I enter the Path');
         $I->fillField(['id' => 'install_directory'], $path);
@@ -271,7 +271,7 @@ class JoomlaBrowser extends WebDriver
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
-        $I->waitForText('Extension Manager: Install','30', ['css' => 'H1']);
+        $I->waitForText('Extensions: Install','30', ['css' => 'H1']);
         $I->click(['link' => 'Install from URL']);
         $this->debug('I enter the url');
         $I->fillField(['id' => 'install_url'], $url);
@@ -405,7 +405,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$I = $this;
 		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
-		$I->waitForText('Extension Manager: Manage','30', ['css' => 'H1']);
+		$I->waitForText('Extensions: Manage','30', ['css' => 'H1']);
 		$I->searchForItem($extensionName);
 		$I->waitForElement(['id' => 'manageList'],'30');
 		$I->click(['xpath' => "//input[@id='cb0']"]);
