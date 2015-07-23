@@ -346,6 +346,30 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
+     * Selects one or more options in a Chosen Multiple Select based on its label
+     *
+     * @param   string  $label    Label of the select field
+     * @param   array   $options  Array of options to be selected
+     *
+     * @return void
+     */
+    public function selectMultipleOptionsInChosen($label, $options)
+    {
+        $select = $this->findField($label);
+        $selectID = $select->getAttribute('id');
+        $chosenSelectID = $selectID . '_chzn';
+        $I = $this;
+        foreach ($options as $option)
+        {
+            $this->debug("I open the $label chosen selector");
+            $I->click(['xpath' => "//div[@id='$chosenSelectID']/ul"]);
+            $this->debug("I select $option");
+            $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[contains(text()[normalize-space()], '$option')]"]);
+            $I->wait(1); // Gives time to chosen to close
+        }
+    }
+
+    /**
      * Function to Logout from Administrator Panel in Joomla!
      *
      * @return void
