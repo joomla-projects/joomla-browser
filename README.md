@@ -33,7 +33,8 @@ In between the available functions you can find:
   * do frontend login
 * ADMINISTRATOR USER INTERFACE:
   * select option in chosen
-  * selectOptionInRadioField
+  * select Option In Radio Field
+  * select Multiple Options In Chosen
 * OTHERS:
   * check for php notices or warnings
 
