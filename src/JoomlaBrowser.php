@@ -442,28 +442,48 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Extension successfully uninstalled');
 	}
 
-	/**
-	 * Function to Search For an Item in Joomla! Administrator Lists views
-	 *
-	 * @param   String  $name  Name of the Item which we need to Search
-	 *
-	 * @return void
-	 */
-	public function searchForItem($name = null)
-	{
-		$I = $this;
-		if($name)
-		{
-			$I->debug("Searching for $name");
-			$I->fillField(['id' => "filter_search"],$name);
-			$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
-		}
-		else
-		{
-			$I->debug('clearing search filter');
-			$I->click(['xpath' => "//button[@type='button' and @data-original-title='Clear']"]);
-		}
-	}
+    /**
+     * Function to Search For an Item in Joomla! Administrator Lists views
+     *
+     * @param   String  $name     Name of the Item which we need to Search. If null it cleans the searchbox
+     * @param   array   $options  Optional Array containing the locators of the search buttons
+     *
+     * @return void
+     */
+    public function searchForItem($name = null, $options = array())
+    {
+        $I = $this;
+
+        if (!isset($options['search field locator']))
+        {
+            // If no search field locator provided it will use the common Joomla administrator search field id
+            $options['search field locator'] = ['id' => "filter_search"];
+        }
+
+        if (!isset($options['search submit locator']))
+        {
+            // If no search submit locator provided it will use the common Joomla administrator search button xpath
+            $options['search submit locator'] = ['xpath' => "//button[@type='submit' and @data-original-title='Search']"];
+        }
+
+        if (!isset($options['clear search locator']))
+        {
+            // If no clear search locator provided it will use the common Joomla administrator clear search button xpath
+            $options['clear search locator'] = ['xpath' => "//button[@type='submit' and @data-original-title='Search']"];
+        }
+
+        if ($name)
+        {
+            $I->debug("Searching for $name");
+            $I->fillField($options['search field locator'], $name);
+            $I->click($options['search submit locator']);
+        }
+        else
+        {
+            $I->debug('clearing search filter');
+            $I->click($options['clear search locator']);
+        }
+    }
 
 	/**
 	 * Function to Check of the Item Exist in Search Results in Administrator List.
