@@ -511,12 +511,12 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I check for Notices and Warnings');
         $this->checkForPhpNoticesOrWarnings();
         $this->debug('Refreshing languages');
-        $I->click(['xpath' => "//*[@id=\"toolbar-refresh\"]/button"]);
+        $I->click(['xpath' => "//div[@id='toolbar-refresh']/button"]);
         $I->waitForElement(['id' => 'j-main-container'], 30);
         $I->searchForItem($languageName);
         $I->waitForElement($this->searchResultLanguageName($languageName), 30);
         $I->click(['id' => "cb0"]);
-        $I->click(['xpath' => "//*[@id='toolbar-upload']/button"]);
+        $I->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
         $I->waitForText('was successful.', 30, ['id' => 'system-message-container']);
         $I->see('No Matching Results',['class' => 'alert-no-items']);
         $this->debug($languageName . ' successfully installed');
