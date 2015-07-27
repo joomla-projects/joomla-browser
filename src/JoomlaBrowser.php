@@ -243,7 +243,7 @@ class JoomlaBrowser extends WebDriver
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
         $I->waitForText('Extensions: Install','30', ['css' => 'H1']);
-        $I->click(['link' => 'Install from Directory']);
+        $I->click(['link' => 'Install from Folder']);
         $this->debug('I enter the Path');
         $I->fillField(['id' => 'install_directory'], $path);
         // @todo: we need to find a better locator for the following Install button
