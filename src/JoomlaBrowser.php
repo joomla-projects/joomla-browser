@@ -237,10 +237,13 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $type  Type of Extension
 	 *
 	 * @note: doAdminLogin() before
+	 *
+	 * **With respect to the recent changes in Joomla! this function will be removed hence update your tests to use installExtensionFromFolder() instead of installExtensionFromDirectory
 	 */
 	public function installExtensionFromDirectory($path, $type = 'Extension')
     {
         $I = $this;
+		$this->debug('With respect to the recent changes in Joomla! installExtensionFromDirectory function will be removed from Joomla-Browser hence update your tests to use installExtensionFromFolder instead of installExtensionFromDirectory');
         $I->amOnPage('/administrator/index.php?option=com_installer');
         $I->waitForText('Extensions: Install','30', ['css' => 'H1']);
         $I->click(['link' => 'Install from Folder']);
@@ -259,6 +262,34 @@ class JoomlaBrowser extends WebDriver
         }
     }
 
+	/**
+	 * Installs a Extension in Joomla that is located in a folder inside the server
+	 *
+	 * @param   String  $path  Path for the Extension
+	 * @param   string  $type  Type of Extension
+	 *
+	 * @note: doAdminLogin() before
+	 */
+	public function installExtensionFromFolder($path, $type = 'Extension')
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_installer');
+		$I->waitForText('Extensions: Install','30', ['css' => 'H1']);
+		$I->click(['link' => 'Install from Folder']);
+		$this->debug('I enter the Path');
+		$I->fillField(['id' => 'install_directory'], $path);
+		// @todo: we need to find a better locator for the following Install button
+		$I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
+		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
+		if ($type == 'Extension')
+		{
+			$this->debug('Extension successfully installed from ' . $path);
+		}
+		if ($type == 'Plugin')
+		{
+			$this->debug('Installing plugin was successful.' . $path);
+		}
+	}
     /**
      * Installs a Extension in Joomla that is located in a url
      *
