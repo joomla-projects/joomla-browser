@@ -24,7 +24,7 @@ In between the available functions you can find:
   * search for item
   * check for item existence
   * EXTENSION MANAGER
-    * install extension from directory
+    * install extension from Folder
     * install extension from url
     * enable plugin
     * uninstall extension
