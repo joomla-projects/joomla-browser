@@ -237,6 +237,8 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $type  Type of Extension
 	 *
 	 * @note: doAdminLogin() before
+	 *
+	 * @deprecated  since Joomla 3.4.4-dev. Use installExtensionFromFolder($path, $type = 'Extension') instead.
 	 */
 	public function installExtensionFromDirectory($path, $type = 'Extension')
     {
