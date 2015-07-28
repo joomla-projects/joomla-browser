@@ -12,35 +12,12 @@
 Joomla Browser is a Codeception.com Module. It allows to build `system tests` for a Joomla site much faster providing a set of predefined tasks. 
 
 In between the available functions you can find:
+* install joomla
+* do administrator login
+* enable plugin
+* select option in chosen
 
-* INSTALLATION:
-  * install joomla
-  * install Joomla removing Installation Folder
-  * install Joomla Multilingual Site
-* ADMINISTRATOR:
-  * do administrator login
-  * do administrator logout
-  * set error reporting to development
-  * search for item
-  * check for item existence
-  * EXTENSION MANAGER
-    * install extension from Folder
-    * install extension from url
-    * enable plugin
-    * uninstall extension
-    * search result plugin name
-* FRONTEND:
-  * do frontend login
-* ADMINISTRATOR USER INTERFACE:
-  * select option in chosen
-  * select Option In Radio Field
-  * select Multiple Options In Chosen
-* OTHERS:
-  * check for php notices or warnings
-
-
-The Joomla Browser is constantly evolving and more methods are being added every month. 
-To find a full list of them check the public methods at: https://github.com/joomla-projects/joomla-browser/blob/develop/src/JoomlaBrowser.php
+Check the full list at: [the documentation](https://github.com/joomla-projects/joomla-browser/blob/develop/docs/api.php)
 
 
 ## Joomla Browser in action
@@ -103,3 +80,7 @@ You should remove the WebDriver module and replace it with the JoomlaBrowser mod
         AcceptanceHelper:
             ...
 ```
+
+# Releasing
+## Generate the docs
+type: `vendor/bin/robo generate:api-documentation` in your command line tool. This will generate 

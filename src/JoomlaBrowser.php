@@ -230,50 +230,50 @@ class JoomlaBrowser extends WebDriver
         $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
     }
 
-	/**
-	 * Installs a Extension in Joomla that is located in a folder inside the server
-	 *
-	 * @param   String  $path  Path for the Extension
-	 * @param   string  $type  Type of Extension
-	 *
-	 * @note: doAdminLogin() before
-	 *
-	 * @deprecated  since Joomla 3.4.4-dev. Use installExtensionFromFolder($path, $type = 'Extension') instead.
-	 */
-	public function installExtensionFromDirectory($path, $type = 'Extension')
+    /**
+     * Installs a Extension in Joomla that is located in a folder inside the server
+     *
+     * @param   String  $path  Path for the Extension
+     * @param   string  $type  Type of Extension
+     *
+     * @note: doAdminLogin() before
+     *
+     * @deprecated  since Joomla 3.4.4-dev. Use installExtensionFromFolder($path, $type = 'Extension') instead.
+     */
+    public function installExtensionFromDirectory($path, $type = 'Extension')
     {
         $this->debug('Suggested to use installExtensionFromFolder instead of installExtensionFromDirectory');
         $this->installExtensionFromFolder($path, $type);
     }
 
-	/**
-	 * Installs a Extension in Joomla that is located in a folder inside the server
-	 *
-	 * @param   String  $path  Path for the Extension
-	 * @param   string  $type  Type of Extension
-	 *
-	 * @note: doAdminLogin() before
-	 */
-	public function installExtensionFromFolder($path, $type = 'Extension')
-	{
-		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_installer');
-		$I->waitForText('Extensions: Install','30', ['css' => 'H1']);
-		$I->click(['link' => 'Install from Folder']);
-		$this->debug('I enter the Path');
-		$I->fillField(['id' => 'install_directory'], $path);
-		// @todo: we need to find a better locator for the following Install button
-		$I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
-		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
-		if ($type == 'Extension')
-		{
-			$this->debug('Extension successfully installed from ' . $path);
-		}
-		if ($type == 'Plugin')
-		{
-			$this->debug('Installing plugin was successful.' . $path);
-		}
-	}
+    /**
+     * Installs a Extension in Joomla that is located in a folder inside the server
+     *
+     * @param   String  $path  Path for the Extension
+     * @param   string  $type  Type of Extension
+     *
+     * @note: doAdminLogin() before
+     */
+    public function installExtensionFromFolder($path, $type = 'Extension')
+    {
+        $I = $this;
+        $I->amOnPage('/administrator/index.php?option=com_installer');
+        $I->waitForText('Extensions: Install','30', ['css' => 'H1']);
+        $I->click(['link' => 'Install from Folder']);
+        $this->debug('I enter the Path');
+        $I->fillField(['id' => 'install_directory'], $path);
+        // @todo: we need to find a better locator for the following Install button
+        $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
+        $I->waitForText('was successful','30', ['id' => 'system-message-container']);
+        if ($type == 'Extension')
+        {
+            $this->debug('Extension successfully installed from ' . $path);
+        }
+        if ($type == 'Plugin')
+        {
+            $this->debug('Installing plugin was successful.' . $path);
+        }
+    }
     /**
      * Installs a Extension in Joomla that is located in a url
      *
@@ -400,117 +400,117 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement(['id' => 'mod-login-username'], 10);
     }
 
-	/**
-	 * Function to Enable a Plugin
-	 *
-	 * @param   String  $pluginName  Name of the Plugin
-	 *
-	 * @return void
-	 */
-	public function enablePlugin($pluginName)
-	{
-		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_plugins');
-		$this->debug('I check for Notices and Warnings');
-		$this->checkForPhpNoticesOrWarnings();
-		$I->searchForItem($pluginName);
-		$I->waitForElement($this->searchResultPluginName($pluginName), 30);
-		$I->checkExistenceOf($pluginName);
-		$I->click(['xpath' => "//input[@id='cb0']"]);
-		$I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
-		$I->see('successfully enabled', ['id' => 'system-message-container']);
-	}
+    /**
+     * Function to Enable a Plugin
+     *
+     * @param   String  $pluginName  Name of the Plugin
+     *
+     * @return void
+     */
+    public function enablePlugin($pluginName)
+    {
+        $I = $this;
+        $I->amOnPage('/administrator/index.php?option=com_plugins');
+        $this->debug('I check for Notices and Warnings');
+        $this->checkForPhpNoticesOrWarnings();
+        $I->searchForItem($pluginName);
+        $I->waitForElement($this->searchResultPluginName($pluginName), 30);
+        $I->checkExistenceOf($pluginName);
+        $I->click(['xpath' => "//input[@id='cb0']"]);
+        $I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
+        $I->see('successfully enabled', ['id' => 'system-message-container']);
+    }
 
-	/**
-	 * Function to return Path for the Plugin Name to be searched for
-	 *
-	 * @param   String  $pluginName  Name of the Plugin
-	 *
-	 * @return string
-	 */
-	private function searchResultPluginName($pluginName)
-	{
-		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
+    /**
+     * Function to return Path for the Plugin Name to be searched for
+     *
+     * @param   String  $pluginName  Name of the Plugin
+     *
+     * @return string
+     */
+    private function searchResultPluginName($pluginName)
+    {
+        $path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
 
-		return $path;
-	}
+        return $path;
+    }
 
-	/**
-	 * Uninstall Extension based on a name
-	 *
-	 * @param   string  $extensionName  Is important to use a specific
-	 */
-	public function uninstallExtension($extensionName)
-	{
-		$I = $this;
-		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
-		$I->waitForText('Extensions: Manage','30', ['css' => 'H1']);
-		$I->searchForItem($extensionName);
-		$I->waitForElement(['id' => 'manageList'],'30');
-		$I->click(['xpath' => "//input[@id='cb0']"]);
-		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
-		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
-		$I->see('was successful', ['id' => 'system-message-container']);
-		$I->searchForItem($extensionName);
-		$I->waitForText('There are no extensions installed matching your query.', 30, ['class' => 'alert-no-items']);
-		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
-		$this->debug('Extension successfully uninstalled');
-	}
+    /**
+     * Uninstall Extension based on a name
+     *
+     * @param   string  $extensionName  Is important to use a specific
+     */
+    public function uninstallExtension($extensionName)
+    {
+        $I = $this;
+        $I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
+        $I->waitForText('Extensions: Manage','30', ['css' => 'H1']);
+        $I->searchForItem($extensionName);
+        $I->waitForElement(['id' => 'manageList'],'30');
+        $I->click(['xpath' => "//input[@id='cb0']"]);
+        $I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+        $I->waitForText('was successful','30', ['id' => 'system-message-container']);
+        $I->see('was successful', ['id' => 'system-message-container']);
+        $I->searchForItem($extensionName);
+        $I->waitForText('There are no extensions installed matching your query.', 30, ['class' => 'alert-no-items']);
+        $I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
+        $this->debug('Extension successfully uninstalled');
+    }
 
-	/**
-	 * Function to Search For an Item in Joomla! Administrator Lists views
-	 *
-	 * @param   String  $name  Name of the Item which we need to Search
-	 *
-	 * @return void
-	 */
-	public function searchForItem($name = null)
-	{
-		$I = $this;
-		if($name)
-		{
-			$I->debug("Searching for $name");
-			$I->fillField(['id' => "filter_search"],$name);
-			$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
-		}
-		else
-		{
-			$I->debug('clearing search filter');
-			$I->click(['xpath' => "//button[@type='button' and @data-original-title='Clear']"]);
-		}
-	}
+    /**
+     * Function to Search For an Item in Joomla! Administrator Lists views
+     *
+     * @param   String  $name  Name of the Item which we need to Search
+     *
+     * @return void
+     */
+    public function searchForItem($name = null)
+    {
+        $I = $this;
+        if($name)
+        {
+            $I->debug("Searching for $name");
+            $I->fillField(['id' => "filter_search"],$name);
+            $I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+        }
+        else
+        {
+            $I->debug('clearing search filter');
+            $I->click(['xpath' => "//button[@type='button' and @data-original-title='Clear']"]);
+        }
+    }
 
-	/**
-	 * Function to Check of the Item Exist in Search Results in Administrator List.
-	 *
-	 * note: on long lists of items the item that your are looking for may not appear in the first page. We recommend
-	 * the usage of searchForItem method before using the current method.
-	 *
-	 * @param   String  $name  Name of the Item which we are Searching For
-	 *
-	 * @return void
-	 */
-	public function checkExistenceOf($name)
-	{
-		$I = $this;
-		$I->debug("Verifying if $name exist in search result");
-		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
-		$I->see($name,['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
-	}
+    /**
+     * Function to Check of the Item Exist in Search Results in Administrator List.
+     *
+     * note: on long lists of items the item that your are looking for may not appear in the first page. We recommend
+     * the usage of searchForItem method before using the current method.
+     *
+     * @param   String  $name  Name of the Item which we are Searching For
+     *
+     * @return void
+     */
+    public function checkExistenceOf($name)
+    {
+        $I = $this;
+        $I->debug("Verifying if $name exist in search result");
+        $I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
+        $I->see($name,['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
+    }
 
-	/**
-	 * Function to select all the item in the Search results in Administrator List
-	 *
-	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
-	 *
-	 * @return void
-	 */
-	public function checkAllResults()
-	{
-		$I = $this;
-		$this->debug("Selecting Checkall button");
-		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
-	}
+    /**
+     * Function to select all the item in the Search results in Administrator List
+     *
+     * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
+     *
+     * @return void
+     */
+    public function checkAllResults()
+    {
+        $I = $this;
+        $this->debug("Selecting Checkall button");
+        $I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
+    }
 
     /**
      * Function to install a language through the interface
