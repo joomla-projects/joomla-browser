@@ -108,7 +108,7 @@ class JoomlaBrowser extends WebDriver
         $I->click(['link' => 'Next']);
 
         $this->debug('I Fill the form for creating the Joomla site Database');
-        $I->waitForText('Database Configuration', 10,['css' => 'h3']);
+        $I->waitForText('Database Configuration',60,['css' => 'h3']);
 
         $this->debug('I select MySQLi');
         $I->selectOption(['id' => 'jform_db_type'], $this->config['database type']);
@@ -130,7 +130,7 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElementVisible(['id' => 'jform_sample_file-lbl'],30);
 
         $this->debug('I install joomla with or without sample data');
-        $I->waitForText('Finalisation', 10, ['xpath' => '//h3']);
+        $I->waitForText('Finalisation',60, ['xpath' => '//h3']);
         // @todo: installation of sample data needs to be created
         //if ($this->config['install sample data']) :
         //    $this->debug('I install Sample Data:' . $this->config['sample data']);
@@ -218,7 +218,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I open Joomla Global Configuration Page');
         $I->amOnPage('/administrator/index.php?option=com_config');
         $this->debug('I wait for Global Configuration title');
-        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $I->waitForText('Global Configuration',60,['css' => '.page-title']);
         $this->debug('I open the Server Tab');
         $I->click(['link' => 'Server']);
         $this->debug('I wait for error reporting dropdown');
@@ -226,7 +226,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I click on save');
         $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
         $this->debug('I wait for global configuration being saved');
-        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $I->waitForText('Global Configuration',60,['css' => '.page-title']);
         $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
     }
 
@@ -452,7 +452,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
 		$I->see('was successful', ['id' => 'system-message-container']);
 		$I->searchForItem($extensionName);
-		$I->waitForText('There are no extensions installed matching your query.', 30, ['class' => 'alert-no-items']);
+		$I->waitForText('There are no extensions installed matching your query.',60, ['class' => 'alert-no-items']);
 		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
 		$this->debug('Extension successfully uninstalled');
 	}
@@ -532,7 +532,7 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement($this->searchResultLanguageName($languageName), 30);
         $I->click(['id' => "cb0"]);
         $I->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
-        $I->waitForText('was successful.', 30, ['id' => 'system-message-container']);
+        $I->waitForText('was successful.',60, ['id' => 'system-message-container']);
         $I->see('No Matching Results',['class' => 'alert-no-items']);
         $this->debug($languageName . ' successfully installed');
     }
