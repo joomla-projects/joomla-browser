@@ -325,6 +325,7 @@ class JoomlaBrowser extends WebDriver
 
         $I->dontSeeInPageSource('Notice:');
         $I->dontSeeInPageSource('Warning:');
+        $I->dontSeeInPageSource('Strict standards:');
     }
 
     /**
