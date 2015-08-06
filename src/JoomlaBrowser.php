@@ -162,7 +162,7 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElementChange(
             ['xpath' => "//input[@name='instDefault']"],
             function(WebDriverElement $el) {
-                return $el->isEnabled();
+                return !$el->isEnabled();
             },
             60
         );
