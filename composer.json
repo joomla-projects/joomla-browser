@@ -18,6 +18,10 @@
         "php": ">=5.3.0",
         "codeception/codeception": "2.*"
     },
+    "require-dev": {
+        "codegyre/robo": "^0.5.3",
+        "joomla-projects/robo": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "Codeception\\Module\\": "src"

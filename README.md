@@ -103,3 +103,13 @@ You should remove the WebDriver module and replace it with the JoomlaBrowser mod
         AcceptanceHelper:
             ...
 ```
+
+## Tools
+Joomla Browser comes with a set of tools added via robo.li
+
+### Code Style Checker
+To check automatically the code style execute the following commands in your Terminal window at the root of the repository:
+
+- `$ composer install`
+- `$ vendor/bin/robo`
+- `$ vendor/bin/robo check:codestyle`
