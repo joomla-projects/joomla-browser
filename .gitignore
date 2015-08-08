@@ -25,6 +25,7 @@ Desktop.ini
 *.swp
 *~.nib
 *~
+*.travis/*
 
 # Ignore mergetool files
 *.orig
@@ -34,7 +35,6 @@ build.properties
 phing-latest.phar
 
 # Composer
-composer.lock
 composer.phar
 vendor/*
 tests/vendor/*
