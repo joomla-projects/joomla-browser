@@ -571,4 +571,28 @@ class JoomlaBrowser extends WebDriver
 
         return $xpath;
     }
+
+    /**
+     * Publishes a module on all frontend pages
+     *
+     * @param   string  $module    The name of the module
+     * @param   string  $position  The template position where to publish the module. Right position by default
+     */
+    public function publishModuleOnAllPages($module, $position = 'position-7')
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_modules');
+        $I->searchForItem($module);
+        $I->checkAllResults();
+        $I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
+        $I->waitForText('1 module successfully published.',30,['id' => 'system-message-container']);
+        $I->click(['link' => $module]);
+        $I->selectOptionInChosen('Position', $position);
+        $I->click(['link' => 'Menu Assignment']);
+        $I->waitForElement(['id' => 'jform_menus-lbl'], 30);
+        $I->click(['id' => 'jform_assignment_chzn']);
+        $I->click(['xpath' => "//li[@data-option-array-index='0']"]);
+        $I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
+        $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
+    }
 }
