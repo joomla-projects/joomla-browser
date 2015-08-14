@@ -95,6 +95,21 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement(['xpath' => "//input[@value='Log out']"], 10);
     }
 
+	/**
+	 * Function to Do frontend Logout in Joomla!
+	 */
+	public function doFrontendLogout()
+	{
+		$I = $this;
+		$this->debug('I open Joomla Frontend Login Page');
+		$I->amOnPage('/index.php?option=com_users&view=login');
+		$this->debug('I click Logout button');
+		$I->click(['xpath' => "//div[@class='logout']//button[contains(text(), 'Log out')]"]);
+		$this->debug('I wait to see Login form');
+		$I->waitForElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"], 30);
+		$I->seeElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"]);
+	}
+
     /**
      * Installs Joomla
      */
