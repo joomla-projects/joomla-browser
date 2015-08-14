@@ -24,22 +24,36 @@ class JoomlaBrowser extends WebDriver
         'database type',
         'database prefix',
         'admin email',
-        'language',
-
+        'language'
     );
 
     /**
      * Function to Do Admin Login In Joomla!
+     *
+     * @param   string|null  $user      Optional Username. If not passed the one in acceptance.suite.yml will be used
+     * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
      */
-    public function doAdministratorLogin()
+    public function doAdministratorLogin($user = null, $password = null)
     {
         $I = $this;
+
+        if (is_null($user))
+        {
+            $user = $this->config['username'];
+        }
+
+        if (is_null($password))
+        {
+            $password = $this->config['password'];
+        }
+
+
         $this->debug('I open Joomla Administrator Login Page');
         $I->amOnPage('/administrator/index.php');
         $this->debug('Fill Username Text Field');
-        $I->fillField(['id' => 'mod-login-username'], $this->config['username']);
+        $I->fillField(['id' => 'mod-login-username'], $user);
         $this->debug('Fill Password Text Field');
-        $I->fillField(['id' => 'mod-login-password'], $this->config['password']);
+        $I->fillField(['id' => 'mod-login-password'], $password);
         // @todo: update login button in joomla login screen to make this xPath more friendly
         $this->debug('I click Login button');
         $I->click(['xpath' => "//button[contains(normalize-space(), 'Log in')]"]);
@@ -48,17 +62,32 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
-     * Function to Do frontend Login in Joomla!
+    /**
+     * Function to Do Frontend Login In Joomla!
+     *
+     * @param   string|null  $user      Optional username. If not passed the one in acceptance.suite.yml will be used
+     * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
      */
-    public function doFrontEndLogin()
+    public function doFrontEndLogin($user = null, $password = null)
     {
         $I = $this;
+
+        if (is_null($user))
+        {
+            $user = $this->config['username'];
+        }
+
+        if (is_null($password))
+        {
+            $password = $this->config['password'];
+        }
+
         $this->debug('I open Joomla Frontend Login Page');
         $I->amOnPage('/index.php?option=com_users&view=login');
         $this->debug('Fill Username Text Field');
-        $I->fillField(['id' => 'username'], $this->config['username']);
+        $I->fillField(['id' => 'username'], $user);
         $this->debug('Fill Password Text Field');
-        $I->fillField(['id' => 'password'], $this->config['password']);
+        $I->fillField(['id' => 'password'], $password);
         // @todo: update login button in joomla login screen to make this xPath more friendly
         $this->debug('I click Login button');
         $I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
