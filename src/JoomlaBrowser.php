@@ -617,7 +617,7 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
-     * Publishes a module on all frontend pages
+     * Publishes a module on frontend in given position
      *
      * @param   string  $module    The full name of the module
      * @param   string  $position  The template position of a module. Right position by default
