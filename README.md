@@ -23,6 +23,8 @@ In between the available functions you can find:
   * set error reporting to development
   * search for item
   * check for item existence
+  * publish a module
+  * setting a module position and publishing it
   * EXTENSION MANAGER
     * install extension from Folder
     * install extension from url
