@@ -329,7 +329,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 		$I->fillField(['id' => 'install_directory'], $path);
 		// @todo: we need to find a better locator for the following Install button
-		$I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
+		$I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
 		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
