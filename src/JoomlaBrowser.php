@@ -131,6 +131,8 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement('#jform_language', 10);
 
         $I->debug('I select en-GB as installation language');
+        // Select a random language to force reloading of the lang strings after selecting English
+        $I->selectOptionInChosen('#jform_language', 'Danish (DK)');
         $I->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
