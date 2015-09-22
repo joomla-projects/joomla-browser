@@ -662,6 +662,7 @@ class JoomlaBrowser extends WebDriver
         $I->amOnPage('administrator/index.php?option=com_modules');
         $I->searchForItem($module);
         $I->click(['link' => $module]);
+        $I->waitForElement(['link' => 'Menu Assignment'], 30);
         $I->click(['link' => 'Menu Assignment']);
         $I->waitForElement(['id' => 'jform_menus-lbl'], 30);
         $I->click(['id' => 'jform_assignment_chzn']);
