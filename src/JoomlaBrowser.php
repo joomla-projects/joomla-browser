@@ -670,4 +670,45 @@ class JoomlaBrowser extends WebDriver
         $I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
         $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
     }
+
+    /**
+     * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
+     *
+     * @param   string  $menuTitle     The menu item title
+     * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
+     * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
+     * @param   string  $menu          The menu where the item should be created
+     */
+    public function createMenuItem($menuTitle, $menuCategory, $menuItem, $menu = "Main Menu")
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
+        $I->waitForText('Menus', '30', ['css' => 'H1']);
+
+        // Choose the right menu
+        $I->click(['xpath' =>  "//*[@id=\"menuList\"]/tbody/tr/td[2]/a[contains(text(), '" . $menu . "')]"]);;
+        $I->waitForText('Menus: Items', '30', ['css' => 'H1']);
+
+        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('item.add')\"]"]);
+        $I->waitForText('Menus: New Item', '30', ['css' => 'h1']);
+        $I->fillField(['id' => 'jform_title'], $menuTitle);
+
+        // Menu type (modal)
+        $I->click(['xpath' => "//a[@href=\"#menuTypeModal\"]"]);
+        $I->waitForElement('.iframe', '30');
+        $I->switchToIFrame("Menu Item Type");
+
+        // Open the category
+        $I->waitForElementVisible(['link' => $menuCategory], '30');
+        $I->click(['link' => $menuCategory]);
+
+        // Choose the menu item
+        $I->waitForElementVisible(['xpath' => "//a[contains(text(), '" . $menuItem . "')]"], 60);
+        $I->click(['xpath' => "//a[contains(text(), '" . $menuItem . "')]"]);
+
+        $I->waitForText('Menus: New Item','30', ['css' => 'h1']);
+        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('item.apply')\"]"]);
+
+        $I->waitForText('Menu item successfully saved', 30, ['id' => 'system-message-container']);
+    }
 }
