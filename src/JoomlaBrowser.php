@@ -674,35 +674,33 @@ class JoomlaBrowser extends WebDriver
     /**
      * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
      *
-     * @param   string  $menuTitle     - The menu title
-     * @param   string  $menuCategory  - The category of the menu type (for example Weblinks)
-     * @param   string  $menuItem      - The menu item type / link text (for example List all Web Link Categories)
-     * @param   string  $menu          - The menu where the item should be created
+     * @param   string  $menuTitle     The menu item title
+     * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
+     * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
+     * @param   string  $menu          The menu where the item should be created
      */
     public function createMenuItem($menuTitle, $menuCategory, $menuItem, $menu = "Main Menu")
     {
         $I = $this;
         $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
         $I->waitForText('Menus', '30', ['css' => 'H1']);
-        $I->wait(1);
 
         // Choose the right menu
         $I->click(['xpath' =>  "//*[@id=\"menuList\"]/tbody/tr/td[2]/a[contains(text(), '" . $menu . "')]"]);;
         $I->waitForText('Menus: Items', '30', ['css' => 'H1']);
 
         $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('item.add')\"]"]);
-        $I->waitForText('Menus: New Item','30', ['css' => 'h1']);
+        $I->waitForText('Menus: New Item', '30', ['css' => 'h1']);
         $I->fillField(['id' => 'jform_title'], $menuTitle);
 
         // Menu type (modal)
         $I->click(['xpath' => "//a[@href=\"#menuTypeModal\"]"]);
-        $I->waitForElement('.iframe','30');
+        $I->waitForElement('.iframe', '30');
         $I->switchToIFrame("Menu Item Type");
 
         // Open the category
         $I->waitForElementVisible(['link' => $menuCategory], '30');
         $I->click(['link' => $menuCategory]);
-        $I->wait(1);
 
         // Choose the menu item
         $I->waitForElementVisible(['xpath' => "//a[contains(text(), '" . $menuItem . "')]"], 60);
