@@ -332,7 +332,7 @@ class JoomlaBrowser extends WebDriver
 		$I->fillField(['id' => 'install_directory'], $path);
 		// @todo: we need to find a better locator for the following Install button
 		$I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
-		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
+		$I->waitForText('was successful','60', ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
 
@@ -684,13 +684,16 @@ class JoomlaBrowser extends WebDriver
         $I = $this;
         $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
         $I->waitForText('Menus', '30', ['css' => 'H1']);
+		$this->checkForPhpNoticesOrWarnings();
 
         // Choose the right menu
         $I->click(['xpath' =>  "//*[@id=\"menuList\"]/tbody/tr/td[2]/a[contains(text(), '" . $menu . "')]"]);;
         $I->waitForText('Menus: Items', '30', ['css' => 'H1']);
+		$this->checkForPhpNoticesOrWarnings();
 
-        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('item.add')\"]"]);
+        $I->click("New");
         $I->waitForText('Menus: New Item', '30', ['css' => 'h1']);
+		$this->checkForPhpNoticesOrWarnings();
         $I->fillField(['id' => 'jform_title'], $menuTitle);
 
         // Menu type (modal)
@@ -707,7 +710,7 @@ class JoomlaBrowser extends WebDriver
         $I->click(['xpath' => "//a[contains(text(), '" . $menuItem . "')]"]);
 
         $I->waitForText('Menus: New Item','30', ['css' => 'h1']);
-        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('item.apply')\"]"]);
+		$I->click("Save");
 
         $I->waitForText('Menu item successfully saved', 30, ['id' => 'system-message-container']);
     }
