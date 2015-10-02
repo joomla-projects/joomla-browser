@@ -149,7 +149,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I fill Admin Password Confirmation');
         $I->fillField(['id' => 'jform_admin_password2'], $this->config['password']);
         $this->debug('I click Site Offline: no');
-        $I->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[2]"]); // ['No Site Offline']
+        $I->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[@for='jform_site_offline1']"]); // ['No Site Offline']
         $this->debug('I click Next');
         $I->click(['link' => 'Next']);
 
