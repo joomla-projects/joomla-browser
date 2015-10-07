@@ -671,47 +671,59 @@ class JoomlaBrowser extends WebDriver
         $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
     }
 
-    /**
-     * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
-     *
-     * @param   string  $menuTitle     The menu item title
-     * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
-     * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
-     * @param   string  $menu          The menu where the item should be created
-     */
-    public function createMenuItem($menuTitle, $menuCategory, $menuItem, $menu = "Main Menu")
-    {
-        $I = $this;
-        $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
-        $I->waitForText('Menus', '30', ['css' => 'H1']);
+	/**
+	 * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
+	 *
+	 * @param   string  $menuTitle     The menu item title
+	 * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
+	 * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
+	 * @param   string  $menu          The menu where the item should be created
+	 * @param   string  $language      If you are using Multilingual feature, the language for the menu
+	 */
+	public function createMenuItem($menuTitle, $menuCategory, $menuItem, $menu = 'Main Menu', $language = 'All')
+	{
+		$I = $this;
+
+		$I->debug("I open the menus page");
+		$I->amOnPage('administrator/index.php?option=com_menus&view=menus');
+		$I->waitForText('Menus', '60', ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
-        // Choose the right menu
-        $I->click(['xpath' =>  "//*[@id=\"menuList\"]/tbody/tr/td[2]/a[contains(text(), '" . $menu . "')]"]);;
-        $I->waitForText('Menus: Items', '30', ['css' => 'H1']);
+		$I->debug("I click in the menu: $menu");
+		$I->click(['link' =>  $menu]);
+		$I->waitForText('Menus: Items', '60', ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
-        $I->click("New");
-        $I->waitForText('Menus: New Item', '30', ['css' => 'h1']);
+		$I->debug("I click new");
+		$I->click("New");
+		$I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
 		$this->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => 'jform_title'], $menuTitle);
+		$I->fillField(['id' => 'jform_title'], $menuTitle);
 
-        // Menu type (modal)
-        $I->click(['xpath' => "//a[@href=\"#menuTypeModal\"]"]);
-        $I->waitForElement('.iframe', '30');
-        $I->switchToIFrame("Menu Item Type");
+		$I->debug("Open the menu types iframe");
+		$I->click(['link' => "Select"]);
+		$I->waitForElement(['id' => 'menuTypeModal'], '60');
+		$I->switchToIFrame("Menu Item Type");
 
-        // Open the category
-        $I->waitForElementVisible(['link' => $menuCategory], '30');
-        $I->click(['link' => $menuCategory]);
+		$I->debug("Open the menu category: $menuCategory");
+		// Open the category
+		$I->wait(1);
+		$I->waitForElement(['link' => $menuCategory], '60');
+		$I->click(['link' => $menuCategory]);
 
-        // Choose the menu item
-        $I->waitForElementVisible(['xpath' => "//a[contains(text(), '" . $menuItem . "')]"], 60);
-        $I->click(['xpath' => "//a[contains(text(), '" . $menuItem . "')]"]);
-
-        $I->waitForText('Menus: New Item','30', ['css' => 'h1']);
+		$I->debug("Choose the menu item type: $menuItem");
+		$I->wait(1);
+		$I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], '60');
+		$I->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
+		$I->debug('I switch back to the main window');
+		$I->switchToIFrame();
+		$I->debug('I leave time to the iframe to close');
+		$I->wait(2);
+		$I->selectOptionInChosen('Language', $language);
+		$I->waitForText('Menus: New Item','30', ['css' => 'h1']);
+		$I->debug('I save the menu');
 		$I->click("Save");
 
-        $I->waitForText('Menu item successfully saved', 30, ['id' => 'system-message-container']);
-    }
+		$I->waitForText('Menu item successfully saved', '60', ['id' => 'system-message-container']);
+	}
 }
