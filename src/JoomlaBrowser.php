@@ -672,6 +672,60 @@ class JoomlaBrowser extends WebDriver
     }
 
 	/**
+	 * Function to select Toolbar buttons in Joomla! Admin Toolbar Panel
+	 *
+	 * @param   string  $button  The full name of the button
+	 */
+	public function clickToolbarButton($button)
+	{
+		$I = $this;
+		$input = strtolower($button);
+
+		switch($input)
+		{
+			case "new":
+				$I->click(['xpath' => "//div[@id='toolbar-new']//button"]);
+				break;
+			case "edit":
+				$I->click(['xpath' => "//div[@id='toolbar-edit']//button"]);
+				break;
+			case "publish":
+				$I->click(['xpath' => "//div[@id='toolbar-publish']//button"]);
+				break;
+			case "unpublish":
+				$I->click(['xpath' => "//div[@id='toolbar-unpublish']//button"]);
+				break;
+			case "archive":
+				$I->click(['xpath' => "//div[@id='toolbar-archive']//button"]);
+				break;
+			case "check-in":
+				$I->click(['xpath' => "//div[@id='toolbar-checkin']//button"]);
+				break;
+			case "batch":
+				$I->click(['xpath' => "//div[@id='toolbar-batch']//button"]);
+				break;
+			case "rebuild":
+				$I->click(['xpath' => "//div[@id='toolbar-refresh']//button"]);
+				break;
+			case "trash":
+				$I->click(['xpath' => "//div[@id='toolbar-trash']//button"]);
+				break;
+			case "save":
+				$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+				break;
+			case "save & close":
+				$I->click(['xpath' => "//div[@id='toolbar-save']//button"]);
+				break;
+			case "save & new":
+				$I->click(['xpath' => "//div[@id='toolbar-save-new']//button"]);
+				break;
+			case "cancel":
+				$I->click(['xpath' => "//div[@id='toolbar-cancel']//button"]);
+				break;
+		}
+	}
+
+	/**
 	 * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
 	 *
 	 * @param   string  $menuTitle     The menu item title
