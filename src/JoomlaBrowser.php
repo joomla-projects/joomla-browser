@@ -722,6 +722,9 @@ class JoomlaBrowser extends WebDriver
 			case "cancel":
 				$I->click(['xpath' => "//div[@id='toolbar-cancel']//button"]);
 				break;
+			case "empty trash":
+				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
+				break;
 		}
 	}
 
@@ -779,5 +782,38 @@ class JoomlaBrowser extends WebDriver
 		$I->click("Save");
 
 		$I->waitForText('Menu item successfully saved', '60', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * Function to filter results in Joomla! Administrator.
+	 *
+	 * @param  string  $label  Label of the Filter you want to use.
+	 * @param  string  $value  Value you want to set in the filters.
+	 *
+	 * @return void
+	 */
+	public function setFilter($label, $value)
+	{
+		$label = strtolower($label);
+		$filters = array(
+			"select status" 	=> "filter_published",
+			"select access"		=> "filter_access",
+			"select language" 	=> "filter_language",
+			"select tag"		=> "filter_tag",
+			"select max levels"	=> "filter_level"
+		);
+		$I = $this;
+		$I->click(['xpath' => "//button[@data-original-title='Filter the list items.']"]);
+		$I->debug('I try to select the filters');
+		foreach($filters as $fieldName => $id)
+		{
+			if($fieldName == $label)
+			{
+				$I->waitForElement(['xpath' => "//div[@id='" . $id . "_chzn']/a"], 10);
+				$I->click(['xpath' => "//div[@id='" . $id . "_chzn']/a"]);
+				$I->click(['xpath' => "//div[@id='" . $id . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"]);
+			}
+		}
+		$I->debug('Applied filters');
 	}
 }
