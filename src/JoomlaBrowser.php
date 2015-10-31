@@ -834,7 +834,7 @@ class JoomlaBrowser extends WebDriver
 	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
 	{
 		$I = $this;
-		$actualArrayOfTabs = $I->grabMultiple($tabSelector);
+		$actualArrayOfTabs = $I->grabMultiple($tabsLocator);
 		$I->debug("Fetch the current list of Tabs in the edit view which is: " . implode(", ", $actualArrayOfTabs));
 		$url = $I->grabFromCurrentUrl();
 		$I->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
