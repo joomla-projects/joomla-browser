@@ -728,6 +728,9 @@ class JoomlaBrowser extends WebDriver
 			case "cancel":
 				$I->click(['xpath' => "//div[@id='toolbar-cancel']//button"]);
 				break;
+			case "options":
+				$I->click(['xpath' => "//div[@id='toolbar-options']//button"]);
+				break;
 			case "empty trash":
 				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
 				break;
