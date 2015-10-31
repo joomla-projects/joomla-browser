@@ -326,6 +326,10 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForText('Extensions: Install','30', ['css' => 'H1']);
 		$I->click(['link' => 'Install from Folder']);
 		$this->debug('I enter the Path');
+
+		//Make sure path has an ending slash
+		$path = rtrim($path, "/") . "/";
+
 		$I->fillField(['id' => 'install_directory'], $path);
 		// @todo: we need to find a better locator for the following Install button
 		$I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
