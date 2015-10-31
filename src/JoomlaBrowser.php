@@ -822,4 +822,22 @@ class JoomlaBrowser extends WebDriver
 		}
 		$I->debug('Applied filters');
 	}
+
+	/**
+	 * Function to Verify the Tabs on a Joomla! screen
+	 *
+	 * @param  Array   $expectedTabs  Expected Tabs on the Page
+	 * @param  String  $tabSelector   Selector for the Tabs in Edit View
+	 *
+	 * @return void
+	 */
+	public function verifyAvailableTabs($expectedTabs, $tabSelector = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	{
+		$I = $this;
+		$actualArrayOfTabs = $I->grabMultiple($tabSelector);
+		$I->debug("Fetch the current list of Tabs in the edit view which is: " . implode(", ", $actualArrayOfTabs));
+		$url = $I->grabFromCurrentUrl();
+		$I->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
+		$I->debug('Verify the Tabs');
+	}
 }
