@@ -337,10 +337,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 
 		//Make sure path has an ending slash
-		if (substr($path, -1) != "/")
-		{
-			$path = $path . "/";
-		}
+        $path = rtrim($path, "/") . "/";
 
 		$I->fillField(['id' => 'install_directory'], $path);
 		// @todo: we need to find a better locator for the following Install button
