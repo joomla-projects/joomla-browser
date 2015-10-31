@@ -826,12 +826,12 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Function to Verify the Tabs on a Joomla! screen
 	 *
-	 * @param  Array   $expectedTabs  Expected Tabs on the Page
-	 * @param  String  $tabSelector   Selector for the Tabs in Edit View
+	 * @param  Array  $expectedTabs   Expected Tabs on the Page
+	 * @param  Mixed  $tabsLocator    Locator for the Tabs in Edit View
 	 *
 	 * @return void
 	 */
-	public function verifyAvailableTabs($expectedTabs, $tabSelector = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
 	{
 		$I = $this;
 		$actualArrayOfTabs = $I->grabMultiple($tabSelector);
