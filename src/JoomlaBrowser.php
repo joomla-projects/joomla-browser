@@ -678,11 +678,11 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$input = strtolower($button);
 
-		if($this->config['window_size'] == '480x320')
+		$element = $this->webDriver->findElements(WebDriverBy::linkText("Toolbar"));
+		if(!empty($element) && $element[0]->isDisplayed())
 		{
 			$I->click('Toolbar');
 		}
-
 		switch($input)
 		{
 			case "new":
