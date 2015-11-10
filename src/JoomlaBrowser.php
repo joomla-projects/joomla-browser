@@ -90,8 +90,8 @@ class JoomlaBrowser extends WebDriver
         // @todo: update login button in joomla login screen to make this xPath more friendly
         $this->debug('I click Login button');
         $I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
-        $this->debug('I wait to see Frontend Member Profile Form');
-        $I->waitForElement(['xpath' => "//input[@value='Log out']"], 10);
+        $this->debug('I wait to see Frontend Member Profile Form with the Logout button in the module');
+        $I->waitForElement(['xpath' => "//form[@id='login-form']/div[@class='logout-button']"], 60);
     }
 
 	/**
