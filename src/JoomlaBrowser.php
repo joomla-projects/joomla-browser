@@ -409,6 +409,9 @@ class JoomlaBrowser extends WebDriver
     /**
      * Selects an option in a Chosen Selector based on its label
      *
+     * @param   string  $label   The text in the <label> with for attribute that links to the <select> element
+     * @param   string  $option  The text in the <option> to be selected in the chosen selector
+     *
      * @return void
      */
     public function selectOptionInChosen($label, $option)
@@ -418,6 +421,25 @@ class JoomlaBrowser extends WebDriver
         $chosenSelectID = $selectID . '_chzn';
         $I = $this;
         $this->debug("I open the $label chosen selector");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
+        $this->debug("I select $option");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
+        $I->wait(1); // Gives time to chosen to close
+    }
+
+    /**
+     * Selects an option in a Chosen Selector based on its label
+     *
+     * @param   string  $selectId  The id of the <select> element
+     * @param   string  $option    The text in the <option> to be selected in the chosen selector
+     *
+     * @return void
+     */
+    public function selectOptionInChosenById($selectId, $option)
+    {
+        $chosenSelectID = $selectId . '_chzn';
+        $I = $this;
+        $this->debug("I open the $chosenSelectID chosen selector");
         $I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
         $this->debug("I select $option");
         $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
