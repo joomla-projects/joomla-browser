@@ -62,7 +62,6 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
-    /**
      * Function to Do Frontend Login In Joomla!
      *
      * @param   string|null  $user      Optional username. If not passed the one in acceptance.suite.yml will be used
