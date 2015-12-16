@@ -133,13 +133,11 @@ class JoomlaBrowser extends WebDriver
         $I->debug('I select dk-DK as installation language');
         // Select a random language to force reloading of the lang strings after selecting English
         $I->selectOptionInChosen('#jform_language', 'Danish (DK)');
-        $I->wait(5);
-        $I->waitForText('Generel konfiguration', 10, 'h3');
+        $I->waitForText('Generel konfiguration', 20, 'h3');
         // Wait for chosen to render the field
         $I->debug('I select en-GB as installation language');
         $I->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
-        $I->wait(5);
-        $I->waitForText('Main Configuration', 10, 'h3');
+        $I->waitForText('Main Configuration', 20, 'h3');
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
         $this->debug('I fill Site Description');
@@ -858,4 +856,16 @@ class JoomlaBrowser extends WebDriver
 		$I->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
 		$I->debug('Verify the Tabs');
 	}
+
+    /**
+     * Hide the statistics info message
+     *
+     * @note: doAdminLogin() before
+     */
+    public function disablestatistics()
+    {
+        $I = $this;
+        $this->debug('I click on never');
+        $I->click(['link' => 'Never']);
+    }
 }
