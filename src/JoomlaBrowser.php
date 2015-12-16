@@ -133,11 +133,12 @@ class JoomlaBrowser extends WebDriver
         $I->debug('I select dk-DK as installation language');
         // Select a random language to force reloading of the lang strings after selecting English
         $I->selectOptionInChosen('#jform_language', 'Danish (DK)');
+        $I->wait(5);
         $I->waitForText('Generel konfiguration', 10, 'h3');
         // Wait for chosen to render the field
-        $I->wait(1);
         $I->debug('I select en-GB as installation language');
         $I->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
+        $I->wait(5);
         $I->waitForText('Main Configuration', 10, 'h3');
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
@@ -157,6 +158,7 @@ class JoomlaBrowser extends WebDriver
         $I->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[@for='jform_site_offline1']"]); // ['No Site Offline']
         $this->debug('I click Next');
         $I->click(['link' => 'Next']);
+        $I->wait(1);
 
         $this->debug('I Fill the form for creating the Joomla site Database');
         $I->waitForText('Database Configuration',60,['css' => 'h3']);
@@ -192,6 +194,7 @@ class JoomlaBrowser extends WebDriver
         //endif;
         $I->selectOption(['id' => 'jform_sample_file'], ['id' => 'jform_sample_file0']); // No sample data
         $I->click(['link' => 'Install']);
+        $I->wait(1);
 
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
