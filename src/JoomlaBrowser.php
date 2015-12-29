@@ -479,10 +479,11 @@ class JoomlaBrowser extends WebDriver
         $I = $this;
         $I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
         $this->debug("I click on Top Right corner toggle to Logout from Admin");
-        $I->waitForElement(['xpath' => "//a[text() = 'Logout']"], 10);
-        $I->click(['xpath' => "//a[text() = 'Logout']"]);
-        $I->waitForText('Log in', 20);
-        $I->waitForElement(['id' => 'mod-login-username'], 10);
+        $I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
+        $I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
+        $I->waitForElement(['id' => 'mod-login-username'], 60);
+        $I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
+
     }
 
 	/**
