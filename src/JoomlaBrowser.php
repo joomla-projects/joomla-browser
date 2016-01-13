@@ -50,7 +50,8 @@ class JoomlaBrowser extends WebDriver
 
         $this->debug('I open Joomla Administrator Login Page');
         $I->amOnPage('/administrator/index.php');
-        $this->debug('Fill Username Text Field');
+		$I->waitForElement(['id' => 'mod-login-username'], 60);
+		$this->debug('Fill Username Text Field');
         $I->fillField(['id' => 'mod-login-username'], $user);
         $this->debug('Fill Password Text Field');
         $I->fillField(['id' => 'mod-login-password'], $password);
