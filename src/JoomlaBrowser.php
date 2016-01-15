@@ -129,7 +129,8 @@ class JoomlaBrowser extends WebDriver
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
         $I->waitForElement('#jform_language', 10);
-        // Wait for chosen to render the field
+		$I->comment('Wait for chosen to render the Languages list field');
+		$I->wait(2);
         $I->debug('I select dk-DK as installation language');
         // Select a random language to force reloading of the lang strings after selecting English
         $I->selectOptionInChosen('#jform_language', 'Danish (DK)');
