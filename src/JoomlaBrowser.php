@@ -137,6 +137,8 @@ class JoomlaBrowser extends WebDriver
         $I->waitForText('Generel konfiguration', 60, 'h3');
         // Wait for chosen to render the field
         $I->debug('I select en-GB as installation language');
+		$I->debug('Wait for chosen to render the Languages list field');
+		$I->wait(2);
         $I->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
         $I->waitForText('Main Configuration', 60, 'h3');
         $this->debug('I fill Site Name');
