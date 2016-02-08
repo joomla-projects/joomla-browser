@@ -24,47 +24,91 @@ class JoomlaBrowser extends WebDriver
         'database type',
         'database prefix',
         'admin email',
-        'language',
-
+        'language'
     );
 
     /**
      * Function to Do Admin Login In Joomla!
+     *
+     * @param   string|null  $user      Optional Username. If not passed the one in acceptance.suite.yml will be used
+     * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
      */
-    public function doAdministratorLogin()
+    public function doAdministratorLogin($user = null, $password = null)
     {
         $I = $this;
+
+        if (is_null($user))
+        {
+            $user = $this->config['username'];
+        }
+
+        if (is_null($password))
+        {
+            $password = $this->config['password'];
+        }
+
+
         $this->debug('I open Joomla Administrator Login Page');
         $I->amOnPage('/administrator/index.php');
-        $this->debug('Fill Username Text Field');
-        $I->fillField(['id' => 'mod-login-username'], $this->config['username']);
+		$I->waitForElement(['id' => 'mod-login-username'], 60);
+		$this->debug('Fill Username Text Field');
+        $I->fillField(['id' => 'mod-login-username'], $user);
         $this->debug('Fill Password Text Field');
-        $I->fillField(['id' => 'mod-login-password'], $this->config['password']);
+        $I->fillField(['id' => 'mod-login-password'], $password);
         // @todo: update login button in joomla login screen to make this xPath more friendly
         $this->debug('I click Login button');
-        $I->click(['xpath' => "//form[@id='form-login']/fieldset/div[3]/div/div/button"]);
+        $I->click(['xpath' => "//button[contains(normalize-space(), 'Log in')]"]);
         $this->debug('I wait to see Administrator Control Panel');
         $I->waitForText('Control Panel', 4, ['css' => 'h1.page-title']);
     }
 
     /**
-     * Function to Do frontend Login in Joomla!
+     * Function to Do Frontend Login In Joomla!
+     *
+     * @param   string|null  $user      Optional username. If not passed the one in acceptance.suite.yml will be used
+     * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
      */
-    public function doFrontEndLogin()
+    public function doFrontEndLogin($user = null, $password = null)
     {
         $I = $this;
+
+        if (is_null($user))
+        {
+            $user = $this->config['username'];
+        }
+
+        if (is_null($password))
+        {
+            $password = $this->config['password'];
+        }
+
         $this->debug('I open Joomla Frontend Login Page');
         $I->amOnPage('/index.php?option=com_users&view=login');
         $this->debug('Fill Username Text Field');
-        $I->fillField(['id' => 'username'], $this->config['username']);
+        $I->fillField(['id' => 'username'], $user);
         $this->debug('Fill Password Text Field');
-        $I->fillField(['id' => 'password'], $this->config['password']);
+        $I->fillField(['id' => 'password'], $password);
         // @todo: update login button in joomla login screen to make this xPath more friendly
         $this->debug('I click Login button');
         $I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
-        $this->debug('I wait to see Frontend Member Profile Form');
-        $I->waitForElement(['xpath' => "//input[@value='Log out']"], 10);
+        $this->debug('I wait to see Frontend Member Profile Form with the Logout button in the module');
+        $I->waitForElement(['xpath' => "//form[@id='login-form']/div[@class='logout-button']"], 60);
     }
+
+	/**
+	 * Function to Do frontend Logout in Joomla!
+	 */
+	public function doFrontendLogout()
+	{
+		$I = $this;
+		$this->debug('I open Joomla Frontend Login Page');
+		$I->amOnPage('/index.php?option=com_users&view=login');
+		$this->debug('I click Logout button');
+		$I->click(['xpath' => "//div[@class='logout']//button[contains(text(), 'Log out')]"]);
+		$this->debug('I wait to see Login form');
+		$I->waitForElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"], 30);
+		$I->seeElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"]);
+	}
 
     /**
      * Installs Joomla
@@ -84,10 +128,19 @@ class JoomlaBrowser extends WebDriver
         $I->dontSeeElement(['id' => 'ftp']);
         // I Wait for the text Main Configuration, meaning that the page is loaded
         $this->debug('I wait for Main Configuration');
-        $I->waitForText('Main Configuration', 10,['xpath' => '//h3']);
-
+        $I->waitForElement('#jform_language', 10);
+		$I->debug('Wait for chosen to render the Languages list field');
+		$I->wait(2);
+        $I->debug('I select dk-DK as installation language');
+        // Select a random language to force reloading of the lang strings after selecting English
+        $I->selectOptionInChosen('#jform_language', 'Danish (DK)');
+        $I->waitForText('Generel konfiguration', 60, 'h3');
+        // Wait for chosen to render the field
         $I->debug('I select en-GB as installation language');
-        $I->selectOptionInChosen('Select Language', 'English (United Kingdom)');
+		$I->debug('Wait for chosen to render the Languages list field');
+		$I->wait(2);
+        $I->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
+        $I->waitForText('Main Configuration', 60, 'h3');
         $this->debug('I fill Site Name');
         $I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
         $this->debug('I fill Site Description');
@@ -103,12 +156,12 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I fill Admin Password Confirmation');
         $I->fillField(['id' => 'jform_admin_password2'], $this->config['password']);
         $this->debug('I click Site Offline: no');
-        $I->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[2]"]); // ['No Site Offline']
+        $I->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[@for='jform_site_offline1']"]); // ['No Site Offline']
         $this->debug('I click Next');
         $I->click(['link' => 'Next']);
 
         $this->debug('I Fill the form for creating the Joomla site Database');
-        $I->waitForText('Database Configuration', 10,['css' => 'h3']);
+        $I->waitForText('Database Configuration',60,['css' => 'h3']);
 
         $this->debug('I select MySQLi');
         $I->selectOption(['id' => 'jform_db_type'], $this->config['database type']);
@@ -123,12 +176,14 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I fill Database Prefix');
         $I->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
         $this->debug('I click Remove Old Database ');
-        $I->click(['xpath' => "//label[@for='jform_db_old1']"]); // Remove Old Database button
+        $I->selectOptionInRadioField('Old Database Process', 'Remove');
         $this->debug('I click Next');
         $I->click(['link' => 'Next']);
+        $this->debug('I wait Joomla to remove the old database if exist');
+        $I->waitForElementVisible(['id' => 'jform_sample_file-lbl'],30);
 
         $this->debug('I install joomla with or without sample data');
-        $I->waitForText('Finalisation', 10, ['xpath' => '//h3']);
+        $I->waitForText('Finalisation',60, ['xpath' => '//h3']);
         // @todo: installation of sample data needs to be created
         //if ($this->config['install sample data']) :
         //    $this->debug('I install Sample Data:' . $this->config['sample data']);
@@ -142,7 +197,78 @@ class JoomlaBrowser extends WebDriver
 
         // Wait while Joomla gets installed
         $this->debug('I wait for Joomla being installed');
-        $I->waitForText('Congratulations! Joomla! is now installed.', 10, ['xpath' => '//h3']);
+        $I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
+    }
+
+    /**
+     * Install Joomla removing the Installation folder at the end of the execution
+     */
+    public function installJoomlaRemovingInstallationFolder()
+    {
+        $I = $this;
+
+        $I->installJoomla();
+
+        $this->debug('Removing Installation Folder');
+        $I->click(['xpath' => "//input[@value='Remove installation folder']"]);
+
+        $I->debug('I wait for Removing Installation Folder button to become disabled');
+        $I->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", 60);
+
+        $I->debug('Joomla is now installed');
+        $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
+    }
+
+    /**
+     * Installs Joomla with Multilingual Feature active
+     *
+     * @param   array  $languages  Array containing the language names to be installed
+     *
+     * @example: $I->installJoomlaMultilingualSite(['Spanish', 'French']);
+     */
+    public function installJoomlaMultilingualSite($languages = array())
+    {
+        if (!$languages)
+        {
+            // If no language is passed French will be installed by default
+            $languages[] = 'French';
+        }
+
+        $I = $this;
+
+        $I->installJoomla();
+
+        $this->debug('I go to Install Languages page');
+        $I->click(['id' => 'instLangs']);
+        $I->waitForText('Install Language packages', 60, ['xpath' => '//h3']);
+
+        foreach ($languages as $language) :
+            $I->debug('I mark the checkbox of the language: ' . $language);
+            $I->click(['xpath' => "//label[contains(text()[normalize-space()], '$language')]/input"]);
+        endforeach;
+
+        $I->click(['link' => 'Next']);
+        $I->waitForText('Multilingual', 60, ['xpath' => '//h3']);
+        $I->selectOptionInRadioField('Activate the multilingual feature', 'Yes');
+        $I->waitForElementVisible(['id' => 'jform_activatePluginLanguageCode-lbl']);
+        $I->selectOptionInRadioField('Install localised content', 'Yes');
+        $I->selectOptionInRadioField('Enable the language code plugin', 'Yes');
+        $I->click(['link' => 'Next']);
+
+        $I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
+        $this->debug('Removing Installation Folder');
+        $I->click(['xpath' => "//input[@value='Remove installation folder']"]);
+        // @todo https://github.com/joomla-projects/joomla-browser/issues/45
+        $I->wait(2);
+        /*
+        $I->waitForElementChange(
+            ['xpath' => "//input[@name='instDefault']"],
+            function(WebDriverElement $el) {
+                return !$el->isEnabled();
+            },
+            60
+        );
+        */
         $this->debug('Joomla is now installed');
         $I->see('Congratulations! Joomla! is now installed.',['xpath' => '//h3']);
     }
@@ -158,36 +284,87 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I open Joomla Global Configuration Page');
         $I->amOnPage('/administrator/index.php?option=com_config');
         $this->debug('I wait for Global Configuration title');
-        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $I->waitForText('Global Configuration',60,['css' => '.page-title']);
         $this->debug('I open the Server Tab');
         $I->click(['link' => 'Server']);
         $this->debug('I wait for error reporting dropdown');
         $I->selectOptionInChosen('Error Reporting', 'Development');
         $this->debug('I click on save');
-        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
+        $I->clickToolbarButton('save');
         $this->debug('I wait for global configuration being saved');
-        $I->waitForText('Global Configuration',10,['css' => '.page-title']);
+        $I->waitForText('Global Configuration',60,['css' => '.page-title']);
         $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
     }
 
+	/**
+	 * Installs a Extension in Joomla that is located in a folder inside the server
+	 *
+	 * @param   String  $path  Path for the Extension
+	 * @param   string  $type  Type of Extension
+	 *
+	 * @note: doAdminLogin() before
+	 *
+	 * @deprecated  since Joomla 3.4.4-dev. Use installExtensionFromFolder($path, $type = 'Extension') instead.
+	 */
+	public function installExtensionFromDirectory($path, $type = 'Extension')
+    {
+        $this->debug('Suggested to use installExtensionFromFolder instead of installExtensionFromDirectory');
+        $this->installExtensionFromFolder($path, $type);
+    }
+
+	/**
+	 * Installs a Extension in Joomla that is located in a folder inside the server
+	 *
+	 * @param   String  $path  Path for the Extension
+	 * @param   string  $type  Type of Extension
+	 *
+	 * @note: doAdminLogin() before
+	 */
+	public function installExtensionFromFolder($path, $type = 'Extension')
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_installer');
+		$I->waitForText('Extensions: Install','30', ['css' => 'H1']);
+		$I->click(['link' => 'Install from Folder']);
+		$this->debug('I enter the Path');
+		$I->fillField(['id' => 'install_directory'], $path);
+		// @todo: we need to find a better locator for the following Install button
+		$I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
+		$I->waitForText('was successful','60', ['id' => 'system-message-container']);
+		$this->debug("$type successfully installed from $path");
+	}
+
     /**
-     * Installs a Extension in Joomla that is located in a folder inside the server
+     * Installs a Extension in Joomla that is located in a url
      *
-     * @param $path
+     * @param   String  $url   Url address to the .zip file
+     * @param   string  $type  Type of Extension
      *
      * @note: doAdminLogin() before
      */
-    public function installExtensionFromDirectory($path)
+    public function installExtensionFromUrl($url, $type = 'Extension')
     {
         $I = $this;
         $I->amOnPage('/administrator/index.php?option=com_installer');
-        $I->click(['link' => 'Install from Directory']);
-        $this->debug('I enter the Path for extension');
-        $I->fillField(['id' => 'install_directory'], $path);
+        $I->waitForText('Extensions: Install','30', ['css' => 'H1']);
+        $I->click(['link' => 'Install from URL']);
+        $this->debug('I enter the url');
+        $I->fillField(['id' => 'install_url'], $url);
         // @todo: we need to find a better locator for the following Install button
-        $I->click(['xpath' => "//input[contains(@onclick,'Joomla.submitbutton3()')]"]); // Install button
-        $I->waitForText('was successful', 10, ['id' => 'system-message-container']);
-        $this->debug('Extension successfully installed from' . $path);
+        $I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton4()')]"]); // Install button
+        $I->waitForText('was successful','30', ['id' => 'system-message-container']);
+        if ($type == 'Extension')
+        {
+            $this->debug('Extension successfully installed from ' . $url);
+        }
+        if ($type == 'Plugin')
+        {
+            $this->debug('Installing plugin was successful.' . $url);
+        }
+        if ($type == 'Package')
+        {
+            $this->debug('Installation of the package was successful.' . $url);
+        }
     }
 
     /**
@@ -207,11 +384,34 @@ class JoomlaBrowser extends WebDriver
         }
 
         $I->dontSeeInPageSource('Notice:');
+        $I->dontSeeInPageSource('<b>Notice</b>:');
         $I->dontSeeInPageSource('Warning:');
+        $I->dontSeeInPageSource('<b>Warning</b>:');
+        $I->dontSeeInPageSource('Strict standards:');
+        $I->dontSeeInPageSource('<b>Strict standards</b>:');
+        $I->dontSeeInPageSource('The requested page can\'t be found');
+    }
+
+    /**
+     * Selects an option in a Joomla Radio Field based on its label
+     *
+     * @return void
+     */
+    public function selectOptionInRadioField($label, $option)
+    {
+        $I = $this;
+        $I->debug("Trying to select the $option from the $label");
+        $label = $I->findField(['xpath' => "//label[contains(normalize-space(string(.)), '$label')]"]);
+        $radioId = $label->getAttribute('for');
+
+        $I->click("//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]");
     }
 
     /**
      * Selects an option in a Chosen Selector based on its label
+     *
+     * @param   string  $label   The text in the <label> with for attribute that links to the <select> element
+     * @param   string  $option  The text in the <option> to be selected in the chosen selector
      *
      * @return void
      */
@@ -226,5 +426,454 @@ class JoomlaBrowser extends WebDriver
         $this->debug("I select $option");
         $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
         $I->wait(1); // Gives time to chosen to close
+    }
+
+    /**
+     * Selects an option in a Chosen Selector based on its label
+     *
+     * @param   string  $selectId  The id of the <select> element
+     * @param   string  $option    The text in the <option> to be selected in the chosen selector
+     *
+     * @return void
+     */
+    public function selectOptionInChosenById($selectId, $option)
+    {
+        $chosenSelectID = $selectId . '_chzn';
+        $I = $this;
+        $this->debug("I open the $chosenSelectID chosen selector");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
+        $this->debug("I select $option");
+        $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
+        $I->wait(1); // Gives time to chosen to close
+    }
+
+    /**
+     * Selects one or more options in a Chosen Multiple Select based on its label
+     *
+     * @param   string  $label    Label of the select field
+     * @param   array   $options  Array of options to be selected
+     *
+     * @return void
+     */
+    public function selectMultipleOptionsInChosen($label, $options)
+    {
+        $select = $this->findField($label);
+        $selectID = $select->getAttribute('id');
+        $chosenSelectID = $selectID . '_chzn';
+        $I = $this;
+        foreach ($options as $option)
+        {
+            $this->debug("I open the $label chosen selector");
+            $I->click(['xpath' => "//div[@id='$chosenSelectID']/ul"]);
+            $this->debug("I select $option");
+            $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[contains(text()[normalize-space()], '$option')]"]);
+            $I->wait(1); // Gives time to chosen to close
+        }
+    }
+
+    /**
+     * Function to Logout from Administrator Panel in Joomla!
+     *
+     * @return void
+     */
+    public function doAdministratorLogout()
+    {
+        $I = $this;
+        $I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
+        $this->debug("I click on Top Right corner toggle to Logout from Admin");
+        $I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
+        $I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
+        $I->waitForElement(['id' => 'mod-login-username'], 60);
+        $I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
+
+    }
+
+	/**
+	 * Function to Enable a Plugin
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return void
+	 */
+	public function enablePlugin($pluginName)
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_plugins');
+		$this->debug('I check for Notices and Warnings');
+		$this->checkForPhpNoticesOrWarnings();
+		$I->searchForItem($pluginName);
+		$I->waitForElement($this->searchResultPluginName($pluginName), 30);
+		$I->checkExistenceOf($pluginName);
+		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->clickToolbarButton('publish');
+		$I->see('successfully enabled', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * Function to return Path for the Plugin Name to be searched for
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return string
+	 */
+	private function searchResultPluginName($pluginName)
+	{
+		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
+
+		return $path;
+	}
+
+	/**
+	 * Uninstall Extension based on a name
+	 *
+	 * @param   string  $extensionName  Is important to use a specific
+	 */
+	public function uninstallExtension($extensionName)
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
+		$I->waitForText('Extensions: Manage','30', ['css' => 'H1']);
+		$I->searchForItem($extensionName);
+		$I->waitForElement(['id' => 'manageList'],'30');
+		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
+		$I->see('was successful', ['id' => 'system-message-container']);
+		$I->searchForItem($extensionName);
+		$I->waitForText('There are no extensions installed matching your query.',60, ['class' => 'alert-no-items']);
+		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
+		$this->debug('Extension successfully uninstalled');
+	}
+
+	/**
+	 * Function to Search For an Item in Joomla! Administrator Lists views
+	 *
+	 * @param   String  $name  Name of the Item which we need to Search
+	 *
+	 * @return void
+	 */
+	public function searchForItem($name = null)
+	{
+		$I = $this;
+		if($name)
+		{
+			$I->debug("Searching for $name");
+			$I->fillField(['id' => "filter_search"],$name);
+			$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		}
+		else
+		{
+			$I->debug('clearing search filter');
+			$I->click(['xpath' => "//button[@type='button' and @data-original-title='Clear']"]);
+		}
+	}
+
+	/**
+	 * Function to Check of the Item Exist in Search Results in Administrator List.
+	 *
+	 * note: on long lists of items the item that your are looking for may not appear in the first page. We recommend
+	 * the usage of searchForItem method before using the current method.
+	 *
+	 * @param   String  $name  Name of the Item which we are Searching For
+	 *
+	 * @return void
+	 */
+	public function checkExistenceOf($name)
+	{
+		$I = $this;
+		$I->debug("Verifying if $name exist in search result");
+		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
+		$I->see($name,['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
+	}
+
+	/**
+	 * Function to select all the item in the Search results in Administrator List
+	 *
+	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
+	 *
+	 * @return void
+	 */
+	public function checkAllResults()
+	{
+		$I = $this;
+		$this->debug("Selecting Checkall button");
+		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
+	}
+
+    /**
+     * Function to install a language through the interface
+     *
+     * @param string $languageName Name of the language you want to install
+     *
+     * @return void
+     */
+    public function installLanguage($languageName)
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_installer&view=languages');
+        $this->debug('I check for Notices and Warnings');
+        $this->checkForPhpNoticesOrWarnings();
+        $this->debug('Refreshing languages');
+        $I->click(['xpath' => "//div[@id='toolbar-refresh']/button"]);
+        $I->waitForElement(['id' => 'j-main-container'], 30);
+        $I->searchForItem($languageName);
+        $I->waitForElement($this->searchResultLanguageName($languageName), 30);
+        $I->click(['id' => "cb0"]);
+        $I->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
+        $I->waitForText('was successful.',60, ['id' => 'system-message-container']);
+        $I->see('No Matching Results',['class' => 'alert-no-items']);
+        $this->debug($languageName . ' successfully installed');
+    }
+
+    /**
+     * Function to return Path for the Language Name to be searched for
+     *
+     * @param   String $languageName Name of the language
+     *
+     * @return string
+     */
+    private function searchResultLanguageName($languageName)
+    {
+        $xpath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
+
+        return $xpath;
+    }
+
+    /**
+     * Publishes a module on frontend in given position
+     *
+     * @param   string  $module    The full name of the module
+     * @param   string  $position  The template position of a module. Right position by default
+     */
+    public function setModulePosition($module, $position = 'position-7')
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_modules');
+        $I->searchForItem($module);
+        $I->click(['link' => $module]);
+        $I->waitForText($module, 30, ['css' => 'H3']);
+        $I->selectOptionInChosen('Position', $position);
+		$I->clickToolbarButton('save');
+        $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
+    }
+
+    /**
+     * Publishes a module on all frontend pages
+     *
+     * @param   string  $module  The full name of the module
+     */
+    public function publishModule($module)
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_modules');
+        $I->searchForItem($module);
+        $I->checkAllResults();
+		$I->clickToolbarButton('publish');
+        $I->waitForText('1 module successfully published.',30,['id' => 'system-message-container']);
+    }
+
+    /**
+     * Changes the module Menu assignment to be shown on all the pages of the website
+     *
+     * @param   string  $module  The full name of the module
+     */
+    public function displayModuleOnAllPages($module)
+    {
+        $I = $this;
+        $I->amOnPage('administrator/index.php?option=com_modules');
+        $I->searchForItem($module);
+        $I->click(['link' => $module]);
+        $I->waitForElement(['link' => 'Menu Assignment'], 30);
+        $I->click(['link' => 'Menu Assignment']);
+        $I->waitForElement(['id' => 'jform_menus-lbl'], 30);
+        $I->click(['id' => 'jform_assignment_chzn']);
+        $I->click(['xpath' => "//li[@data-option-array-index='0']"]);
+		$I->clickToolbarButton('save');
+        $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
+    }
+
+	/**
+	 * Function to select Toolbar buttons in Joomla! Admin Toolbar Panel
+	 *
+	 * @param   string  $button  The full name of the button
+	 */
+	public function clickToolbarButton($button)
+	{
+		$I = $this;
+		$input = strtolower($button);
+
+		$element = $this->webDriver->findElements(WebDriverBy::linkText("Toolbar"));
+		if(!empty($element) && $element[0]->isDisplayed())
+		{
+			$I->click('Toolbar');
+		}
+		switch($input)
+		{
+			case "new":
+				$I->click(['xpath' => "//div[@id='toolbar-new']//button"]);
+				break;
+			case "edit":
+				$I->click(['xpath' => "//div[@id='toolbar-edit']//button"]);
+				break;
+			case "publish":
+				$I->click(['xpath' => "//div[@id='toolbar-publish']//button"]);
+				break;
+			case "unpublish":
+				$I->click(['xpath' => "//div[@id='toolbar-unpublish']//button"]);
+				break;
+			case "archive":
+				$I->click(['xpath' => "//div[@id='toolbar-archive']//button"]);
+				break;
+			case "check-in":
+				$I->click(['xpath' => "//div[@id='toolbar-checkin']//button"]);
+				break;
+			case "batch":
+				$I->click(['xpath' => "//div[@id='toolbar-batch']//button"]);
+				break;
+			case "rebuild":
+				$I->click(['xpath' => "//div[@id='toolbar-refresh']//button"]);
+				break;
+			case "trash":
+				$I->click(['xpath' => "//div[@id='toolbar-trash']//button"]);
+				break;
+			case "save":
+				$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+				break;
+			case "save & close":
+				$I->click(['xpath' => "//div[@id='toolbar-save']//button"]);
+				break;
+			case "save & new":
+				$I->click(['xpath' => "//div[@id='toolbar-save-new']//button"]);
+				break;
+			case "cancel":
+				$I->click(['xpath' => "//div[@id='toolbar-cancel']//button"]);
+				break;
+			case "options":
+				$I->click(['xpath' => "//div[@id='toolbar-options']//button"]);
+				break;
+			case "empty trash":
+				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
+				break;
+		}
+	}
+
+	/**
+	 * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
+	 *
+	 * @param   string  $menuTitle     The menu item title
+	 * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
+	 * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
+	 * @param   string  $menu          The menu where the item should be created
+	 * @param   string  $language      If you are using Multilingual feature, the language for the menu
+	 */
+	public function createMenuItem($menuTitle, $menuCategory, $menuItem, $menu = 'Main Menu', $language = 'All')
+	{
+		$I = $this;
+
+		$I->debug("I open the menus page");
+		$I->amOnPage('administrator/index.php?option=com_menus&view=menus');
+		$I->waitForText('Menus', '60', ['css' => 'H1']);
+		$this->checkForPhpNoticesOrWarnings();
+
+		$I->debug("I click in the menu: $menu");
+		$I->click(['link' =>  $menu]);
+		$I->waitForText('Menus: Items', '60', ['css' => 'H1']);
+		$this->checkForPhpNoticesOrWarnings();
+
+		$I->debug("I click new");
+		$I->clickToolbarButton('new');
+		$I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
+		$this->checkForPhpNoticesOrWarnings();
+		$I->fillField(['id' => 'jform_title'], $menuTitle);
+
+		$I->debug("Open the menu types iframe");
+		$I->click(['link' => "Select"]);
+		$I->waitForElement(['id' => 'menuTypeModal'], '60');
+		$I->switchToIFrame("Menu Item Type");
+
+		$I->debug("Open the menu category: $menuCategory");
+		// Open the category
+		$I->wait(1);
+		$I->waitForElement(['link' => $menuCategory], '60');
+		$I->click(['link' => $menuCategory]);
+
+		$I->debug("Choose the menu item type: $menuItem");
+		$I->wait(1);
+		$I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], '60');
+		$I->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
+		$I->debug('I switch back to the main window');
+		$I->switchToIFrame();
+		$I->debug('I leave time to the iframe to close');
+		$I->wait(2);
+		$I->selectOptionInChosen('Language', $language);
+		$I->waitForText('Menus: New Item','30', ['css' => 'h1']);
+		$I->debug('I save the menu');
+		$I->clickToolbarButton('save');
+
+		$I->waitForText('Menu item successfully saved', '60', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * Function to filter results in Joomla! Administrator.
+	 *
+	 * @param  string  $label  Label of the Filter you want to use.
+	 * @param  string  $value  Value you want to set in the filters.
+	 *
+	 * @return void
+	 */
+	public function setFilter($label, $value)
+	{
+		$label = strtolower($label);
+		$filters = array(
+			"select status" 	=> "filter_published",
+			"select access"		=> "filter_access",
+			"select language" 	=> "filter_language",
+			"select tag"		=> "filter_tag",
+			"select max levels"	=> "filter_level"
+		);
+		$I = $this;
+		$I->click(['xpath' => "//button[@data-original-title='Filter the list items.']"]);
+		$I->debug('I try to select the filters');
+		foreach($filters as $fieldName => $id)
+		{
+			if($fieldName == $label)
+			{
+				$I->waitForElement(['xpath' => "//div[@id='" . $id . "_chzn']/a"], 10);
+				$I->click(['xpath' => "//div[@id='" . $id . "_chzn']/a"]);
+				$I->click(['xpath' => "//div[@id='" . $id . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"]);
+			}
+		}
+		$I->debug('Applied filters');
+	}
+
+	/**
+	 * Function to Verify the Tabs on a Joomla! screen
+	 *
+	 * @param  Array  $expectedTabs   Expected Tabs on the Page
+	 * @param  Mixed  $tabsLocator    Locator for the Tabs in Edit View
+	 *
+	 * @return void
+	 */
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	{
+		$I = $this;
+		$actualArrayOfTabs = $I->grabMultiple($tabsLocator);
+		$I->debug("Fetch the current list of Tabs in the edit view which is: " . implode(", ", $actualArrayOfTabs));
+		$url = $I->grabFromCurrentUrl();
+		$I->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
+		$I->debug('Verify the Tabs');
+	}
+
+    /**
+     * Hide the statistics info message
+     *
+     * @note: doAdminLogin() before
+     */
+    public function disableStatistics()
+    {
+        $I = $this;
+        $this->debug('I click on never');
+        $I->waitForElement(['link' => 'Never'], 60);
+        $I->click(['link' => 'Never']);
     }
 }

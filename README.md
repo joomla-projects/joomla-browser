@@ -9,24 +9,57 @@
   * [Loading the Module in Codeception](loading-the-module-in-codeception)
 
 ## The Joomla Browser
-Joomla Browser with Codeception Module Functionality
+Joomla Browser is a Codeception.com Module. It allows to build `system tests` for a Joomla site much faster providing a set of predefined tasks. 
+
+In between the available functions you can find:
+
+* INSTALLATION:
+  * install joomla
+  * install Joomla removing Installation Folder
+  * install Joomla Multilingual Site
+* ADMINISTRATOR:
+  * do administrator login
+  * do administrator logout
+  * set error reporting to development
+  * search for item
+  * check for item existence
+  * publish a module
+  * setting a module position and publishing it
+  * EXTENSION MANAGER
+    * install extension from Folder
+    * install extension from url
+    * enable plugin
+    * uninstall extension
+    * search result plugin name
+* FRONTEND:
+  * do frontend login
+* ADMINISTRATOR USER INTERFACE:
+  * select option in chosen
+  * select Option In Radio Field
+  * select Multiple Options In Chosen
+* OTHERS:
+  * check for php notices or warnings
+
+
+The Joomla Browser is constantly evolving and more methods are being added every month. 
+To find a full list of them check the public methods at: https://github.com/joomla-projects/joomla-browser/blob/develop/src/JoomlaBrowser.php
+
+
+## Joomla Browser in action
+If you want to see a working example of JoomlaBrowser check weblinks tests: https://github.com/joomla-extensions/weblinks#tests
 
 ## Using Instructions
-Update Composer.json file in your project, adding 
+Update Composer.json file in your project, and download
 
 ### Download
 
 ```
-"require" :  "joomla-projects/joomla-browser": "dev-develop"
-```
-then do a
-```
-composer update 
+composer require joomla-projects/joomla-browser:dev-develop
 ```
 
 ### Loading the Module in Codeception
 
-Finally Make changes in Acceptance.suite.yml add JoomlaBrowser as a Module 
+Finally make the following changes in Acceptance.suite.yml to add JoomlaBrowser as a Module. 
 
 Your original `acceptance.suite.yml`probably looks like:
 
@@ -46,7 +79,7 @@ modules:
             ...
 ```
 
-You are asked to remove WebDriver module and change it by the JoomlaBrowser module:
+You should remove the WebDriver module and replace it with the JoomlaBrowser module:
 
 ```yaml
     config:
@@ -72,3 +105,13 @@ You are asked to remove WebDriver module and change it by the JoomlaBrowser modu
         AcceptanceHelper:
             ...
 ```
+
+## Tools
+Joomla Browser comes with a set of tools added via robo.li
+
+### Code Style Checker
+To check automatically the code style execute the following commands in your Terminal window at the root of the repository:
+
+- `$ composer install`
+- `$ vendor/bin/robo`
+- `$ vendor/bin/robo check:codestyle`
