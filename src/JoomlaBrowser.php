@@ -290,7 +290,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I wait for error reporting dropdown');
         $I->selectOptionInChosen('Error Reporting', 'Development');
         $this->debug('I click on save');
-        $I->clickToolbarButton('save');
+        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
         $this->debug('I wait for global configuration being saved');
         $I->waitForText('Global Configuration',60,['css' => '.page-title']);
         $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
@@ -505,7 +505,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElement($this->searchResultPluginName($pluginName), 30);
 		$I->checkExistenceOf($pluginName);
 		$I->click(['xpath' => "//input[@id='cb0']"]);
-		$I->clickToolbarButton('publish');
+		$I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
 		$I->see('successfully enabled', ['id' => 'system-message-container']);
 	}
 
@@ -653,7 +653,7 @@ class JoomlaBrowser extends WebDriver
         $I->click(['link' => $module]);
         $I->waitForText($module, 30, ['css' => 'H3']);
         $I->selectOptionInChosen('Position', $position);
-		$I->clickToolbarButton('save');
+        $I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
         $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
     }
 
@@ -668,7 +668,7 @@ class JoomlaBrowser extends WebDriver
         $I->amOnPage('administrator/index.php?option=com_modules');
         $I->searchForItem($module);
         $I->checkAllResults();
-		$I->clickToolbarButton('publish');
+        $I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
         $I->waitForText('1 module successfully published.',30,['id' => 'system-message-container']);
     }
 
@@ -688,7 +688,7 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement(['id' => 'jform_menus-lbl'], 30);
         $I->click(['id' => 'jform_assignment_chzn']);
         $I->click(['xpath' => "//li[@data-option-array-index='0']"]);
-		$I->clickToolbarButton('save');
+        $I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
         $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
     }
 
@@ -702,11 +702,6 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$input = strtolower($button);
 
-		$element = $this->webDriver->findElements(WebDriverBy::linkText("Toolbar"));
-		if(!empty($element) && $element[0]->isDisplayed())
-		{
-			$I->click('Toolbar');
-		}
 		switch($input)
 		{
 			case "new":
@@ -781,7 +776,7 @@ class JoomlaBrowser extends WebDriver
 		$this->checkForPhpNoticesOrWarnings();
 
 		$I->debug("I click new");
-		$I->clickToolbarButton('new');
+		$I->click("New");
 		$I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
 		$this->checkForPhpNoticesOrWarnings();
 		$I->fillField(['id' => 'jform_title'], $menuTitle);
@@ -808,7 +803,7 @@ class JoomlaBrowser extends WebDriver
 		$I->selectOptionInChosen('Language', $language);
 		$I->waitForText('Menus: New Item','30', ['css' => 'h1']);
 		$I->debug('I save the menu');
-		$I->clickToolbarButton('save');
+		$I->click("Save");
 
 		$I->waitForText('Menu item successfully saved', '60', ['id' => 'system-message-container']);
 	}
