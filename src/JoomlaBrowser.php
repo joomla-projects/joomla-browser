@@ -429,7 +429,7 @@ class JoomlaBrowser extends WebDriver
     }
 
     /**
-     * Selects an option in a Chosen Selector based on its label
+     * Selects an option in a Chosen Selector based on its id
      *
      * @param   string  $selectId  The id of the <select> element
      * @param   string  $option    The text in the <option> to be selected in the chosen selector
@@ -446,6 +446,27 @@ class JoomlaBrowser extends WebDriver
         $I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
         $I->wait(1); // Gives time to chosen to close
     }
+
+	/**
+	 * Selects an option in a Chosen Selector based on its id
+	 *
+	 * @param   string  $selectId  The id of the <select> element
+	 * @param   string  $option    The text in the <option> to be selected in the chosen selector
+	 *
+	 * @return void
+	 */
+	public function selectOptionInChosenByIdUsingJs($selectId, $option)
+	{
+		$I = $this;
+
+		$option = trim($option);
+		$I->executeJS("jQuery('#$selectId option').filter(function(){ return this.text.trim() === \"$option\" }).prop('selected', true);");
+		$I->executeJS("jQuery('#$selectId').trigger('liszt:updated').trigger('chosen:updated');");
+		$I->executeJS("jQuery('#$selectId').trigger('change');");
+
+		// give time to Chosen to update
+		$I->wait(1);
+	}
 
     /**
      * Selects one or more options in a Chosen Multiple Select based on its label
@@ -831,16 +852,16 @@ class JoomlaBrowser extends WebDriver
 			"select tag"		=> "filter_tag",
 			"select max levels"	=> "filter_level"
 		);
+
 		$I = $this;
 		$I->click(['xpath' => "//button[@data-original-title='Filter the list items.']"]);
 		$I->debug('I try to select the filters');
+
 		foreach($filters as $fieldName => $id)
 		{
 			if($fieldName == $label)
 			{
-				$I->waitForElement(['xpath' => "//div[@id='" . $id . "_chzn']/a"], 10);
-				$I->click(['xpath' => "//div[@id='" . $id . "_chzn']/a"]);
-				$I->click(['xpath' => "//div[@id='" . $id . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"]);
+				$I->selectOptionInChosenByIdUsingJs($id, $value);
 			}
 		}
 		$I->debug('Applied filters');
