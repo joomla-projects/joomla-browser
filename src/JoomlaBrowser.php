@@ -500,6 +500,13 @@ class JoomlaBrowser extends WebDriver
     public function doAdministratorLogout()
     {
         $I = $this;
+
+        if ($this->isPhoneScreen())
+        {
+            $this->debug("I click on Top Nav Menu");
+            $I->click(['xpath' => "//div[@class='container-fluid']//a[@class='btn btn-navbar collapsed']"]);
+        }
+
         $I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
         $this->debug("I click on Top Right corner toggle to Logout from Admin");
         $I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
@@ -723,11 +730,11 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$input = strtolower($button);
 
-		$screenSize = explode("x",$this->config['window_size']);
-		if($screenSize[0] <= 480)
+		if ($this->isPhoneScreen())
 		{
 			$I->click('Toolbar');
 		}
+
 		switch($input)
 		{
 			case "new":
@@ -896,5 +903,17 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I click on never');
         $I->waitForElement(['link' => 'Never'], 60);
         $I->click(['link' => 'Never']);
+    }
+
+    /**
+     * Check screen size is phone or not
+     *
+     * @return  boolean  Return true when size is of phone.
+     */
+    public function isPhoneScreen()
+    {
+        $screenSize = explode("x",$this->config['window_size']);
+
+        return ($screenSize[0] <= 480);
     }
 }
