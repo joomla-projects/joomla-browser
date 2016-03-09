@@ -817,6 +817,7 @@ class JoomlaBrowser extends WebDriver
 		if ($this->isPhoneScreen())
 		{
 			$I->click('Toolbar');
+			$I->executeJS('window.scrollTo(0,0);');
 		}
 
 		switch ($input)
