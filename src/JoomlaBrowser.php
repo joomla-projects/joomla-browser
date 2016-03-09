@@ -569,6 +569,11 @@ class JoomlaBrowser extends WebDriver
 		{
 			$this->debug("I click on Top Nav Menu");
 			$I->click(['xpath' => "//div[@class='container-fluid']//a[@class='btn btn-navbar collapsed']"]);
+			$I->waitForElement(
+				['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"],
+				60
+			);
+			$I->wait(1);
 		}
 
 		$I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
