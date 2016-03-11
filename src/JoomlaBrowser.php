@@ -901,8 +901,8 @@ class JoomlaBrowser extends WebDriver
     /**
      * Function to delete the menu item
      *
-     * @param  string  $menuItem   Menu Item to be deleted
-     * @param  string  $menu    Menu type of the menu item
+     * @param   string  $menuItem  Menu Item to be deleted
+     * @param   string  $menu      Menu type of the menu item
      *
      * @return void
      */
@@ -921,10 +921,7 @@ class JoomlaBrowser extends WebDriver
         $I->searchForItem($title);
         $I->waitForText('No Matching Results',60, ['class' => 'alert-no-items']);
         $I->see('There are no menu items matching your query.', ['class' => 'alert-no-items']);
-
-        //search the menuitem from the search bar and then trash it.
         $I->setFilter('Select Status', 'Trashed');
-
         $I->click(['xpath' => "//input[@id='cb0']"]);
         $I->click(['xpath' => "//button[@onclick=\"if (document.adminForm.boxchecked.value==0){alert('Please first make a selection from the list.');}else{ Joomla.submitbutton('items.delete')}\"]"]);
         $I->see("1 menu item successfully deleted.",['id' => 'system-message-container']);
