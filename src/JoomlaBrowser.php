@@ -928,4 +928,3 @@ class JoomlaBrowser extends WebDriver
     }
 }
 
-
