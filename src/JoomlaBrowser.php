@@ -898,7 +898,7 @@ class JoomlaBrowser extends WebDriver
         $I->click(['link' => 'Never']);
     }
     
-        /**
+    /**
      * Function to delete the menu item
      *
      * @param  string  $menuItem   Menu Item to be deleted
