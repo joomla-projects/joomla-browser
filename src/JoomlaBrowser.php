@@ -930,3 +930,5 @@ class JoomlaBrowser extends WebDriver
         $I->see("1 menu item successfully deleted.",['id' => 'system-message-container']);
     }
 }
+
+
