@@ -141,8 +141,6 @@ class JoomlaBrowser extends WebDriver
 
 		// @todo: activate the filesystem module
 
-		/*$I->expect('no configuration.php is in the Joomla CMS folder');
-		$I->dontSeeFileFound('configuration.php', $this->config['Joomla folder')];*/
 		$this->debug('I open Joomla Installation Configuration Page');
 		$I->amOnPage('/installation/index.php');
 		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough permissions to install joomla and execution will be stoped');
@@ -212,14 +210,6 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForText('Finalisation', 60, ['xpath' => '//h3']);
 
 		// @todo: installation of sample data needs to be created
-
-		/*if ($this->config['install sample data']) :
-			$this->debug('I install Sample Data:' . $this->config['sample data']);
-			$I->selectOption('#jform_sample_file', $this->config['sample data']);
-		else :
-			$this->debug('I install Joomla without Sample Data');
-			$I->selectOption('#jform_sample_file', '#jform_sample_file0'); // No sample data
-		endif;*/
 
 		// No sample data
 		$I->selectOption(['id' => 'jform_sample_file'], ['id' => 'jform_sample_file0']);
@@ -296,16 +286,6 @@ class JoomlaBrowser extends WebDriver
 
 		// @todo https://github.com/joomla-projects/joomla-browser/issues/45
 		$I->wait(2);
-
-		/*
-		$I->waitForElementChange(
-			['xpath' => "//input[@name='instDefault']"],
-			function(WebDriverElement $el) {
-				return !$el->isEnabled();
-			},
-			60
-		);
-		*/
 
 		$this->debug('Joomla is now installed');
 		$I->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h3']);
@@ -802,8 +782,9 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$input = strtolower($button);
 
-		$screenSize = explode("x",$this->config['window_size']);
-		if($screenSize[0] <= 480)
+		$screenSize = explode("x", $this->config['window_size']);
+
+		if ($screenSize[0] <= 480)
 		{
 			$I->click('Toolbar');
 		}
