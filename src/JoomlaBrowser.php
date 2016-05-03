@@ -673,6 +673,7 @@ class JoomlaBrowser extends WebDriver
         $I->searchForItem($module);
         $I->click(['link' => $module]);
         $I->waitForText("Modules: $module", 30, ['css' => 'h1.page-title']);
+        $I->click(['link' => 'Module']);
         $I->selectOptionInChosen('Position', $position);
         $I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
         $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
