@@ -558,6 +558,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElement(['id' => 'manageList'],'30');
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$I->acceptPopup();
 		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
 		$I->see('was successful', ['id' => 'system-message-container']);
 		$I->searchForItem($extensionName);
