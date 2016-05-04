@@ -558,6 +558,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElement(['id' => 'manageList'],'30');
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$I->acceptPopup();
 		$I->waitForText('was successful','30', ['id' => 'system-message-container']);
 		$I->see('was successful', ['id' => 'system-message-container']);
 		$I->searchForItem($extensionName);
@@ -672,7 +673,9 @@ class JoomlaBrowser extends WebDriver
         $I->amOnPage('administrator/index.php?option=com_modules');
         $I->searchForItem($module);
         $I->click(['link' => $module]);
-        $I->waitForText($module, 30, ['css' => 'H3']);
+        $I->waitForText("Modules: $module", 30, ['css' => 'h1.page-title']);
+        $I->click(['link' => 'Module']);
+        $I->waitForText($module, 30, ['css' => 'h3']);
         $I->selectOptionInChosen('Position', $position);
         $I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
         $I->waitForText('Module successfully saved',30,['id' => 'system-message-container']);
@@ -810,6 +813,7 @@ class JoomlaBrowser extends WebDriver
 		$I->debug("Open the menu types iframe");
 		$I->click(['link' => "Select"]);
 		$I->waitForElement(['id' => 'menuTypeModal'], '60');
+		$I->wait(1);
 		$I->switchToIFrame("Menu Item Type");
 
 		$I->debug("Open the menu category: $menuCategory");
