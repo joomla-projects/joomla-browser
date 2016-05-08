@@ -349,8 +349,7 @@ class JoomlaBrowser extends WebDriver
         $I->click(['link' => 'Install from URL']);
         $this->debug('I enter the url');
         $I->fillField(['id' => 'install_url'], $url);
-        // @todo: we need to find a better locator for the following Install button
-        $I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton4()')]"]); // Install button
+        $I->click(['xpath' => "//div[@id='url']/fieldset/div[2]/input"]); // Install button
         $I->waitForText('was successful','30', ['id' => 'system-message-container']);
         if ($type == 'Extension')
         {
