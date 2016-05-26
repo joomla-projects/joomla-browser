@@ -899,4 +899,34 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement(['link' => 'Never'], 60);
         $I->click(['link' => 'Never']);
     }
+    
+    /**
+     * Function to delete the menu item
+     *
+     * @param   string  $menuItem  Menu Item to be deleted
+     * @param   string  $menu      Menu type of the menu item
+     *
+     * @return void
+     */
+    public function deleteMenuItem($menuItem, $menu)
+    {
+        $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
+        $click(['xpath' => "//a[contains(text()," . $menu . ")]"]);
+        $I->waitForText('Menus: items (' . $menu . ')', '30', ['css' => 'h1']);
+        $I->searchForItem($title);
+        $I->click(['xpath' => "//input[@id='cb0']"]);
+        $I->click(['xpath'=> "//button[@onclick=\"if (document.adminForm.boxchecked.value==0){alert('Please first make a selection from the list.');}else{ Joomla.submitbutton('items.trash')}\"]"]);
+        $I->waitForText('Menus: Items (Main Menu)', '30', ['css' => 'h1']);
+        $I->expectTo('see a success message and the menu removed from the list');
+        $I->waitForText('1 menu item successfully trashed.', ['id' => 'system-message-container']);
+        $I->see('1 menu item successfully trashed.', ['id' => 'system-message-container']);
+        $I->searchForItem($title);
+        $I->waitForText('No Matching Results', 60, ['class' => 'alert-no-items']);
+        $I->see('There are no menu items matching your query.', ['class' => 'alert-no-items']);
+        $I->setFilter('Select Status', 'Trashed');
+        $I->click(['xpath' => "//input[@id='cb0']"]);
+        $I->click(['xpath' => "//button[@onclick=\"if (document.adminForm.boxchecked.value==0){alert('Please first make a selection from the list.');}else{ Joomla.submitbutton('items.delete')}\"]"]);
+        $I->see("1 menu item successfully deleted.", ['id' => 'system-message-container']);
+    }
 }
+
