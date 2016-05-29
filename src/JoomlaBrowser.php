@@ -776,6 +776,12 @@ class JoomlaBrowser extends WebDriver
 			case "empty trash":
 				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
 				break;
+			case "unblock":
+				$I->click(['xpath' => "//div[@id='toolbar-unblock']//button"]);
+				break;
+			case "featured":
+				$I->click(['xpath' => "//div[@id='toolbar-featured']//button"]);
+				break;
 		}
 	}
 
@@ -899,4 +905,18 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement(['link' => 'Never'], 60);
         $I->click(['link' => 'Never']);
     }
+
+	/**
+	 * Method is to set Wait for page title
+	 *
+	 * @param   string   $title    Page Title text
+	 * @param   integer  $waiting  Waiting time
+	 *
+	 * @return  void
+	 */
+	public function waitForPageTitle($title, $waiting = 60)
+	{
+		$I = $this;
+		$I->waitForText($title, $waiting, ['css' => '.page-title']);
+	}
 }
