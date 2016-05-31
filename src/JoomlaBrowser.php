@@ -914,9 +914,9 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @return  void
 	 */
-	public function waitForPageTitle($title, $waiting = 60)
+	public function waitForPageTitle($title, $timeout = 60)
 	{
 		$I = $this;
-		$I->waitForText($title, $waiting, ['css' => '.page-title']);
+		$I->waitForText($title, $timeout, ['class' => '.page-title']);
 	}
 }
