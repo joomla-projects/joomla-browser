@@ -290,7 +290,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I wait for error reporting dropdown');
         $I->selectOptionInChosen('Error Reporting', 'Development');
         $this->debug('I click on save');
-        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
+        $this->clickToolbarButton('save');
         $this->debug('I wait for global configuration being saved');
         $I->waitForText('Global Configuration',60,['css' => '.page-title']);
         $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
@@ -498,6 +498,18 @@ class JoomlaBrowser extends WebDriver
     public function doAdministratorLogout()
     {
         $I = $this;
+
+        if ($this->isPhoneScreen())
+		{
+			$this->debug("I click on Top Nav Menu");
+			$I->click(['xpath' => "//div[@class='container-fluid']//a[@class='btn btn-navbar collapsed']"]);
+			$I->waitForElement(
+				['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"],
+				60
+			);
+			$I->wait(1);
+		}
+
         $I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
         $this->debug("I click on Top Right corner toggle to Logout from Admin");
         $I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
@@ -505,7 +517,7 @@ class JoomlaBrowser extends WebDriver
         $I->waitForElement(['id' => 'mod-login-username'], 60);
         $I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
 
-    }
+	}
 
 	/**
 	 * Function to Enable a Plugin
@@ -724,11 +736,11 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$input = strtolower($button);
 
-		$screenSize = explode("x",$this->config['window_size']);
-		if($screenSize[0] <= 480)
+		if ($this->isPhoneScreen())
 		{
 			$I->click('Toolbar');
 		}
+
 		switch($input)
 		{
 			case "new":
@@ -898,5 +910,17 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I click on never');
         $I->waitForElement(['link' => 'Never'], 60);
         $I->click(['link' => 'Never']);
+    }
+
+    /**
+     * Check screen size is phone or not
+     *
+     * @return  boolean  Return true when size is of phone.
+     */
+    public function isPhoneScreen()
+    {
+        $screenSize = explode("x",$this->config['window_size']);
+
+        return ($screenSize[0] <= 480);
     }
 }
