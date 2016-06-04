@@ -290,7 +290,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I wait for error reporting dropdown');
         $I->selectOptionInChosen('Error Reporting', 'Development');
         $this->debug('I click on save');
-        $I->click(['xpath' => "//button[@onclick=\"Joomla.submitbutton('config.save.application.apply')\"]"]);
+        $I->clickToolbarButton('save');
         $this->debug('I wait for global configuration being saved');
         $I->waitForText('Global Configuration',60,['css' => '.page-title']);
         $I->see('Configuration successfully saved.',['id' => 'system-message-container']);
@@ -498,6 +498,13 @@ class JoomlaBrowser extends WebDriver
     public function doAdministratorLogout()
     {
         $I = $this;
+
+        if($this->isPhone())
+        {
+            $I->click(['xpath' => "//a[@class='btn btn-navbar collapsed']"]);
+            $I->wait(1); // Gives time for driver to read source
+        }
+
         $I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
         $this->debug("I click on Top Right corner toggle to Logout from Admin");
         $I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
@@ -724,10 +731,10 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$input = strtolower($button);
 
-		$screenSize = explode("x",$this->config['window_size']);
-		if($screenSize[0] <= 480)
+		if($this->isPhone())
 		{
 			$I->click('Toolbar');
+            $I->wait(1); // Gives time for driver to read source
 		}
 		switch($input)
 		{
@@ -898,5 +905,43 @@ class JoomlaBrowser extends WebDriver
         $this->debug('I click on never');
         $I->waitForElement(['link' => 'Never'], 60);
         $I->click(['link' => 'Never']);
+    }
+
+    /**
+     * Function to change the status of individual object
+     *
+     * @param  object   $selector   Object selected
+     * @param  Mixed    $status     Status to be selected
+     *
+     * @return void
+     */
+    public function changeIndividualStatus($selector, $status) {
+        $I = $this;
+        $I->debug('Try to select ' . $status . ' from the table');
+        $I->click(['xpath' => "//td[@class='nowrap has-context']//a[contains(text(), '$selector')]"]);
+        $I->waitForText('Edit', '30', ['css' => 'h1']);
+        $I->debug("Select $status from status dropdown");
+        $I->click(['xpath' => "//div[@id='jform_state_chzn']"]);
+        $I->click(['xpath' => "//div[@id='jform_state_chzn']//ul//li[contains(text(), '$status')]"]);
+
+        if($this->isPhone())
+        {
+            $I->click('Toolbar');
+            $I->wait(1); // Gives time for driver to read source
+        }
+        $I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+    }
+
+    /**
+     * To check if using phone
+     */
+    public function isPhone() {
+        $screenSize = explode("x", $this->config['window_size']);
+
+        if($screenSize[0] <= 480)
+        {
+            return true;
+        }
+        return false;
     }
 }
