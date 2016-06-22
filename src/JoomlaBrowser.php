@@ -11,7 +11,7 @@ namespace Codeception\Module;
 use Codeception\Module\WebDriver;
 
 /**
- * Joomla Browser class to perform test suits for joomla.
+ * Joomla Browser class to perform test suits for Joomla.
  *
  * @since  1.0
  */
@@ -139,11 +139,10 @@ class JoomlaBrowser extends WebDriver
 
 		// Install Joomla CMS');
 
-		// @todo: activate the filesystem module
-
 		$this->debug('I open Joomla Installation Configuration Page');
 		$I->amOnPage('/installation/index.php');
-		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough permissions to install joomla and execution will be stoped');
+		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
+			. 'permissions to install joomla and execution will be stoped');
 		$I->dontSeeElement(['id' => 'ftp']);
 
 		// I Wait for the text Main Configuration, meaning that the page is loaded
@@ -324,6 +323,7 @@ class JoomlaBrowser extends WebDriver
 	 * @note: doAdminLogin() before
 	 *
 	 * @deprecated  since Joomla 3.4.4-dev. Use installExtensionFromFolder($path, $type = 'Extension') instead.
+	 *
 	 * @return      void
 	 */
 	public function installExtensionFromDirectory($path, $type = 'Extension')
@@ -350,11 +350,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['link' => 'Install from Folder']);
 		$this->debug('I enter the Path');
 		$I->fillField(['id' => 'install_directory'], $path);
-
-		// @todo: we need to find a better locator for the following Install button
-
-		// Install button
-		$I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton3()')]"]);
+		$I->click(['id' => 'installbutton_directory']);
 		$I->waitForText('was successful', '60', ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
@@ -377,10 +373,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['link' => 'Install from URL']);
 		$this->debug('I enter the url');
 		$I->fillField(['id' => 'install_url'], $url);
-
-		// @todo: we need to find a better locator for the following Install button
-		// Install button
-		$I->click(['xpath' => "//button[contains(@onclick,'Joomla.submitbutton4()')]"]);
+		$I->click(['id' => 'installbutton_url']);
 		$I->waitForText('was successful', '30', ['id' => 'system-message-container']);
 
 		if ($type == 'Extension')
@@ -550,7 +543,6 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
 		$I->waitForElement(['id' => 'mod-login-username'], 60);
 		$I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
-
 	}
 
 	/**
@@ -604,6 +596,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElement(['id' => 'manageList'], '30');
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$I->acceptPopup();
 		$I->waitForText('was successful', '30', ['id' => 'system-message-container']);
 		$I->see('was successful', ['id' => 'system-message-container']);
 		$I->searchForItem($extensionName);
@@ -717,7 +710,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $module    The full name of the module
 	 * @param   string  $position  The template position of a module. Right position by default
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function setModulePosition($module, $position = 'position-7')
 	{
@@ -725,7 +718,9 @@ class JoomlaBrowser extends WebDriver
 		$I->amOnPage('administrator/index.php?option=com_modules');
 		$I->searchForItem($module);
 		$I->click(['link' => $module]);
-		$I->waitForText($module, 30, ['css' => 'H3']);
+		$I->waitForText("Modules: $module", 30, ['css' => 'h1.page-title']);
+		$I->click(['link' => 'Module']);
+		$I->waitForElement(['id' => 'general'], 30);
 		$I->selectOptionInChosen('Position', $position);
 		$I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
 		$I->waitForText('Module successfully saved', 30, ['id' => 'system-message-container']);
@@ -873,6 +868,7 @@ class JoomlaBrowser extends WebDriver
 		$I->debug("Open the menu types iframe");
 		$I->click(['link' => "Select"]);
 		$I->waitForElement(['id' => 'menuTypeModal'], '60');
+		$I->wait(1);
 		$I->switchToIFrame("Menu Item Type");
 
 		$I->debug("Open the menu category: $menuCategory");
