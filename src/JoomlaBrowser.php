@@ -268,7 +268,7 @@ class JoomlaBrowser extends WebDriver
 		foreach ($languages as $language)
 		{
 			$I->debug('I mark the checkbox of the language: ' . $language);
-			$I->click(['xpath' => "//label[contains(text()[normalize-space()], '$language')]/input"]);
+			$I->click(['xpath' => "//label[contains(text()[normalize-space()], '$language')]"]);
 		}
 
 		$I->click(['link' => 'Next']);
