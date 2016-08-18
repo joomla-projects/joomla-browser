@@ -584,29 +584,50 @@ class JoomlaBrowser extends WebDriver
 	 * Uninstall Extension based on a name
 	 *
 	 * @param   string  $extensionName  Is important to use a specific
+	 * @param   string  $type           Extension type (component/module/plugin/library etc)
 	 *
 	 * @return  void
 	 */
-	public function uninstallExtension($extensionName)
+	public function uninstallExtension($extensionName, $type = 'Component')
 	{
 		$I = $this;
+
+		if (!empty($type))
+		{
+			$I->wantTo('Uninstall ' . $extensionName . ' ' . $type);
+		}
+		else
+		{
+			$I->wantTo('Uninstall ' . $extensionName . ' extension');
+		}
+
+		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
-		$I->waitForText('Extensions: Manage', '30', ['css' => 'H1']);
-		$I->searchForItem($extensionName);
-		$I->waitForElement(['id' => 'manageList'], '30');
-		$I->click(['xpath' => "//input[@id='cb0']"]);
-		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+
+		if (!empty($type))
+		{
+			$I->click("//button[@class='btn hasTooltip js-stools-btn-filter']");
+			$I->selectOptionInChosen('#filter_type', ucfirst($type));
+		}
+
+		$I->fillField('#filter_search', $extensionName);
+		$I->pressKey(['id' => 'filter_search'], WebDriverKeys::ENTER);
+		$I->waitForElement('#manageList');
+		$I->click("//input[@id='cb0']");
+		$I->click("Uninstall");
 		$I->acceptPopup();
-		$I->waitForText('was successful', '30', ['id' => 'system-message-container']);
-		$I->see('was successful', ['id' => 'system-message-container']);
-		$I->searchForItem($extensionName);
-		$I->waitForText(
-			'There are no extensions installed matching your query.',
-			60,
-			['class' => 'alert-no-items']
-		);
-		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
-		$this->debug('Extension successfully uninstalled');
+
+		if (!empty($type))
+		{
+			$I->see('Uninstalling the ' . strtolower($type) . ' was successful', '#system-message-container');
+		}
+
+		$I->fillField('#filter_search', $extensionName);
+		$I->pressKey(['id' => 'filter_search'], WebDriverKeys::ENTER);
+		$I->waitForText('There are no extensions installed matching your query.', 10, '.alert-no-items');
+		$I->see('There are no extensions installed matching your query.', '.alert-no-items');
+		$I->selectOptionInChosen('#filter_type', '- Select Type -');
+		$I->debug('Extension successfully uninstalled');
 	}
 
 	/**
