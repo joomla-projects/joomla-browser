@@ -1,29 +1,29 @@
 {
-    "name": "joomla-projects/joomla-browser",
-    "description": "joomla-browser Codeception Module",
-    "keywords":["BDD", "acceptance testing", "tdd", "joomla"],
-    "homepage":"https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
-    "license": "GPL-2.0+",
-    "authors": [
+    "name"          : "joomla-projects/joomla-browser",
+    "description"   : "joomla-browser Codeception Module",
+    "keywords"      : ["BDD", "acceptance testing", "tdd", "joomla"],
+    "homepage"      : "https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
+    "license"       : "GPL-2.0+",
+    "authors"       : [
         {
-            "name": "Puneet Kala",
-          "email": "puneet.kala@community.joomla.org"
+          "name"    : "Puneet Kala",
+          "email"   : "puneet.kala@community.joomla.org"
         },
         {
-          "name": "Javier Gomez",
-          "email": "javier.gomez@community.joomla.org"
+          "name"    : "Javier Gomez",
+          "email"   : "javier.gomez@community.joomla.org"
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php"                                   : ">=5.3.0",
+        "consolidation/robo"                    : "~1"
     },
     "require-dev": {
-        "codegyre/robo": "^0.5.3",
-        "joomla-projects/robo": "dev-master"
+        "joomla-projects/joomla-testing-robo"   : "~1.0"
     },
     "autoload": {
         "psr-4": {
-            "Codeception\\Module\\": "src"
+            "Codeception\\Module\\"             : "src"
         }
     }
 }
