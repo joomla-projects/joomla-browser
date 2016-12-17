@@ -359,7 +359,7 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Installs a Extension in Joomla that is located in a url
 	 *
-	 * @param   String  $url   Url address to the .zip file
+	 * @param   string  $url   Url address to the .zip file
 	 * @param   string  $type  Type of Extension
 	 *
 	 * {@internal doAdminLogin() before}
@@ -390,6 +390,43 @@ class JoomlaBrowser extends WebDriver
 		if ($type == 'Package')
 		{
 			$this->debug('Installation of the package was successful.' . $url);
+		}
+	}
+
+	/**
+	 * Installs a Extension in Joomla using the file upload option
+	 *
+	 * @param   string  $file   Path to the file in the _data folder
+	 * @param   string  $type  Type of Extension
+	 *
+	 * {@internal doAdminLogin() before}
+	 *
+	 * @return    void
+	 */
+	public function installExtensionFromFileUpload($file, $type = 'Extension')
+	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_installer');
+		$I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
+		$I->click(['link' => 'Upload Package File']);
+		$this->debug('I enter the file input');
+		$I->attachFile(['id' => 'install_package'], $file);
+		$I->click(['id' => 'installbutton_package']);
+		$I->waitForText('was successful', '30', ['id' => 'system-message-container']);
+
+		if ($type == 'Extension')
+		{
+			$this->debug('Extension successfully installed.');
+		}
+
+		if ($type == 'Plugin')
+		{
+			$this->debug('Installing plugin was successful.');
+		}
+
+		if ($type == 'Package')
+		{
+			$this->debug('Installation of the package was successful.');
 		}
 	}
 
