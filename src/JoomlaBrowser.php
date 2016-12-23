@@ -958,6 +958,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$I = $this;
 		$this->debug('I click on never');
+		$I->wait(1);
 		$I->waitForElement(['link' => 'Never'], 60);
 		$I->click(['link' => 'Never']);
 	}
