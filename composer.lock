@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cb842ef622442a681b76d44a4776b3b8",
-    "content-hash": "99cb0679ec06f6781afa395039a1633b",
+    "content-hash": "70e461d51f513227e24f9a1cc3383dc5",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "2.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "cd3bc8eae38abc480e39e7a171171e58f7dc6948"
+                "reference": "f8567e35cb83558f87f0f4bf0aaa6ef052b37e44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/cd3bc8eae38abc480e39e7a171171e58f7dc6948",
-                "reference": "cd3bc8eae38abc480e39e7a171171e58f7dc6948",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/f8567e35cb83558f87f0f4bf0aaa6ef052b37e44",
+                "reference": "f8567e35cb83558f87f0f4bf0aaa6ef052b37e44",
                 "shasum": ""
             },
             "require": {
@@ -57,20 +56,20 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-12-14 19:06:04"
+            "time": "2016-12-21 20:58:13"
         },
         {
             "name": "consolidation/log",
-            "version": "1.0.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/log.git",
-                "reference": "74ba81b4edc585616747cc5c5309ce56fec41254"
+                "reference": "bba3fd2f60116c1fcd8dcb80699d37155e6c9e5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/log/zipball/74ba81b4edc585616747cc5c5309ce56fec41254",
-                "reference": "74ba81b4edc585616747cc5c5309ce56fec41254",
+                "url": "https://api.github.com/repos/consolidation/log/zipball/bba3fd2f60116c1fcd8dcb80699d37155e6c9e5a",
+                "reference": "bba3fd2f60116c1fcd8dcb80699d37155e6c9e5a",
                 "shasum": ""
             },
             "require": {
@@ -80,6 +79,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
+                "satooshi/php-coveralls": "^1.0",
                 "squizlabs/php_codesniffer": "2.*"
             },
             "type": "library",
@@ -104,7 +104,7 @@
                 }
             ],
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
-            "time": "2016-03-23 23:46:42"
+            "time": "2016-07-06 18:40:16"
         },
         {
             "name": "consolidation/output-formatters",
@@ -153,20 +153,20 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2016-11-23 23:10:13"
+            "time": "2016-11-23T23:10:13+00:00"
         },
         {
             "name": "consolidation/robo",
-            "version": "1.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/Robo.git",
-                "reference": "d06450370e8e303ebd1495dfc956f4c6c1b9dd01"
+                "reference": "14c576b17f4831033ab32eb81de9bd16408e6432"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/d06450370e8e303ebd1495dfc956f4c6c1b9dd01",
-                "reference": "d06450370e8e303ebd1495dfc956f4c6c1b9dd01",
+                "url": "https://api.github.com/repos/consolidation/Robo/zipball/14c576b17f4831033ab32eb81de9bd16408e6432",
+                "reference": "14c576b17f4831033ab32eb81de9bd16408e6432",
                 "shasum": ""
             },
             "require": {
@@ -230,7 +230,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2016-11-24 02:07:48"
+            "time": "2016-12-14 19:38:38"
         },
         {
             "name": "container-interop/container-interop",
@@ -257,25 +257,25 @@
                 "MIT"
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
-            "time": "2014-12-30 15:22:37"
+            "time": "2014-12-30T15:22:37+00:00"
         },
         {
             "name": "league/container",
-            "version": "2.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/container.git",
-                "reference": "c0e7d947b690891f700dc4967ead7bdb3d6708c1"
+                "reference": "2f3c02f78363b83062637c8aafada273fe2f07bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/container/zipball/c0e7d947b690891f700dc4967ead7bdb3d6708c1",
-                "reference": "c0e7d947b690891f700dc4967ead7bdb3d6708c1",
+                "url": "https://api.github.com/repos/thephpleague/container/zipball/2f3c02f78363b83062637c8aafada273fe2f07bb",
+                "reference": "2f3c02f78363b83062637c8aafada273fe2f07bb",
                 "shasum": ""
             },
             "require": {
                 "container-interop/container-interop": "^1.1",
-                "php": ">=5.4.0"
+                "php": "^5.4.0 || ^7.0"
             },
             "provide": {
                 "container-interop/container-interop-implementation": "^1.1"
@@ -321,11 +321,11 @@
                 "provider",
                 "service"
             ],
-            "time": "2016-03-17 11:07:59"
+            "time": "2016-10-12 13:50:38"
         },
         {
             "name": "phpdocumentor/reflection-common",
-            "version": "1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionCommon.git",
@@ -420,7 +420,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2016-09-30 07:12:33"
+            "time": "2016-09-30T07:12:33+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -467,11 +467,11 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2016-11-25 06:54:22"
+            "time": "2016-11-25T06:54:22+00:00"
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
@@ -518,16 +518,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "d12aa9ca20f4db83ec58410978dab6afcb9d6aaa"
+                "reference": "8ff04945a20bf7da7ff391ebf9ea416fa437cf8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/d12aa9ca20f4db83ec58410978dab6afcb9d6aaa",
-                "reference": "d12aa9ca20f4db83ec58410978dab6afcb9d6aaa",
+                "url": "https://api.github.com/repos/symfony/console/zipball/8ff04945a20bf7da7ff391ebf9ea416fa437cf8c",
+                "reference": "8ff04945a20bf7da7ff391ebf9ea416fa437cf8c",
                 "shasum": ""
             },
             "require": {
@@ -550,7 +550,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -577,20 +577,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-12-11 14:34:22"
+            "time": "2016-12-27 10:45:09"
         },
         {
             "name": "symfony/debug",
-            "version": "v3.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "9f923e68d524a3095c5a2ae5fc7220c7cbc12231"
+                "reference": "10ceed25188f951c39358162864911dd1370ad15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/9f923e68d524a3095c5a2ae5fc7220c7cbc12231",
-                "reference": "9f923e68d524a3095c5a2ae5fc7220c7cbc12231",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/10ceed25188f951c39358162864911dd1370ad15",
+                "reference": "10ceed25188f951c39358162864911dd1370ad15",
                 "shasum": ""
             },
             "require": {
@@ -607,7 +607,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -634,20 +634,20 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-16 22:18:16"
+            "time": "2016-12-27 10:45:09"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "e8f47a327c2f0fd5aa04fa60af2b693006ed7283"
+                "reference": "75e386505f031bccbfb1cbf8e130f562611d4204"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/e8f47a327c2f0fd5aa04fa60af2b693006ed7283",
-                "reference": "e8f47a327c2f0fd5aa04fa60af2b693006ed7283",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/75e386505f031bccbfb1cbf8e130f562611d4204",
+                "reference": "75e386505f031bccbfb1cbf8e130f562611d4204",
                 "shasum": ""
             },
             "require": {
@@ -667,7 +667,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -694,20 +694,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-10-13 06:29:04"
+            "time": "2016-12-27 10:45:09"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "8d4cf7561a5b17e5eb7a02b80d0b8f014a3796d4"
+                "reference": "696d63087748bb651e69877a903ca389eb0db68a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/8d4cf7561a5b17e5eb7a02b80d0b8f014a3796d4",
-                "reference": "8d4cf7561a5b17e5eb7a02b80d0b8f014a3796d4",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/696d63087748bb651e69877a903ca389eb0db68a",
+                "reference": "696d63087748bb651e69877a903ca389eb0db68a",
                 "shasum": ""
             },
             "require": {
@@ -716,7 +716,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -743,20 +743,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-24 00:46:43"
+            "time": "2016-11-24 00:46:49"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "a69cb5d455b4885ca376dc5bb3e1155cc8c08c4b"
+                "reference": "5be3cba6105714206b86e577561c7842dcc60530"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/a69cb5d455b4885ca376dc5bb3e1155cc8c08c4b",
-                "reference": "a69cb5d455b4885ca376dc5bb3e1155cc8c08c4b",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/5be3cba6105714206b86e577561c7842dcc60530",
+                "reference": "5be3cba6105714206b86e577561c7842dcc60530",
                 "shasum": ""
             },
             "require": {
@@ -765,7 +765,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -792,11 +792,11 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-12-13 09:39:43"
+            "time": "2016-12-27 10:45:09"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -855,16 +855,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "02ea84847aad71be7e32056408bb19f3a616cdd3"
+                "reference": "d060993e395dfe8afdbce749328b01cae41941cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/02ea84847aad71be7e32056408bb19f3a616cdd3",
-                "reference": "02ea84847aad71be7e32056408bb19f3a616cdd3",
+                "url": "https://api.github.com/repos/symfony/process/zipball/d060993e395dfe8afdbce749328b01cae41941cb",
+                "reference": "d060993e395dfe8afdbce749328b01cae41941cb",
                 "shasum": ""
             },
             "require": {
@@ -873,7 +873,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -900,7 +900,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-24 10:40:28"
+            "time": "2016-12-27 10:45:09"
         },
         {
             "name": "victorjonsson/markdowndocs",
@@ -944,20 +944,20 @@
             ],
             "description": "Command line tool for generating markdown-formatted class documentation",
             "homepage": "https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator",
-            "time": "2016-10-11 21:10:19"
+            "time": "2016-10-11T21:10:19+00:00"
         },
         {
             "name": "webmozart/assert",
-            "version": "1.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "2db61e59ff05fe5126d152bd0655c9ea113e550f"
+                "reference": "4a8bf11547e139e77b651365113fc12850c43d9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/2db61e59ff05fe5126d152bd0655c9ea113e550f",
-                "reference": "2db61e59ff05fe5126d152bd0655c9ea113e550f",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/4a8bf11547e139e77b651365113fc12850c43d9a",
+                "reference": "4a8bf11547e139e77b651365113fc12850c43d9a",
                 "shasum": ""
             },
             "require": {
@@ -994,7 +994,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2016-11-23 20:04:58"
+            "time": "2016-11-23 20:04:41"
         }
     ],
     "packages-dev": [
@@ -1048,7 +1048,52 @@
                 "image management",
                 "sdk"
             ],
-            "time": "2016-10-27 22:02:47"
+            "time": "2016-10-27T22:02:47+00:00"
+        },
+        {
+            "name": "greencape/coding-standards",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GreenCape/coding-standards.git",
+                "reference": "2606fb6ec52402972aec99665ab47a7a3b5eb896"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GreenCape/coding-standards/zipball/2606fb6ec52402972aec99665ab47a7a3b5eb896",
+                "reference": "2606fb6ec52402972aec99665ab47a7a3b5eb896",
+                "shasum": ""
+            },
+            "require": {
+                "squizlabs/php_codesniffer": "~2"
+            },
+            "replace": {
+                "greencape/joomla-cs": "*"
+            },
+            "require-dev": {
+                "codegyre/robo": "^0.6.0",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Niels Braczek",
+                    "email": "nbraczek@bsds.de",
+                    "role": "lead"
+                }
+            ],
+            "description": "Composer installable Coding Standards Definitions.",
+            "homepage": "https://github.com/GreenCape/coding-standards",
+            "keywords": [
+                "joomla",
+                "phpcs",
+                "standards"
+            ],
+            "time": "2015-11-14T02:57:58+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -1141,28 +1186,79 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2014-01-28 22:29:15"
+            "time": "2014-01-28T22:29:15+00:00"
         },
         {
-            "name": "joomla-projects/joomla-testing-robo",
-            "version": "1.0.1",
+            "name": "joomla-projects/joomla-testing",
+            "version": "dev-container-test",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-projects/joomla-testing-robo.git",
-                "reference": "6d459ea7c3293b907e59429e077dea1367658f68"
+                "url": "https://github.com/joomla-projects/joomla-testing.git",
+                "reference": "e485b79a1723af480facdc47167bb7556af8594c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-testing-robo/zipball/6d459ea7c3293b907e59429e077dea1367658f68",
-                "reference": "6d459ea7c3293b907e59429e077dea1367658f68",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-testing/zipball/e485b79a1723af480facdc47167bb7556af8594c",
+                "reference": "e485b79a1723af480facdc47167bb7556af8594c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "consolidation/robo": "~1",
+                "joomla-projects/joomla-testing-robo": "~1",
+                "symfony/process": "~3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Testing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Tito Alvarez",
+                    "email": "tito.alvarez@community.joomla.org"
+                }
+            ],
+            "description": "Joomla automated testing scripts with container capabilities",
+            "keywords": [
+                "containers",
+                "docker",
+                "qa",
+                "robo",
+                "task",
+                "tests"
+            ],
+            "time": "2016-12-17T16:18:26+00:00"
+        },
+        {
+            "name": "joomla-projects/joomla-testing-robo",
+            "version": "dev-container-test",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-projects/joomla-testing-robo.git",
+                "reference": "aac3d6840dd484bad35726ba999a914312e42b26"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-testing-robo/zipball/aac3d6840dd484bad35726ba999a914312e42b26",
+                "reference": "aac3d6840dd484bad35726ba999a914312e42b26",
                 "shasum": ""
             },
             "require": {
                 "cloudinary/cloudinary_php": "~1",
                 "consolidation/robo": "~1",
+                "greencape/coding-standards": "~1",
+                "joomla-projects/joomla-testing": "dev-container-test",
                 "knplabs/github-api": "~1",
                 "php": ">=5.4.0",
-                "squizlabs/php_codesniffer": "~1"
+                "squizlabs/php_codesniffer": "~2"
             },
             "replace": {
                 "joomla-projects/robo": "< 1.0"
@@ -1190,11 +1286,11 @@
                 "task",
                 "tests"
             ],
-            "time": "2016-12-14 20:43:15"
+            "time": "2016-12-18T17:40:51+00:00"
         },
         {
             "name": "knplabs/github-api",
-            "version": "1.7.1",
+            "version": "1.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/php-github-api.git",
@@ -1252,36 +1348,39 @@
                 "gist",
                 "github"
             ],
-            "time": "2016-07-26 08:49:38"
+            "time": "2016-07-26T08:49:38+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "1.5.6",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5"
+                "reference": "56054917a1019b3dc8cf4810108fcef60ea85479"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6f3e42d311b882b25b4d409d23a289f4d3b803d5",
-                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/56054917a1019b3dc8cf4810108fcef60ea85479",
+                "reference": "56054917a1019b3dc8cf4810108fcef60ea85479",
                 "shasum": ""
             },
             "require": {
+                "ext-simplexml": "*",
                 "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
                 "php": ">=5.1.2"
             },
-            "suggest": {
-                "phpunit/php-timer": "dev-master"
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
             },
             "bin": [
-                "scripts/phpcs"
+                "scripts/phpcs",
+                "scripts/phpcbf"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-phpcs-fixer": "2.0.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1290,12 +1389,12 @@
                     "CodeSniffer/CLI.php",
                     "CodeSniffer/Exception.php",
                     "CodeSniffer/File.php",
+                    "CodeSniffer/Fixer.php",
                     "CodeSniffer/Report.php",
                     "CodeSniffer/Reporting.php",
                     "CodeSniffer/Sniff.php",
                     "CodeSniffer/Tokens.php",
                     "CodeSniffer/Reports/",
-                    "CodeSniffer/CommentParser/",
                     "CodeSniffer/Tokenizers/",
                     "CodeSniffer/DocGenerators/",
                     "CodeSniffer/Standards/AbstractPatternSniff.php",
@@ -1321,18 +1420,20 @@
                     "role": "lead"
                 }
             ],
-            "description": "PHP_CodeSniffer tokenises PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
             "homepage": "http://www.squizlabs.com/php-codesniffer",
             "keywords": [
                 "phpcs",
                 "standards"
             ],
-            "time": "2014-12-04 22:32:15"
+            "time": "2016-12-22T02:18:40+00:00"
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "joomla-projects/joomla-testing-robo": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
