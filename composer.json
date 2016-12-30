@@ -19,11 +19,13 @@
         "consolidation/robo"                    : "~1"
     },
     "require-dev": {
-        "joomla-projects/joomla-testing-robo"   : "~1.0"
+        "joomla-projects/joomla-testing-robo"   : "dev-container-test"
     },
     "autoload": {
         "psr-4": {
             "Codeception\\Module\\"             : "src"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
