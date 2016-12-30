@@ -1051,51 +1051,6 @@
             "time": "2016-10-27T22:02:47+00:00"
         },
         {
-            "name": "greencape/coding-standards",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GreenCape/coding-standards.git",
-                "reference": "2606fb6ec52402972aec99665ab47a7a3b5eb896"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GreenCape/coding-standards/zipball/2606fb6ec52402972aec99665ab47a7a3b5eb896",
-                "reference": "2606fb6ec52402972aec99665ab47a7a3b5eb896",
-                "shasum": ""
-            },
-            "require": {
-                "squizlabs/php_codesniffer": "~2"
-            },
-            "replace": {
-                "greencape/joomla-cs": "*"
-            },
-            "require-dev": {
-                "codegyre/robo": "^0.6.0",
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Niels Braczek",
-                    "email": "nbraczek@bsds.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "Composer installable Coding Standards Definitions.",
-            "homepage": "https://github.com/GreenCape/coding-standards",
-            "keywords": [
-                "joomla",
-                "phpcs",
-                "standards"
-            ],
-            "time": "2015-11-14T02:57:58+00:00"
-        },
-        {
             "name": "guzzle/guzzle",
             "version": "v3.8.1",
             "source": {
@@ -1235,7 +1190,7 @@
                 "task",
                 "tests"
             ],
-            "time": "2016-12-17T16:18:26+00:00"
+            "time": "2016-12-17 16:18:26"
         },
         {
             "name": "joomla-projects/joomla-testing-robo",
@@ -1243,18 +1198,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-testing-robo.git",
-                "reference": "aac3d6840dd484bad35726ba999a914312e42b26"
+                "reference": "d2a5ee1aca2cc7deac6cfa0f7e4edfd7cd00b206"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-testing-robo/zipball/aac3d6840dd484bad35726ba999a914312e42b26",
-                "reference": "aac3d6840dd484bad35726ba999a914312e42b26",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-testing-robo/zipball/d2a5ee1aca2cc7deac6cfa0f7e4edfd7cd00b206",
+                "reference": "d2a5ee1aca2cc7deac6cfa0f7e4edfd7cd00b206",
                 "shasum": ""
             },
             "require": {
                 "cloudinary/cloudinary_php": "~1",
                 "consolidation/robo": "~1",
-                "greencape/coding-standards": "~1",
                 "joomla-projects/joomla-testing": "dev-container-test",
                 "knplabs/github-api": "~1",
                 "php": ">=5.4.0",
@@ -1286,7 +1240,7 @@
                 "task",
                 "tests"
             ],
-            "time": "2016-12-18T17:40:51+00:00"
+            "time": "2016-12-30T21:14:20+00:00"
         },
         {
             "name": "knplabs/github-api",
@@ -1348,7 +1302,7 @@
                 "gist",
                 "github"
             ],
-            "time": "2016-07-26T08:49:38+00:00"
+            "time": "2016-07-26 08:49:38"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -1426,7 +1380,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-12-22T02:18:40+00:00"
+            "time": "2016-12-22 02:18:40"
         }
     ],
     "aliases": [],
