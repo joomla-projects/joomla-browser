@@ -309,7 +309,6 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for error reporting dropdown');
 		$I->selectOptionInChosen('Error Reporting', 'Development');
 		$this->debug('I click on save');
-		//$this->clickToolbarButton('save');
 		$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
 		$this->debug('I wait for global configuration being saved');
 		$I->waitForText('Global Configuration', 60, ['css' => '.page-title']);
@@ -439,7 +438,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click("//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]");
 	}
 
-/**
+	/**
 	 * Selects an option in a Chosen Selector based on its label
 	 *
 	 * @param   string  $label   The text in the <label> with for attribute that links to the <select> element
@@ -457,6 +456,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
 		$this->debug("I select $option");
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
+
 		// Gives time to chosen to close
 		$I->wait(1);
 	}
@@ -476,7 +476,7 @@ class JoomlaBrowser extends WebDriver
 		$chosenSelectID = $selectID . '_chzn';
 		$I = $this;
 		$this->debug("I open the $label chosen selector");
-		$I->click(['css' => 'div#'.$chosenSelectID]);
+		$I->click(['css' => 'div#' . $chosenSelectID]);
 		$this->debug("I select $option");
 		$I->fillField(['xpath' => "//div[@id='$chosenSelectID']/div/div/input"], $option);
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']/div/ul/li[1]"]);
