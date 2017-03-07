@@ -154,15 +154,15 @@ class JoomlaBrowser extends WebDriver
 		$i->debug('I select dk-DK as installation language');
 
 		// Select a random language to force reloading of the lang strings after selecting English
-		$I->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
-		$I->waitForText('Configuración principal', 60, 'h3');
+		$i->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
+		$i->waitForText('Configuración principal', 60, 'h3');
 
 		// Wait for chosen to render the field
-		$I->debug('I select en-GB as installation language');
-		$I->debug('Wait for chosen to render the Languages list field');
-		$I->wait(2);
-		$I->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
-		$I->waitForText('Main Configuration', 60, 'h3');
+		$i->debug('I select en-GB as installation language');
+		$i->debug('Wait for chosen to render the Languages list field');
+		$i->wait(2);
+		$i->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
+		$i->waitForText('Main Configuration', 60, 'h3');
 		$this->debug('I fill Site Name');
 		$i->fillField(array('id' => 'jform_site_name'), 'Joomla CMS test');
 		$this->debug('I fill Site Description');
@@ -310,7 +310,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for error reporting dropdown');
 		$i->selectOptionInChosen('Error Reporting', 'Development');
 		$this->debug('I click on save');
-		$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+		$i->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
 		$this->debug('I wait for global configuration being saved');
 		$i->waitForText('Global Configuration', 60, array('css' => '.page-title'));
 		$i->see('Configuration successfully saved.', array('id' => 'system-message-container'));
@@ -1020,8 +1020,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$i = $this;
 		$this->debug('I click on never');
-		$I->wait(1);
-		$I->waitForElement(['link' => 'Never'], 60);
-		$I->click(['link' => 'Never']);
+		$i->wait(1);
+		$i->waitForElement(['link' => 'Never'], 60);
+		$i->click(['link' => 'Never']);
 	}
 }
