@@ -154,15 +154,15 @@ class JoomlaBrowser extends WebDriver
 		$i->debug('I select dk-DK as installation language');
 
 		// Select a random language to force reloading of the lang strings after selecting English
-		$i->selectOptionInChosen('#jform_language', 'Danish (DK)');
-		$i->waitForText('Generel konfiguration', 60, 'h3');
+		$I->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
+		$I->waitForText('Configuración principal', 60, 'h3');
 
 		// Wait for chosen to render the field
-		$i->debug('I select en-GB as installation language');
-		$i->debug('Wait for chosen to render the Languages list field');
-		$i->wait(2);
-		$i->selectOptionInChosen('#jform_language', 'English (United Kingdom)');
-		$i->waitForText('Main Configuration', 60, 'h3');
+		$I->debug('I select en-GB as installation language');
+		$I->debug('Wait for chosen to render the Languages list field');
+		$I->wait(2);
+		$I->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
+		$I->waitForText('Main Configuration', 60, 'h3');
 		$this->debug('I fill Site Name');
 		$i->fillField(array('id' => 'jform_site_name'), 'Joomla CMS test');
 		$this->debug('I fill Site Description');
@@ -310,7 +310,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for error reporting dropdown');
 		$i->selectOptionInChosen('Error Reporting', 'Development');
 		$this->debug('I click on save');
-		$this->clickToolbarButton('save');
+		$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
 		$this->debug('I wait for global configuration being saved');
 		$i->waitForText('Global Configuration', 60, array('css' => '.page-title'));
 		$i->see('Configuration successfully saved.', array('id' => 'system-message-container'));
@@ -497,6 +497,30 @@ class JoomlaBrowser extends WebDriver
 
 		// Gives time to chosen to close
 		$i->wait(1);
+	}
+
+	/**
+	 * Selects an option in a Chosen Selector based on its label with filling the textfield
+	 *
+	 * @param   string  $label   The text in the <label> with for attribute that links to the <select> element
+	 * @param   string  $option  The text in the <option> to be selected in the chosen selector
+	 *
+	 * @return void
+	 */
+	public function selectOptionInChosenWithTextField($label, $option)
+	{
+		$select = $this->findField($label);
+		$selectID = $select->getAttribute('id');
+		$chosenSelectID = $selectID . '_chzn';
+		$I = $this;
+		$this->debug("I open the $label chosen selector");
+		$I->click(['css' => 'div#' . $chosenSelectID]);
+		$this->debug("I select $option");
+		$I->fillField(['xpath' => "//div[@id='$chosenSelectID']/div/div/input"], $option);
+		$I->click(['xpath' => "//div[@id='$chosenSelectID']/div/ul/li[1]"]);
+
+		// Gives time to chosen to close
+		$I->wait(1);
 	}
 
 	/**
@@ -996,7 +1020,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$i = $this;
 		$this->debug('I click on never');
-		$i->waitForElement(array('link' => 'Never'), 60);
-		$i->click(array('link' => 'Never'));
+		$I->wait(1);
+		$I->waitForElement(['link' => 'Never'], 60);
+		$I->click(['link' => 'Never']);
 	}
 }
