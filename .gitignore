@@ -25,6 +25,7 @@ Desktop.ini
 *.swp
 *~.nib
 *~
+!.travis
 
 # Ignore mergetool files
 *.orig
