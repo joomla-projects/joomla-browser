@@ -396,7 +396,7 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Installs a Extension in Joomla using the file upload option
 	 *
-	 * @param   string  $file   Path to the file in the _data folder
+	 * @param   string  $file  Path to the file, which needs to reside in the _data folder
 	 * @param   string  $type  Type of Extension
 	 *
 	 * {@internal doAdminLogin() before}
