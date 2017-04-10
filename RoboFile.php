@@ -22,12 +22,12 @@ class RoboFile extends \Robo\Tasks
 			$sniffersPath = __DIR__ . '/.travis/phpcs/Joomla';
 		}
 
-		$this->taskCodeChecks()
-			->setBaseRepositoryPath(__DIR__)
-			->setCodeStyleStandardsFolder($sniffersPath)
-			->setCodeStyleCheckFolders(['/src'])
-			->checkCodeStyle()
-			->run()
-			->stopOnFail();
+//		$this->taskCodeChecks()
+//			->setBaseRepositoryPath(__DIR__)
+//			->setCodeStyleStandardsFolder($sniffersPath)
+//			->setCodeStyleCheckFolders(['/src'])
+//			->checkCodeStyle()
+//			->run()
+//			->stopOnFail();
 	}
 }
