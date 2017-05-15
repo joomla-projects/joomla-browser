@@ -38,6 +38,38 @@ class JoomlaBrowser extends WebDriver
 		'language'
 	);
 
+	protected $locatorObject;
+
+	/**
+	 * Function to instantiate the Locator Class, In case of a custom Template,
+	 * path to the custom Template Locator could be passed in Acceptance.suite.yml file
+	 *
+	 * for example: If the Class is present at _support/Page/Acceptance folder, simple add a new Parameter in acceptance.suite.yml file
+	 *
+	 * locator class: 'Page\Acceptance\Bootstrap2TemplateLocators'
+	 *
+	 * Locator could be set to null like this
+	 *
+	 * locator class: null
+	 *
+	 * When set to null, Joomla Browser will use the custom Locators present inside Locators.php
+	 *
+	 * @return \Locators
+	 */
+	public function instantiateLocator()
+	{
+		if (!(isset($this->config['locator class'])) || is_null($this->config['locator class']))
+		{
+			$this->locatorObject = new \Locators();
+		}
+		else{
+			$temp = $this->config['locator class'];
+			$this->locatorObject = new $temp;
+		}
+
+		return $this->locatorObject;
+	}
+
 	/**
 	 * Function to Do Admin Login In Joomla!
 	 *
@@ -49,6 +81,8 @@ class JoomlaBrowser extends WebDriver
 	public function doAdministratorLogin($user = null, $password = null)
 	{
 		$I = $this;
+		$locator = $this->instantiateLocator();
+
 
 		if (is_null($user))
 		{
@@ -61,18 +95,18 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->debug('I open Joomla Administrator Login Page');
-		$I->amOnPage('/administrator/index.php');
-		$I->waitForElement(['id' => 'mod-login-username'], 60);
+		$I->amOnPage($locator::$adminLoginPageUrl);
+		$I->waitForElement($locator::$adminLoginUserName, 60);
 		$this->debug('Fill Username Text Field');
-		$I->fillField(['id' => 'mod-login-username'], $user);
+		$I->fillField($locator::$adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
-		$I->fillField(['id' => 'mod-login-password'], $password);
+		$I->fillField($locator::$adminLoginPassword, $password);
 
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
-		$I->click(['xpath' => "//button[contains(normalize-space(), 'Log in')]"]);
+		$I->click($locator::$adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
-		$I->waitForText('Control Panel', 4, ['css' => 'h1.page-title']);
+		$I->waitForText('Control Panel', 4, $locator::$controlPanelLocator);
 	}
 
 	/**
@@ -86,6 +120,7 @@ class JoomlaBrowser extends WebDriver
 	public function doFrontEndLogin($user = null, $password = null)
 	{
 		$I = $this;
+		$locatorObject = $this->instantiateLocator();
 
 		if (is_null($user))
 		{
@@ -98,17 +133,18 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->debug('I open Joomla Frontend Login Page');
-		$I->amOnPage('/index.php?option=com_users&view=login');
+		$I->amOnPage($locatorObject::$frontEndLoginUrl);
 		$this->debug('Fill Username Text Field');
-		$I->fillField(['id' => 'username'], $user);
+		$I->fillField($locatorObject::$loginUserName, $user);
 		$this->debug('Fill Password Text Field');
-		$I->fillField(['id' => 'password'], $password);
+		$I->fillField($locatorObject::$loginPassword, $password);
 
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
-		$I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
+		$I->click($locatorObject::$loginButton);
 		$this->debug('I wait to see Frontend Member Profile Form with the Logout button in the module');
-		$I->waitForElement(['xpath' => "//form[@id='login-form']/div[@class='logout-button']"], 60);
+
+		$I->waitForElement($locatorObject::$frontEndLoginSuccess, 60);
 	}
 
 	/**
@@ -119,13 +155,14 @@ class JoomlaBrowser extends WebDriver
 	public function doFrontendLogout()
 	{
 		$I = $this;
+		$locator = $this->instantiateLocator();
 		$this->debug('I open Joomla Frontend Login Page');
-		$I->amOnPage('/index.php?option=com_users&view=login');
+		$I->amOnPage($locator::$frontEndLoginUrl);
 		$this->debug('I click Logout button');
-		$I->click(['xpath' => "//div[@class='logout']//button[contains(text(), 'Log out')]"]);
+		$I->click($locator::$frontEndLogoutButton);
 		$this->debug('I wait to see Login form');
-		$I->waitForElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"], 30);
-		$I->seeElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"]);
+		$I->waitForElement($locator::$frontEndLoginForm, 30);
+		$I->seeElement($locator::$frontEndLoginForm);
 	}
 
 	/**
