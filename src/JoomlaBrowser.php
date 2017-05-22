@@ -911,7 +911,11 @@ class JoomlaBrowser extends WebDriver
 		$I->switchToIFrame();
 		$I->debug('I leave time to the iframe to close');
 		$I->wait(2);
-		$I->selectOptionInChosen('Language', $language);
+
+		// @Todo We should use page objects for the selectors
+		$I->scrollTo(['css' => '#jform_language'], 20, 100);
+		$I->selectOptionInChosenbyId('jform_language', $language);
+
 		$I->waitForText('Menus: New Item', '30', ['css' => 'h1']);
 		$I->debug('I save the menu');
 		$I->click("Save");
