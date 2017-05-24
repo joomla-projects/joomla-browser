@@ -352,7 +352,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 		$I->fillField(['id' => 'install_directory'], $path);
 		$I->click(['id' => 'installbutton_directory']);
-		$I->waitForText('was', '60', ['id' => 'system-message-container']);
+		$I->waitForText('was successful', '60', ['id' => 'system-message-container']);
 		$this->debug("$type installed from $path");
 	}
 
@@ -375,7 +375,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the url');
 		$I->fillField(['id' => 'install_url'], $url);
 		$I->click(['id' => 'installbutton_url']);
-		$I->waitForText('was ', '30', ['id' => 'system-message-container']);
+		$I->waitForText('was successful', '30', ['id' => 'system-message-container']);
 
 		if ($type == 'Extension')
 		{
@@ -384,12 +384,12 @@ class JoomlaBrowser extends WebDriver
 
 		if ($type == 'Plugin')
 		{
-			$this->debug('Installing plugin was .' . $url);
+			$this->debug('Installing plugin was successful.' . $url);
 		}
 
 		if ($type == 'Package')
 		{
-			$this->debug('Installation of the package was .' . $url);
+			$this->debug('Installation of the package was successful.' . $url);
 		}
 	}
 
@@ -622,8 +622,8 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
 		$I->acceptPopup();
-		$I->waitForText('was ', '30', ['id' => 'system-message-container']);
-		$I->see('was ', ['id' => 'system-message-container']);
+		$I->waitForText('was successful', '30', ['id' => 'system-message-container']);
+		$I->see('was successful', ['id' => 'system-message-container']);
 		$I->searchForItem($extensionName);
 		$I->waitForText(
 			'There are no extensions installed matching your query.',
@@ -710,7 +710,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElement($this->searchResultLanguageName($languageName), 30);
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
-		$I->waitForText('was .', 60, ['id' => 'system-message-container']);
+		$I->waitForText('was successful.', 60, ['id' => 'system-message-container']);
 		$I->see('No Matching Results', ['class' => 'alert-no-items']);
 		$this->debug($languageName . ' installed');
 	}
