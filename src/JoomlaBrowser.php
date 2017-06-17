@@ -312,7 +312,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
 		$this->debug('I wait for global configuration being saved');
 		$I->waitForText('Global Configuration', 60, ['css' => '.page-title']);
-		$I->see('Configuration successfully saved.', ['id' => 'system-message-container']);
+		$I->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 
 	/**
