@@ -9,6 +9,8 @@
 namespace Codeception\Module;
 
 use Codeception\Module\WebDriver;
+require_once('locator/Locators.php');
+const TIMEOUT = 60;
 
 /**
  * Joomla Browser class to perform test suits for Joomla.
@@ -38,6 +40,39 @@ class JoomlaBrowser extends WebDriver
 		'language'
 	);
 
+	protected $locatorObject;
+
+	/**
+	 * Function to instantiate the Locator Class, In case of a custom Template,
+	 * path to the custom Template Locator could be passed in Acceptance.suite.yml file
+	 *
+	 * for example: If the Class is present at _support/Page/Acceptance folder, simple add a new Parameter in acceptance.suite.yml file
+	 *
+	 * locator class: 'Page\Acceptance\Bootstrap2TemplateLocators'
+	 *
+	 * Locator could be set to null like this
+	 *
+	 * locator class: null
+	 *
+	 * When set to null, Joomla Browser will use the custom Locators present inside Locators.php
+	 *
+	 * @return \Locators
+	 */
+	public function instantiateLocator()
+	{
+		if (empty($this->config['locator class']))
+		{
+			$this->locatorObject = new \Locators();
+		}
+		else
+		{
+			$temp = $this->config['locator class'];
+			$this->locatorObject = new $temp;
+		}
+
+		return $this->locatorObject;
+	}
+
 	/**
 	 * Function to Do Admin Login In Joomla!
 	 *
@@ -49,6 +84,8 @@ class JoomlaBrowser extends WebDriver
 	public function doAdministratorLogin($user = null, $password = null)
 	{
 		$I = $this;
+		$locator = $this->instantiateLocator();
+
 
 		if (is_null($user))
 		{
@@ -61,18 +98,18 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->debug('I open Joomla Administrator Login Page');
-		$I->amOnPage('/administrator/index.php');
-		$I->waitForElement(['id' => 'mod-login-username'], 60);
+		$I->amOnPage($locator::$adminLoginPageUrl);
+		$I->waitForElement($locator::$adminLoginUserName, TIMEOUT);
 		$this->debug('Fill Username Text Field');
-		$I->fillField(['id' => 'mod-login-username'], $user);
+		$I->fillField($locator::$adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
-		$I->fillField(['id' => 'mod-login-password'], $password);
+		$I->fillField($locator::$adminLoginPassword, $password);
 
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
-		$I->click(['xpath' => "//button[contains(normalize-space(), 'Log in')]"]);
+		$I->click($locator::$adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
-		$I->waitForText('Control Panel', 4, ['css' => 'h1.page-title']);
+		$I->waitForText('Control Panel', 4, $locator::$controlPanelLocator);
 	}
 
 	/**
@@ -86,6 +123,7 @@ class JoomlaBrowser extends WebDriver
 	public function doFrontEndLogin($user = null, $password = null)
 	{
 		$I = $this;
+		$locatorObject = $this->instantiateLocator();
 
 		if (is_null($user))
 		{
@@ -98,17 +136,18 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->debug('I open Joomla Frontend Login Page');
-		$I->amOnPage('/index.php?option=com_users&view=login');
+		$I->amOnPage($locatorObject::$frontEndLoginUrl);
 		$this->debug('Fill Username Text Field');
-		$I->fillField(['id' => 'username'], $user);
+		$I->fillField($locatorObject::$loginUserName, $user);
 		$this->debug('Fill Password Text Field');
-		$I->fillField(['id' => 'password'], $password);
+		$I->fillField($locatorObject::$loginPassword, $password);
 
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
-		$I->click(['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"]);
+		$I->click($locatorObject::$loginButton);
 		$this->debug('I wait to see Frontend Member Profile Form with the Logout button in the module');
-		$I->waitForElement(['xpath' => "//form[@id='login-form']/div[@class='logout-button']"], 60);
+
+		$I->waitForElement($locatorObject::$frontEndLoginSuccess, TIMEOUT);
 	}
 
 	/**
@@ -119,13 +158,14 @@ class JoomlaBrowser extends WebDriver
 	public function doFrontendLogout()
 	{
 		$I = $this;
+		$locator = $this->instantiateLocator();
 		$this->debug('I open Joomla Frontend Login Page');
-		$I->amOnPage('/index.php?option=com_users&view=login');
+		$I->amOnPage($locator::$frontEndLoginUrl);
 		$this->debug('I click Logout button');
-		$I->click(['xpath' => "//div[@class='logout']//button[contains(text(), 'Log out')]"]);
+		$I->click($locator::$frontEndLogoutButton);
 		$this->debug('I wait to see Login form');
-		$I->waitForElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"], 30);
-		$I->seeElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"]);
+		$I->waitForElement($locator::$frontEndLoginForm, 30);
+		$I->seeElement($locator::$frontEndLoginForm);
 	}
 
 	/**
@@ -154,14 +194,14 @@ class JoomlaBrowser extends WebDriver
 
 		// Select a random language to force reloading of the lang strings after selecting English
 		$I->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
-		$I->waitForText('Configuración principal', 60, 'h3');
+		$I->waitForText('Configuración principal', TIMEOUT, 'h3');
 
 		// Wait for chosen to render the field
 		$I->debug('I select en-GB as installation language');
 		$I->debug('Wait for chosen to render the Languages list field');
 		$I->wait(2);
 		$I->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
-		$I->waitForText('Main Configuration', 60, 'h3');
+		$I->waitForText('Main Configuration', TIMEOUT, 'h3');
 		$this->debug('I fill Site Name');
 		$I->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->debug('I fill Site Description');
@@ -184,7 +224,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['link' => 'Next']);
 
 		$this->debug('I Fill the form for creating the Joomla site Database');
-		$I->waitForText('Database Configuration', 60, ['css' => 'h3']);
+		$I->waitForText('Database Configuration', TIMEOUT, ['css' => 'h3']);
 
 		$this->debug('I select MySQLi');
 		$I->selectOption(['id' => 'jform_db_type'], $this->config['database type']);
@@ -207,7 +247,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElementVisible(['id' => 'jform_sample_file-lbl'], 30);
 
 		$this->debug('I install joomla with or without sample data');
-		$I->waitForText('Finalisation', 60, ['xpath' => '//h3']);
+		$I->waitForText('Finalisation', TIMEOUT, ['xpath' => '//h3']);
 
 		// @todo: installation of sample data needs to be created
 
@@ -217,7 +257,7 @@ class JoomlaBrowser extends WebDriver
 
 		// Wait while Joomla gets installed
 		$this->debug('I wait for Joomla being installed');
-		$I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
+		$I->waitForText('Congratulations! Joomla! is now installed.', TIMEOUT, ['xpath' => '//h3']);
 	}
 
 	/**
@@ -235,7 +275,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['xpath' => "//input[@value='Remove installation folder']"]);
 
 		$I->debug('I wait for Removing Installation Folder button to become disabled');
-		$I->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", 60);
+		$I->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", TIMEOUT);
 
 		$I->debug('Joomla is now installed');
 		$I->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h3']);
@@ -264,7 +304,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('I go to Install Languages page');
 		$I->click(['id' => 'instLangs']);
-		$I->waitForText('Install Language packages', 60, ['xpath' => '//h3']);
+		$I->waitForText('Install Language packages', TIMEOUT, ['xpath' => '//h3']);
 
 		foreach ($languages as $language)
 		{
@@ -273,14 +313,14 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$I->click(['link' => 'Next']);
-		$I->waitForText('Multilingual', 60, ['xpath' => '//h3']);
+		$I->waitForText('Multilingual', TIMEOUT, ['xpath' => '//h3']);
 		$I->selectOptionInRadioField('Activate the multilingual feature', 'Yes');
 		$I->waitForElementVisible(['id' => 'jform_activatePluginLanguageCode-lbl']);
 		$I->selectOptionInRadioField('Install localised content', 'Yes');
 		$I->selectOptionInRadioField('Enable the language code plugin', 'Yes');
 		$I->click(['link' => 'Next']);
 
-		$I->waitForText('Congratulations! Joomla! is now installed.', 60, ['xpath' => '//h3']);
+		$I->waitForText('Congratulations! Joomla! is now installed.', TIMEOUT, ['xpath' => '//h3']);
 		$this->debug('Removing Installation Folder');
 		$I->click(['xpath' => "//input[@value='Remove installation folder']"]);
 
@@ -303,7 +343,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open Joomla Global Configuration Page');
 		$I->amOnPage('/administrator/index.php?option=com_config');
 		$this->debug('I wait for Global Configuration title');
-		$I->waitForText('Global Configuration', 60, ['css' => '.page-title']);
+		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->debug('I open the Server Tab');
 		$I->click(['link' => 'Server']);
 		$this->debug('I wait for error reporting dropdown');
@@ -311,7 +351,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click on save');
 		$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
 		$this->debug('I wait for global configuration being saved');
-		$I->waitForText('Global Configuration', 60, ['css' => '.page-title']);
+		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$I->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 
@@ -352,7 +392,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 		$I->fillField(['id' => 'install_directory'], $path);
 		$I->click(['id' => 'installbutton_directory']);
-		$I->waitForText('was successful', '60', ['id' => 'system-message-container']);
+		$I->waitForText('was successful', 'TIMEOUT', ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
 
@@ -564,10 +604,10 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
 		$this->debug("I click on Top Right corner toggle to Logout from Admin");
-		$I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
+		$I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], TIMEOUT);
 		$I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
-		$I->waitForElement(['id' => 'mod-login-username'], 60);
-		$I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
+		$I->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
+		$I->waitForText('Log in', TIMEOUT, ['xpath' => "//fieldset[@class='loginform']//button"]);
 	}
 
 	/**
@@ -627,7 +667,7 @@ class JoomlaBrowser extends WebDriver
 		$I->searchForItem($extensionName);
 		$I->waitForText(
 			'There are no extensions installed matching your query.',
-			60,
+			TIMEOUT,
 			['class' => 'alert-no-items']
 		);
 		$I->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
@@ -710,7 +750,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElement($this->searchResultLanguageName($languageName), 30);
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
-		$I->waitForText('was successful.', 60, ['id' => 'system-message-container']);
+		$I->waitForText('was successful.', TIMEOUT, ['id' => 'system-message-container']);
 		$I->see('No Matching Results', ['class' => 'alert-no-items']);
 		$this->debug($languageName . ' successfully installed');
 	}
@@ -876,23 +916,23 @@ class JoomlaBrowser extends WebDriver
 
 		$I->debug("I open the menus page");
 		$I->amOnPage('administrator/index.php?option=com_menus&view=menus');
-		$I->waitForText('Menus', '60', ['css' => 'H1']);
+		$I->waitForText('Menus', 'TIMEOUT', ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$I->debug("I click in the menu: $menu");
 		$I->click(['link' => $menu]);
-		$I->waitForText('Menus: Items', '60', ['css' => 'H1']);
+		$I->waitForText('Menus: Items', 'TIMEOUT', ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$I->debug("I click new");
 		$I->click("New");
-		$I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
+		$I->waitForText('Menus: New Item', 'TIMEOUT', ['css' => 'h1']);
 		$this->checkForPhpNoticesOrWarnings();
 		$I->fillField(['id' => 'jform_title'], $menuTitle);
 
 		$I->debug("Open the menu types iframe");
 		$I->click(['link' => "Select"]);
-		$I->waitForElement(['id' => 'menuTypeModal'], '60');
+		$I->waitForElement(['id' => 'menuTypeModal'], 'TIMEOUT');
 		$I->wait(1);
 		$I->switchToIFrame("Menu Item Type");
 
@@ -900,12 +940,12 @@ class JoomlaBrowser extends WebDriver
 
 		// Open the category
 		$I->wait(1);
-		$I->waitForElement(['link' => $menuCategory], '60');
+		$I->waitForElement(['link' => $menuCategory], 'TIMEOUT');
 		$I->click(['link' => $menuCategory]);
 
 		$I->debug("Choose the menu item type: $menuItem");
 		$I->wait(1);
-		$I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], '60');
+		$I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], 'TIMEOUT');
 		$I->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
 		$I->debug('I switch back to the main window');
 		$I->switchToIFrame();
@@ -916,7 +956,7 @@ class JoomlaBrowser extends WebDriver
 		$I->debug('I save the menu');
 		$I->click("Save");
 
-		$I->waitForText('Menu item successfully saved', '60', ['id' => 'system-message-container']);
+		$I->waitForText('Menu item successfully saved', 'TIMEOUT', ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -983,7 +1023,7 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$this->debug('I click on never');
 		$I->wait(1);
-		$I->waitForElement(['link' => 'Never'], 60);
+		$I->waitForElement(['link' => 'Never'], TIMEOUT);
 		$I->click(['link' => 'Never']);
 	}
 }
