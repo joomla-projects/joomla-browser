@@ -7,7 +7,7 @@
  */
 
 namespace Codeception\Module;
-
+use Joomla\Browser\Locators\Locators;
 use Codeception\Module\WebDriver;
 require_once('locator/Locators.php');
 const TIMEOUT = 60;
@@ -40,7 +40,7 @@ class JoomlaBrowser extends WebDriver
 		'language'
 	);
 
-	protected $locatorObject;
+	protected $locator;
 
 	/**
 	 * Function to instantiate the Locator Class, In case of a custom Template,
@@ -62,15 +62,15 @@ class JoomlaBrowser extends WebDriver
 	{
 		if (empty($this->config['locator class']))
 		{
-			$this->locatorObject = new \Locators();
+			$this->locator = new Locators;
 		}
 		else
 		{
 			$temp = $this->config['locator class'];
-			$this->locatorObject = new $temp;
+			$this->locator = new $temp;
 		}
 
-		return $this->locatorObject;
+		return $this->locator;
 	}
 
 	/**
@@ -98,18 +98,18 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->debug('I open Joomla Administrator Login Page');
-		$I->amOnPage($locator::$adminLoginPageUrl);
-		$I->waitForElement($locator::$adminLoginUserName, TIMEOUT);
+		$I->amOnPage($locator->adminLoginPageUrl);
+		$I->waitForElement($locator->adminLoginUserName, TIMEOUT);
 		$this->debug('Fill Username Text Field');
-		$I->fillField($locator::$adminLoginUserName, $user);
+		$I->fillField($locator->adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
-		$I->fillField($locator::$adminLoginPassword, $password);
+		$I->fillField($locator->adminLoginPassword, $password);
 
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
-		$I->click($locator::$adminLoginButton);
+		$I->click($locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
-		$I->waitForText('Control Panel', 4, $locator::$controlPanelLocator);
+		$I->waitForText('Control Panel', 4, $locator->controlPanelLocator);
 	}
 
 	/**
@@ -123,7 +123,7 @@ class JoomlaBrowser extends WebDriver
 	public function doFrontEndLogin($user = null, $password = null)
 	{
 		$I = $this;
-		$locatorObject = $this->instantiateLocator();
+		$locator = $this->instantiateLocator();
 
 		if (is_null($user))
 		{
@@ -136,18 +136,18 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->debug('I open Joomla Frontend Login Page');
-		$I->amOnPage($locatorObject::$frontEndLoginUrl);
+		$I->amOnPage($locator->frontEndLoginUrl);
 		$this->debug('Fill Username Text Field');
-		$I->fillField($locatorObject::$loginUserName, $user);
+		$I->fillField($locator->loginUserName, $user);
 		$this->debug('Fill Password Text Field');
-		$I->fillField($locatorObject::$loginPassword, $password);
+		$I->fillField($locator->loginPassword, $password);
 
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
-		$I->click($locatorObject::$loginButton);
+		$I->click($locator->loginButton);
 		$this->debug('I wait to see Frontend Member Profile Form with the Logout button in the module');
 
-		$I->waitForElement($locatorObject::$frontEndLoginSuccess, TIMEOUT);
+		$I->waitForElement($locator->frontEndLoginSuccess, TIMEOUT);
 	}
 
 	/**
@@ -160,12 +160,12 @@ class JoomlaBrowser extends WebDriver
 		$I = $this;
 		$locator = $this->instantiateLocator();
 		$this->debug('I open Joomla Frontend Login Page');
-		$I->amOnPage($locator::$frontEndLoginUrl);
+		$I->amOnPage($locator->frontEndLoginUrl);
 		$this->debug('I click Logout button');
-		$I->click($locator::$frontEndLogoutButton);
+		$I->click($locator->frontEndLogoutButton);
 		$this->debug('I wait to see Login form');
-		$I->waitForElement($locator::$frontEndLoginForm, 30);
-		$I->seeElement($locator::$frontEndLoginForm);
+		$I->waitForElement($locator->frontEndLoginForm, 30);
+		$I->seeElement($locator->frontEndLoginForm);
 	}
 
 	/**
