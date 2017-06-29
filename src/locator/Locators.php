@@ -1,7 +1,15 @@
 <?php
 namespace Joomla\Browser\Locators;
 
-class Locators {
+/**
+ * Joomla Browser Locator class to hold selector value for the default theme
+ *
+ * Class Locators
+ *
+ * @since  1.6.5.1
+ */
+class Locators
+{
 
 	public $loginUserName = ['id' => 'username'];
 

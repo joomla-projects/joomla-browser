@@ -9,7 +9,6 @@
 namespace Codeception\Module;
 use Joomla\Browser\Locators\Locators;
 use Codeception\Module\WebDriver;
-require_once('locator/Locators.php');
 const TIMEOUT = 60;
 
 /**
@@ -85,7 +84,6 @@ class JoomlaBrowser extends WebDriver
 	{
 		$I = $this;
 		$locator = $this->instantiateLocator();
-
 
 		if (is_null($user))
 		{
