@@ -1,5 +1,5 @@
 <?php
-namespace Joomla\Browser\Locators;
+namespace Codeception\Module\Locators;
 
 /**
  * Joomla Browser Locator class to hold selector value for the default theme

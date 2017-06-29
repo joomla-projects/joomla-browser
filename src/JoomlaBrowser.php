@@ -7,7 +7,7 @@
  */
 
 namespace Codeception\Module;
-use Joomla\Browser\Locators\Locators;
+use Codeception\Module\Locators\Locators;
 use Codeception\Module\WebDriver;
 const TIMEOUT = 60;
 
