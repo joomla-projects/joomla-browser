@@ -588,7 +588,7 @@ class JoomlaBrowser extends WebDriver
 		$I->checkExistenceOf($pluginName);
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
-		$I->see('successfully enabled', ['id' => 'system-message-container']);
+		$I->see(' enabled', ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -748,7 +748,7 @@ class JoomlaBrowser extends WebDriver
 		$I->waitForElement(['id' => 'general'], 30);
 		$I->selectOptionInChosen('Position', $position);
 		$I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
-		$I->waitForText('Module successfully saved', 30, ['id' => 'system-message-container']);
+		$I->waitForText('Module saved', 30, ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -765,7 +765,7 @@ class JoomlaBrowser extends WebDriver
 		$I->searchForItem($module);
 		$I->checkAllResults();
 		$I->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
-		$I->waitForText('1 module successfully published.', 30, ['id' => 'system-message-container']);
+		$I->waitForText(' published.', 30, ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -787,7 +787,7 @@ class JoomlaBrowser extends WebDriver
 		$I->click(['id' => 'jform_assignment_chzn']);
 		$I->click(['xpath' => "//li[@data-option-array-index='0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
-		$I->waitForText('Module successfully saved', 30, ['id' => 'system-message-container']);
+		$I->waitForText('Module saved', 30, ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -916,7 +916,7 @@ class JoomlaBrowser extends WebDriver
 		$I->debug('I save the menu');
 		$I->click("Save");
 
-		$I->waitForText('Menu item successfully saved', '60', ['id' => 'system-message-container']);
+		$I->waitForText('Menu item saved', '60', ['id' => 'system-message-container']);
 	}
 
 	/**
