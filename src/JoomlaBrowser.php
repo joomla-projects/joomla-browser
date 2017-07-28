@@ -123,6 +123,7 @@ class JoomlaBrowser extends WebDriver
 		$I->amOnPage('/index.php?option=com_users&view=login');
 		$this->debug('I click Logout button');
 		$I->click(['xpath' => "//div[@class='logout']//button[contains(text(), 'Log out')]"]);
+		$I->amOnPage('/index.php?option=com_users&view=login');
 		$this->debug('I wait to see Login form');
 		$I->waitForElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"], 30);
 		$I->seeElement(['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"]);
