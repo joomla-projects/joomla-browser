@@ -184,6 +184,7 @@ class JoomlaBrowser extends WebDriver
 		$this->amOnPage($this->locator->frontEndLoginUrl);
 		$this->debug('I click Logout button');
 		$this->click($this->locator->frontEndLogoutButton);
+		$I->amOnPage('/index.php?option=com_users&view=login');
 		$this->debug('I wait to see Login form');
 		$this->waitForElement($this->locator->frontEndLoginForm, 30);
 		$this->seeElement($this->locator->frontEndLoginForm);
