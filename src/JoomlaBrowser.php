@@ -458,6 +458,43 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
+	 * Installs a Extension in Joomla using the file upload option
+	 *
+	 * @param   string  $file   Path to the file in the _data folder
+	 * @param   string  $type   Type of Extension
+	 *
+	 * {@internal doAdminLogin() before}
+	 *
+	 * @return    void
+	 */
+	public function installExtensionFromFileUpload($file, $type = 'Extension')
+	{
+		$this->amOnPage('/administrator/index.php?option=com_installer');
+		$this->waitForText('Extensions: Install', '30', array('css' => 'H1'));
+		$this->click(array('link' => 'Upload Package File'));
+
+		$this->debug('I make sure legacy uploader is visible');
+		$this->executeJS('document.getElementById("legacy-uploader").style.display="block";');
+
+		$this->debug('I enter the file input');
+		$this->attachFile(array('id' => 'install_package'), $file);
+
+		$this->waitForText('was successful', '30', array('id' => 'system-message-container'));
+		if ($type == 'Extension')
+		{
+			$this->debug('Extension successfully installed.');
+		}
+		if ($type == 'Plugin')
+		{
+			$this->debug('Installing plugin was successful.');
+		}
+		if ($type == 'Package')
+		{
+			$this->debug('Installation of the package was successful.');
+		}
+	}
+
+	/**
 	 * Function to check for PHP Notices or Warnings
 	 *
 	 * @param   string  $page  Optional, if not given checks will be done in the current page
