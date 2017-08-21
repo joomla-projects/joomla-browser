@@ -25,6 +25,7 @@ class RoboFile extends \Robo\Tasks
 		$this->taskCodeChecks()
 			->setBaseRepositoryPath(__DIR__)
 			->setCodeStyleStandardsFolder($sniffersPath)
+			->setCodeStyleExtraJoomlaFolder(false)
 			->setCodeStyleCheckFolders(['/src'])
 			->checkCodeStyle()
 			->run()
