@@ -19,7 +19,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (is_null($sniffersPath))
 		{
-			$sniffersPath = __DIR__ . '/.travis/phpcs/Joomla';
+			$sniffersPath = __DIR__ . '/.travis/phpcs/Joomla/Joomla';
 		}
 
 		$this->taskCodeChecks()
