@@ -19,14 +19,11 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (is_null($sniffersPath))
 		{
-			$sniffersPath = __DIR__ . '/.tmp/coding-standards';
+			$sniffersPath = __DIR__ . '/.travis/phpcs/Joomla';
 		}
 
 		$this->taskCodeChecks()
 			->setBaseRepositoryPath(__DIR__)
-			->setCodeStyleStandardsRepo('photodude/coding-standards')
-			->setCodeStyleStandardsBranch('phpcs-2')
-			->setCodeStyleExtraJoomlaFolder(false)
 			->setCodeStyleStandardsFolder($sniffersPath)
 			->setCodeStyleCheckFolders(['/src'])
 			->checkCodeStyle()
