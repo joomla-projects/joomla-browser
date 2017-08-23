@@ -202,7 +202,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open Joomla Installation Configuration Page');
 		$this->amOnPage('/installation/index.php');
 		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
-		             . 'permissions to install joomla and execution will be stoped');
+			. 'permissions to install joomla and execution will be stopped');
 		$this->dontSeeElement(['id' => 'ftp']);
 
 		// I Wait for the text Main Configuration, meaning that the page is loaded
@@ -210,7 +210,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement('#jform_language', 10);
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->wait(2);
-		$this->debug('I select dk-DK as installation language');
+		$this->debug('I select es-ES as installation language');
 
 		// Select a random language to force reloading of the lang strings after selecting English
 		$this->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
@@ -764,7 +764,7 @@ class JoomlaBrowser extends WebDriver
 			$this->debug("Searching for $name");
 			$this->fillField(['id' => "filter_search"], $name);
 			$this->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
-			
+
 			return;
 		}
 
