@@ -202,7 +202,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open Joomla Installation Configuration Page');
 		$this->amOnPage('/installation/index.php');
 		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
-			. 'permissions to install joomla and execution will be stopped');
+		             . 'permissions to install joomla and execution will be stopped');
 		$this->dontSeeElement(['id' => 'ftp']);
 
 		// I Wait for the text Main Configuration, meaning that the page is loaded
@@ -264,10 +264,10 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['link' => 'Next']);
 		$this->debug('I wait Joomla to remove the old database if exist');
 		$this->wait(1);
-		$this->waitForElementVisible(['id' => 'jform_sample_file-lbl'], 30);
+		$this->waitForElementVisible(['id' => 'jform_sample_file-lbl'], TIMEOUT);
 
 		$this->debug('I install joomla with or without sample data');
-		$this->waitForText('Finalisation', TIMEOUT, ['xpath' => '//h3']);
+		$this->waitForText('Finalization', TIMEOUT, ['css' => 'h3']);
 
 		// @todo: installation of sample data needs to be created
 
