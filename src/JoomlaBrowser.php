@@ -220,7 +220,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I select en-US as installation language');
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->wait(2);
-		$this->selectOptionInChosenWithTextField('#jform_language', 'English (United States)');
+		$this->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
 		$this->waitForText('Main Configuration', TIMEOUT, 'h3');
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
@@ -267,7 +267,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElementVisible(['id' => 'jform_sample_file-lbl'], TIMEOUT);
 
 		$this->debug('I install joomla with or without sample data');
-		$this->waitForText('Finalization', TIMEOUT, ['css' => 'h3']);
+		$this->waitForText('Finalisation', TIMEOUT, ['css' => 'h3']);
 
 		// @todo: installation of sample data needs to be created
 
@@ -291,7 +291,7 @@ class JoomlaBrowser extends WebDriver
 		$this->installJoomla();
 
 		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@value='Remove installation folder']"]);
+		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
 
 		$this->debug('I wait for Removing Installation Folder button to become disabled');
 		$this->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", TIMEOUT);
