@@ -202,7 +202,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open Joomla Installation Configuration Page');
 		$this->amOnPage('/installation/index.php');
 		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
-		             . 'permissions to install joomla and execution will be stopped');
+			. 'permissions to install joomla and execution will be stopped');
 		$this->dontSeeElement(['id' => 'ftp']);
 
 		// I Wait for the text Main Configuration, meaning that the page is loaded
@@ -217,7 +217,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForText('Configuración principal', TIMEOUT, 'h3');
 
 		// Wait for chosen to render the field
-		$this->debug('I select en-US as installation language');
+		$this->debug('I select en-UK as installation language');
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->wait(2);
 		$this->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
@@ -264,10 +264,10 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['link' => 'Next']);
 		$this->debug('I wait Joomla to remove the old database if exist');
 		$this->wait(1);
-		$this->waitForElementVisible(['id' => 'jform_sample_file-lbl'], TIMEOUT);
+		$this->waitForElementVisible(['id' => 'jform_sample_file-lbl'], 30);
 
 		$this->debug('I install joomla with or without sample data');
-		$this->waitForText('Finalisation', TIMEOUT, ['css' => 'h3']);
+		$this->waitForText('Finalisation', TIMEOUT, ['xpath' => '//h3']);
 
 		// @todo: installation of sample data needs to be created
 
