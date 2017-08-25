@@ -291,7 +291,7 @@ class JoomlaBrowser extends WebDriver
 		$this->installJoomla();
 
 		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@value='Remove installation folder']"]);
+		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
 
 		$this->debug('I wait for Removing Installation Folder button to become disabled');
 		$this->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", TIMEOUT);
