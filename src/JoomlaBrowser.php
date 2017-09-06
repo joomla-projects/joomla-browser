@@ -1103,4 +1103,46 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement(['link' => 'Never'], TIMEOUT);
 		$this->click(['link' => 'Never']);
 	}
+
+	/**
+	 * Create a new category
+	 *
+	 * @param   string  $title      Title of the new category
+	 * @param   string  $extension  Optional extension to use
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.5
+	 */
+	public function createCategory($title, $extension = '')
+	{
+		$this->debug('Category creation in /administrator/');
+		$this->doAdministratorLogin();
+
+		if (!empty($extension))
+		{
+			$extension = '&extension=' . $extension;
+		}
+
+		$this->amOnPage('administrator/index.php?option=com_categories' . $extension);
+
+		$this->waitForElement(['class' => 'page-title']);
+		$this->checkForPhpNoticesOrWarnings();
+
+		$this->debug('Click new category button');
+		$this->click(['class' => 'button-new']);
+
+		$this->waitForElement(['class' => 'page-title']);
+
+		$this->checkForPhpNoticesOrWarnings();
+		$this->fillField(['id' => 'jform_title'], $title);
+
+		$this->debug('Click new category apply button');
+		$this->click(['class' => 'button-apply']);
+
+		$this->debug('see a success message after saving the category');
+
+		$this->see('Category saved', ['id' => 'system-message-container']);
+		$this->checkForPhpNoticesOrWarnings();
+	}
 }
