@@ -105,4 +105,20 @@ class Locators
 	 * @since  3.7.4.2
 	 */
 	public $frontEndLoginUrl = '/index.php?option=com_users&view=login';
+
+	/**
+	 * New Button in the Admin toolbar
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminToolbarButtonNew = ['class' => 'button-new'];
+
+	/**
+	 * Apply Button in the Admin toolbar
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminToolbarButtonApply = ['class' => 'button-apply'];
 }

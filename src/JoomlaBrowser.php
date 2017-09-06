@@ -46,7 +46,7 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * The locator
 	 *
-	 * @var     Codeception\Module\Locators\Locators
+	 * @var     Locators
 	 * @since   3.7.4.2
 	 */
 	protected $locator;
@@ -1130,7 +1130,7 @@ class JoomlaBrowser extends WebDriver
 		$this->checkForPhpNoticesOrWarnings();
 
 		$this->debug('Click new category button');
-		$this->click(['class' => 'button-new']);
+		$this->click($this->locator->adminToolbarButtonNew);
 
 		$this->waitForElement(['class' => 'page-title']);
 
@@ -1138,7 +1138,7 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(['id' => 'jform_title'], $title);
 
 		$this->debug('Click new category apply button');
-		$this->click(['class' => 'button-apply']);
+		$this->click($this->locator->adminToolbarButtonApply);
 
 		$this->debug('see a success message after saving the category');
 
