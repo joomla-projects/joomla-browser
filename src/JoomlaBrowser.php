@@ -107,6 +107,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function doAdministratorLogin($user = null, $password = null)
@@ -143,6 +144,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function doFrontEndLogin($user = null, $password = null)
@@ -195,6 +197,7 @@ class JoomlaBrowser extends WebDriver
 	 * Installs Joomla
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function installJoomla()
@@ -284,6 +287,7 @@ class JoomlaBrowser extends WebDriver
 	 * Install Joomla removing the Installation folder at the end of the execution
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function installJoomlaRemovingInstallationFolder()
@@ -308,6 +312,7 @@ class JoomlaBrowser extends WebDriver
 	 * @example: $this->installJoomlaMultilingualSite(['Spanish', 'French']);
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function installJoomlaMultilingualSite($languages = array())
@@ -408,7 +413,6 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function installExtensionFromFolder($path, $type = 'Extension')
 	{
-
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', ['css' => 'H1']);
 		$this->click(['link' => 'Install from Folder']);
@@ -460,8 +464,8 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Installs a Extension in Joomla using the file upload option
 	 *
-	 * @param   string  $file   Path to the file in the _data folder
-	 * @param   string  $type   Type of Extension
+	 * @param   string  $file  Path to the file in the _data folder
+	 * @param   string  $type  Type of Extension
 	 *
 	 * {@internal doAdminLogin() before}
 	 *
@@ -480,14 +484,17 @@ class JoomlaBrowser extends WebDriver
 		$this->attachFile(array('id' => 'install_package'), $file);
 
 		$this->waitForText('was successful', '30', array('id' => 'system-message-container'));
+
 		if ($type == 'Extension')
 		{
 			$this->debug('Extension successfully installed.');
 		}
+
 		if ($type == 'Plugin')
 		{
 			$this->debug('Installing plugin was successful.');
 		}
+
 		if ($type == 'Package')
 		{
 			$this->debug('Installation of the package was successful.');
@@ -533,7 +540,6 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function selectOptionInRadioField($label, $option)
 	{
-
 		$this->debug("Trying to select the $option from the $label");
 		$label = $this->findField(['xpath' => "//label[contains(normalize-space(string(.)), '$label')]"]);
 		$radioId = $label->getAttribute('for');
@@ -649,7 +655,6 @@ class JoomlaBrowser extends WebDriver
 		$select = $this->findField($label);
 		$selectID = $select->getAttribute('id');
 		$chosenSelectID = $selectID . '_chzn';
-
 
 		foreach ($options as $option)
 		{
@@ -798,7 +803,6 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function checkAllResults()
 	{
-
 		$this->debug("Selecting Checkall button");
 		$this->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
 	}
@@ -812,7 +816,6 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function installLanguage($languageName)
 	{
-
 		$this->amOnPage('administrator/index.php?option=com_installer&view=languages');
 		$this->debug('I check for Notices and Warnings');
 		$this->checkForPhpNoticesOrWarnings();
@@ -869,6 +872,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $module  The full name of the module
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function publishModule($module)
@@ -886,6 +890,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $module  The full name of the module
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function displayModuleOnAllPages($module)
@@ -908,6 +913,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $button  The full name of the button
 	 *
 	 * @return  void
+	 *
 	 * @since   3.0.0
 	 */
 	public function clickToolbarButton($button)
