@@ -804,7 +804,7 @@ class JoomlaBrowser extends WebDriver
 	public function checkAllResults()
 	{
 		$this->debug("Selecting Checkall button");
-		$this->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
+		$this->click(['xpath' => "//thead//input[@name='checkall-toggle']"]);
 	}
 
 	/**
