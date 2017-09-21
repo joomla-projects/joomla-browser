@@ -48,7 +48,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLogoutButton = ['xpath' => "//div[@class='logout']//button[contains(text(), 'Log out')]"];
+	public $frontEndLogoutButton = ['xpath' => "//form[@id='login-form']/div[@class='logout-button']//input"];
 
 	/**
 	 * Locator for the Login Button
