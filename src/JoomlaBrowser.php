@@ -216,14 +216,14 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I select es-ES as installation language');
 
 		// Select a random language to force reloading of the lang strings after selecting English
-		$this->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
+		$this->selectOption('#jform_language', 'Spanish (Español)');
 		$this->waitForText('Configuración principal', TIMEOUT, 'h3');
 
 		// Wait for chosen to render the field
 		$this->debug('I select en-GB as installation language');
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->wait(2);
-		$this->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
+		$this->selectOption('#jform_language', 'English (United Kingdom)');
 		$this->waitForText('Main Configuration', TIMEOUT, 'h3');
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
@@ -267,16 +267,9 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['link' => 'Next']);
 		$this->debug('I wait Joomla to remove the old database if exist');
 		$this->wait(1);
-		$this->waitForElementVisible(['id' => 'jform_sample_file-lbl'], 30);
-
-		$this->debug('I install joomla with or without sample data');
 		$this->waitForText('Finalisation', TIMEOUT, ['xpath' => '//h3']);
 
-		// @todo: installation of sample data needs to be created
-
-		// No sample data
-		$this->selectOption(['id' => 'jform_sample_file'], ['id' => 'jform_sample_file0']);
-		$this->click(['link' => 'Install']);
+		$this->click('Install');
 
 		// Wait while Joomla gets installed
 		$this->debug('I wait for Joomla being installed');
@@ -371,9 +364,9 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open the Server Tab');
 		$this->click(['link' => 'Server']);
 		$this->debug('I wait for error reporting dropdown');
-		$this->selectOptionInChosen('Error Reporting', 'Development');
+		$this->selectOption('Error Reporting', 'Development');
 		$this->debug('I click on save');
-		$this->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+		$this->click(['id' => 'toolbar-apply']);
 		$this->debug('I wait for global configuration being saved');
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->see('Configuration saved.', ['id' => 'system-message-container']);
@@ -581,6 +574,8 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since    3.0.0
+	 *
+	 * @deprecated  4.0.0
 	 */
 	public function selectOptionInChosenWithTextField($label, $option)
 	{
@@ -1106,8 +1101,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug('I click on never');
 		$this->wait(1);
-		$this->waitForElement(['link' => 'Never'], TIMEOUT);
-		$this->click(['link' => 'Never']);
+		$this->waitForElement(['class' => 'js-pstats-btn-allow-always'], TIMEOUT);
+		$this->click(['class' => 'js-pstats-btn-allow-always']);
 	}
 
 	/**
