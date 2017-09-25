@@ -763,7 +763,7 @@ class JoomlaBrowser extends WebDriver
 		{
 			$this->debug("Searching for $name");
 			$this->fillField(['id' => "filter_search"], $name);
-			$this->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+			$this->click(['xpath' => "//button[@title='Search']"]);
 
 			return;
 		}
@@ -925,22 +925,19 @@ class JoomlaBrowser extends WebDriver
 		switch ($input)
 		{
 			case "new":
-				$this->click(['xpath' => "//div[@id='toolbar-new']//button"]);
-				break;
-			case "edit":
-				$this->click(['xpath' => "//div[@id='toolbar-edit']//button"]);
+				$this->click(['id' => "toolbar-new"]);
 				break;
 			case "publish":
-				$this->click(['xpath' => "//div[@id='toolbar-publish']//button"]);
+				$this->click(['id' => "toolbar-publish"]);
 				break;
 			case "unpublish":
-				$this->click(['xpath' => "//div[@id='toolbar-unpublish']//button"]);
+				$this->click(['id' => "toolbar-unpublish"]);
 				break;
 			case "archive":
-				$this->click(['xpath' => "//div[@id='toolbar-archive']//button"]);
+				$this->click(['id' => "toolbar-archive"]);
 				break;
 			case "check-in":
-				$this->click(['xpath' => "//div[@id='toolbar-checkin']//button"]);
+				$this->click(['id' => "'toolbar-checkin"]);
 				break;
 			case "batch":
 				$this->click(['xpath' => "//div[@id='toolbar-batch']//button"]);
@@ -949,25 +946,28 @@ class JoomlaBrowser extends WebDriver
 				$this->click(['xpath' => "//div[@id='toolbar-refresh']//button"]);
 				break;
 			case "trash":
-				$this->click(['xpath' => "//div[@id='toolbar-trash']//button"]);
+				$this->click(['id' => "toolbar-trash"]);
 				break;
 			case "save":
-				$this->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+				$this->click(['id' => "toolbar-apply"]);
 				break;
 			case "save & close":
-				$this->click(['xpath' => "//div[@id='toolbar-save']//button"]);
+				$this->click(['id' => "toolbar-save"]);
 				break;
 			case "save & new":
-				$this->click(['xpath' => "//div[@id='toolbar-save-new']//button"]);
+				$this->click(['id' => "toolbar-save-new"]);
 				break;
 			case "cancel":
-				$this->click(['xpath' => "//div[@id='toolbar-cancel']//button"]);
+				$this->click(['id' => "toolbar-cancel"]);
 				break;
 			case "options":
-				$this->click(['xpath' => "//div[@id='toolbar-options']//button"]);
+				$this->click(['id' => "toolbar-options"]);
 				break;
 			case "empty trash":
-				$this->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
+				$this->click(['id' => "toolbar-"]);
+				break;
+			case "feature":
+				$this->click(['id' => "toolbar-featured"]);
 				break;
 		}
 	}
