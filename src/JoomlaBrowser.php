@@ -419,7 +419,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 		$this->fillField(['id' => 'install_directory'], $path);
 		$this->click(['id' => 'installbutton_directory']);
-		$this->waitForText('was successful', 'TIMEOUT', ['id' => 'system-message-container']);
+		$this->waitForText('was successful', TIMEOUT, ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
 
@@ -994,23 +994,23 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug("I open the menus page");
 		$this->amOnPage('administrator/index.php?option=com_menus&view=menus');
-		$this->waitForText('Menus', 'TIMEOUT', ['css' => 'H1']);
+		$this->waitForText('Menus', TIMEOUT, ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$this->debug("I click in the menu: $menu");
 		$this->click(['link' => $menu]);
-		$this->waitForText('Menus: Items', 'TIMEOUT', ['css' => 'H1']);
+		$this->waitForText('Menus: Items', TIMEOUT, ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$this->debug("I click new");
 		$this->click("New");
-		$this->waitForText('Menus: New Item', 'TIMEOUT', ['css' => 'h1']);
+		$this->waitForText('Menus: New Item', TIMEOUT, ['css' => 'h1']);
 		$this->checkForPhpNoticesOrWarnings();
 		$this->fillField(['id' => 'jform_title'], $menuTitle);
 
 		$this->debug("Open the menu types iframe");
 		$this->click(['link' => "Select"]);
-		$this->waitForElement(['id' => 'menuTypeModal'], 'TIMEOUT');
+		$this->waitForElement(['id' => 'menuTypeModal'], TIMEOUT);
 		$this->wait(1);
 		$this->switchToIFrame("Menu Item Type");
 
@@ -1018,12 +1018,12 @@ class JoomlaBrowser extends WebDriver
 
 		// Open the category
 		$this->wait(1);
-		$this->waitForElement(['link' => $menuCategory], 'TIMEOUT');
+		$this->waitForElement(['link' => $menuCategory], TIMEOUT);
 		$this->click(['link' => $menuCategory]);
 
 		$this->debug("Choose the menu item type: $menuItem");
 		$this->wait(1);
-		$this->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], 'TIMEOUT');
+		$this->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], TIMEOUT);
 		$this->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
 		$this->debug('I switch back to the main window');
 		$this->switchToIFrame();
@@ -1034,7 +1034,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I save the menu');
 		$this->click("Save");
 
-		$this->waitForText('Menu item successfully saved', 'TIMEOUT', ['id' => 'system-message-container']);
+		$this->waitForText('Menu item successfully saved', TIMEOUT, ['id' => 'system-message-container']);
 	}
 
 	/**
