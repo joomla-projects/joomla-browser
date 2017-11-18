@@ -198,7 +198,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0.0
+	 * @since   4.0.0
 	 */
 	public function installJoomla()
 	{
@@ -218,13 +218,9 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I select en-GB as installation language');
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
-		$this->waitForText('Setup Login Data', TIMEOUT, 'fieldset');
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->click(['id' => "step1"]);
-		$this->waitForText('Login Data', TIMEOUT, 'fieldset');
-		$this->debug('I fill Site Description');
-		$this->fillField(['id' => 'jform_site_metadesc'], 'Site for testing Joomla CMS');
 
 		// I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
 		$this->debug('I fill Admin Email');
@@ -233,17 +229,9 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(['id' => 'jform_admin_user'], $this->config['username']);
 		$this->debug('I fill Admin Password');
 		$this->fillField(['id' => 'jform_admin_password'], $this->config['password']);
-		$this->debug('I fill Admin Password Confirmation');
-		$this->fillField(['id' => 'jform_admin_password2'], $this->config['password']);
-		$this->debug('I click Site Offline: no');
-
-		// ['No Site Offline']
-		$this->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[@for='jform_site_offline1']"]);
-		$this->debug('I click Next');
-		$this->click(['link' => 'Next']);
+		$this->click(['id' => "step2"]);
 
 		$this->debug('I Fill the form for creating the Joomla site Database');
-		$this->waitForText('Database Configuration', TIMEOUT, ['css' => 'h3']);
 
 		$this->debug('I select MySQLi');
 		$this->selectOption(['id' => 'jform_db_type'], $this->config['database type']);
@@ -257,19 +245,10 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(['id' => 'jform_db_name'], $this->config['database name']);
 		$this->debug('I fill Database Prefix');
 		$this->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
-		$this->debug('I click Remove Old Database ');
-		$this->selectOptionInRadioField('Old Database Process', 'Remove');
-		$this->debug('I click Next');
-		$this->click(['link' => 'Next']);
-		$this->debug('I wait Joomla to remove the old database if exist');
+		$this->debug('I click Install Joomla Button');
+		$this->click(['id' => 'setupButton']);
 		$this->wait(1);
-		$this->waitForText('Finalisation', TIMEOUT, ['xpath' => '//h3']);
-
-		$this->click('Install');
-
-		// Wait while Joomla gets installed
-		$this->debug('I wait for Joomla being installed');
-		$this->waitForText('Congratulations! Joomla! is now installed.', TIMEOUT, ['xpath' => '//h3']);
+		$this->waitForText('Congratulations! Your Joomla site is ready.', TIMEOUT, ['xpath' => '//h3']);
 	}
 
 	/**
@@ -277,20 +256,17 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0.0
+	 * @since   4.0.0
 	 */
 	public function installJoomlaRemovingInstallationFolder()
 	{
 		$this->installJoomla();
 
 		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
-
-		$this->debug('I wait for Removing Installation Folder button to become disabled');
-		$this->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", TIMEOUT);
+		$this->click(['xpath' => "//input[@class='form-check-input']"]);
 
 		$this->debug('Joomla is now installed');
-		$this->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h3']);
+		$this->click(['link' => "Complete & Open Admin"]);
 	}
 
 	/**
