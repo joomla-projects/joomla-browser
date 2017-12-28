@@ -196,12 +196,25 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Installs Joomla
 	 *
+	 * @param   string|null  $databaseName    Optional Database Name. If not passed the one in acceptance.suite.yml will be used
+	 * @param   string|null  $databasePrefix  Optional Database Prefix. If not passed the one in acceptance.suite.yml will be used
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0.0
 	 */
-	public function installJoomla()
+	public function installJoomla($databaseName = null, $databasePrefix = null)
 	{
+		if (is_null($databaseName))
+		{
+			$databaseName = $this->config['database name'];
+		}
+
+		if (is_null($databasePrefix))
+		{
+			$databasePrefix = $this->config['database prefix'];
+		}
+
 		$this->debug('I open Joomla Installation Configuration Page');
 		$this->amOnPage('/installation/index.php');
 		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
@@ -258,9 +271,9 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I fill Database Password');
 		$this->fillField(['id' => 'jform_db_pass'], $this->config['database password']);
 		$this->debug('I fill Database Name');
-		$this->fillField(['id' => 'jform_db_name'], $this->config['database name']);
+		$this->fillField(['id' => 'jform_db_name'], $databaseName);
 		$this->debug('I fill Database Prefix');
-		$this->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
+		$this->fillField(['id' => 'jform_db_prefix'], $databasePrefix);
 		$this->debug('I click Remove Old Database ');
 		$this->selectOptionInRadioField('Old Database Process', 'Remove');
 		$this->debug('I click Next');
@@ -286,13 +299,16 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Install Joomla removing the Installation folder at the end of the execution
 	 *
+	 * @param   string|null  $databaseName    Optional Database Name. If not passed the one in acceptance.suite.yml will be used
+	 * @param   string|null  $databasePrefix  Optional Database Prefix. If not passed the one in acceptance.suite.yml will be used
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0.0
 	 */
-	public function installJoomlaRemovingInstallationFolder()
+	public function installJoomlaRemovingInstallationFolder($databaseName = null, $databasePrefix = null)
 	{
-		$this->installJoomla();
+		$this->installJoomla($databaseName, $databasePrefix);
 
 		$this->debug('Removing Installation Folder');
 		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
@@ -308,6 +324,8 @@ class JoomlaBrowser extends WebDriver
 	 * Installs Joomla with Multilingual Feature active
 	 *
 	 * @param   array  $languages  Array containing the language names to be installed
+	 * @param   string|null  $databaseName    Optional Database Name. If not passed the one in acceptance.suite.yml will be used
+	 * @param   string|null  $databasePrefix  Optional Database Prefix. If not passed the one in acceptance.suite.yml will be used
 	 *
 	 * @example: $this->installJoomlaMultilingualSite(['Spanish', 'French']);
 	 *
@@ -315,7 +333,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   3.0.0
 	 */
-	public function installJoomlaMultilingualSite($languages = array())
+	public function installJoomlaMultilingualSite($languages = array(), $databaseName = null, $databasePrefix = null)
 	{
 		if (!$languages)
 		{
@@ -323,7 +341,7 @@ class JoomlaBrowser extends WebDriver
 			$languages[] = 'French';
 		}
 
-		$this->installJoomla();
+		$this->installJoomla($databaseName, $databasePrefix);
 
 		$this->debug('I go to Install Languages page');
 		$this->click(['id' => 'instLangs']);
