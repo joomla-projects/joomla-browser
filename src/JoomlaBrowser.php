@@ -742,6 +742,28 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
+	 * Function to Disable a Plugin
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0.0
+	 */
+	public function disablePlugin($pluginName)
+	{
+		$this->amOnPage('/administrator/index.php?option=com_plugins');
+		$this->debug('I check for Notices and Warnings');
+		$this->checkForPhpNoticesOrWarnings();
+		$this->searchForItem($pluginName);
+		$this->waitForElement($this->searchResultPluginName($pluginName), 30);
+		$this->checkExistenceOf($pluginName);
+		$this->click(['xpath' => "//input[@id='cb0']"]);
+		$this->click(['xpath' => "//div[@id='toolbar-unpublish']/button"]);
+		$this->see(' disabled', ['id' => 'system-message-container']);
+	}
+
+	/**
 	 * Uninstall Extension based on a name
 	 *
 	 * @param   string  $extensionName  Is important to use a specific
