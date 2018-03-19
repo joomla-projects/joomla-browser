@@ -121,4 +121,12 @@ class Locators
 	 * @since  3.7.5
 	 */
 	public $adminToolbarButtonApply = ['class' => 'button-apply'];
+
+	/**
+	 * Admin Control Panel Text
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminControlPanelText = 'Control Panel';
 }
