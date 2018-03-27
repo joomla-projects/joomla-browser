@@ -1074,7 +1074,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I save the menu');
 		$this->click("Save");
 
-		$this->waitForText('Menu item successfully saved', TIMEOUT, ['id' => 'system-message-container']);
+		$this->waitForText('Menu item saved', TIMEOUT, ['id' => 'system-message-container']);
 	}
 
 	/**
