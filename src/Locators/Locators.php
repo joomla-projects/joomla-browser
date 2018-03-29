@@ -48,7 +48,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLogoutButton = ['xpath' => "//div[@class='logout']//button[contains(text(), 'Log out')]"];
+	public $frontEndLogoutButton = ['xpath' => "//div[@class='logout-button']//input[@value='Log out']"];
 
 	/**
 	 * Locator for the Login Button
@@ -121,4 +121,12 @@ class Locators
 	 * @since  3.7.5
 	 */
 	public $adminToolbarButtonApply = ['class' => 'button-apply'];
+
+	/**
+	 * Admin Control Panel Text
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminControlPanelText = 'Control Panel';
 }
