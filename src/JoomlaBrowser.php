@@ -134,7 +134,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
-		$this->waitForText($this->locator->adminControlPanelText, 4, $this->locator->controlPanelLocator);
+		$this->waitForText('Control Panel', 4, $this->locator->controlPanelLocator);
 	}
 
 	/**
@@ -196,25 +196,12 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Installs Joomla
 	 *
-	 * @param   string|null  $databaseName    Optional Database Name. If not passed the one in acceptance.suite.yml will be used
-	 * @param   string|null  $databasePrefix  Optional Database Prefix. If not passed the one in acceptance.suite.yml will be used
-	 *
 	 * @return  void
 	 *
-	 * @since   3.0.0
+	 * @since   4.0.0
 	 */
-	public function installJoomla($databaseName = null, $databasePrefix = null)
+	public function installJoomla()
 	{
-		if (is_null($databaseName))
-		{
-			$databaseName = $this->config['database name'];
-		}
-
-		if (is_null($databasePrefix))
-		{
-			$databasePrefix = $this->config['database prefix'];
-		}
-
 		$this->debug('I open Joomla Installation Configuration Page');
 		$this->amOnPage('/installation/index.php');
 		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
@@ -226,22 +213,14 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement('#jform_language', 10);
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->wait(2);
-		$this->debug('I select es-ES as installation language');
-
-		// Select a random language to force reloading of the lang strings after selecting English
-		$this->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
-		$this->waitForText('Configuración principal', TIMEOUT, 'h3');
 
 		// Wait for chosen to render the field
 		$this->debug('I select en-GB as installation language');
 		$this->debug('Wait for chosen to render the Languages list field');
-		$this->wait(2);
-		$this->selectOptionInChosenWithTextField('#jform_language', 'English (United Kingdom)');
-		$this->waitForText('Main Configuration', TIMEOUT, 'h3');
+		$this->selectOption('#jform_language', 'English (United Kingdom)');
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
-		$this->debug('I fill Site Description');
-		$this->fillField(['id' => 'jform_site_metadesc'], 'Site for testing Joomla CMS');
+		$this->click(['id' => "step1"]);
 
 		// I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
 		$this->debug('I fill Admin Email');
@@ -250,17 +229,9 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(['id' => 'jform_admin_user'], $this->config['username']);
 		$this->debug('I fill Admin Password');
 		$this->fillField(['id' => 'jform_admin_password'], $this->config['password']);
-		$this->debug('I fill Admin Password Confirmation');
-		$this->fillField(['id' => 'jform_admin_password2'], $this->config['password']);
-		$this->debug('I click Site Offline: no');
-
-		// ['No Site Offline']
-		$this->click(['xpath' => "//fieldset[@id='jform_site_offline']/label[@for='jform_site_offline1']"]);
-		$this->debug('I click Next');
-		$this->click(['link' => 'Next']);
+		$this->click(['id' => "step2"]);
 
 		$this->debug('I Fill the form for creating the Joomla site Database');
-		$this->waitForText('Database Configuration', TIMEOUT, ['css' => 'h3']);
 
 		$this->debug('I select MySQLi');
 		$this->selectOption(['id' => 'jform_db_type'], $this->config['database type']);
@@ -271,61 +242,37 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I fill Database Password');
 		$this->fillField(['id' => 'jform_db_pass'], $this->config['database password']);
 		$this->debug('I fill Database Name');
-		$this->fillField(['id' => 'jform_db_name'], $databaseName);
+		$this->fillField(['id' => 'jform_db_name'], $this->config['database name']);
 		$this->debug('I fill Database Prefix');
-		$this->fillField(['id' => 'jform_db_prefix'], $databasePrefix);
-		$this->debug('I click Remove Old Database ');
-		$this->selectOptionInRadioField('Old Database Process', 'Remove');
-		$this->debug('I click Next');
-		$this->click(['link' => 'Next']);
-		$this->debug('I wait Joomla to remove the old database if exist');
+		$this->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
+		$this->debug('I click Install Joomla Button');
+		$this->click(['id' => 'setupButton']);
 		$this->wait(1);
-		$this->waitForElementVisible(['id' => 'jform_sample_file-lbl'], 30);
-
-		$this->debug('I install joomla with or without sample data');
-		$this->waitForText('Finalisation', TIMEOUT, ['xpath' => '//h3']);
-
-		// @todo: installation of sample data needs to be created
-
-		// No sample data
-		$this->selectOption(['id' => 'jform_sample_file'], ['id' => 'jform_sample_file0']);
-		$this->click(['link' => 'Install']);
-
-		// Wait while Joomla gets installed
-		$this->debug('I wait for Joomla being installed');
-		$this->waitForText('Congratulations! Joomla! is now installed.', TIMEOUT, ['xpath' => '//h3']);
+		$this->waitForText('Congratulations! Your Joomla site is ready.', TIMEOUT, ['xpath' => '//h3']);
 	}
 
 	/**
 	 * Install Joomla removing the Installation folder at the end of the execution
 	 *
-	 * @param   string|null  $databaseName    Optional Database Name. If not passed the one in acceptance.suite.yml will be used
-	 * @param   string|null  $databasePrefix  Optional Database Prefix. If not passed the one in acceptance.suite.yml will be used
-	 *
 	 * @return  void
 	 *
-	 * @since   3.0.0
+	 * @since   4.0.0
 	 */
-	public function installJoomlaRemovingInstallationFolder($databaseName = null, $databasePrefix = null)
+	public function installJoomlaRemovingInstallationFolder()
 	{
-		$this->installJoomla($databaseName, $databasePrefix);
+		$this->installJoomla();
 
 		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
-
-		$this->debug('I wait for Removing Installation Folder button to become disabled');
-		$this->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", TIMEOUT);
+		$this->click(['xpath' => "//input[@class='form-check-input']"]);
 
 		$this->debug('Joomla is now installed');
-		$this->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h3']);
+		$this->click(['link' => "Complete & Open Admin"]);
 	}
 
 	/**
 	 * Installs Joomla with Multilingual Feature active
 	 *
 	 * @param   array  $languages  Array containing the language names to be installed
-	 * @param   string|null  $databaseName    Optional Database Name. If not passed the one in acceptance.suite.yml will be used
-	 * @param   string|null  $databasePrefix  Optional Database Prefix. If not passed the one in acceptance.suite.yml will be used
 	 *
 	 * @example: $this->installJoomlaMultilingualSite(['Spanish', 'French']);
 	 *
@@ -333,7 +280,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   3.0.0
 	 */
-	public function installJoomlaMultilingualSite($languages = array(), $databaseName = null, $databasePrefix = null)
+	public function installJoomlaMultilingualSite($languages = array())
 	{
 		if (!$languages)
 		{
@@ -341,7 +288,7 @@ class JoomlaBrowser extends WebDriver
 			$languages[] = 'French';
 		}
 
-		$this->installJoomla($databaseName, $databasePrefix);
+		$this->installJoomla();
 
 		$this->debug('I go to Install Languages page');
 		$this->click(['id' => 'instLangs']);
@@ -389,9 +336,9 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open the Server Tab');
 		$this->click(['link' => 'Server']);
 		$this->debug('I wait for error reporting dropdown');
-		$this->selectOptionInChosen('Error Reporting', 'Development');
+		$this->selectOption('Error Reporting', 'Development');
 		$this->debug('I click on save');
-		$this->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+		$this->click(['id' => 'toolbar-apply']);
 		$this->debug('I wait for global configuration being saved');
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->see('Configuration saved.', ['id' => 'system-message-container']);
@@ -437,7 +384,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 		$this->fillField(['id' => 'install_directory'], $path);
 		$this->click(['id' => 'installbutton_directory']);
-		$this->waitForText('was successful', TIMEOUT, ['id' => 'system-message-container']);
+		$this->waitForText('was successful', 'TIMEOUT', ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
 
@@ -599,6 +546,8 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since    3.0.0
+	 *
+	 * @deprecated  4.0.0
 	 */
 	public function selectOptionInChosenWithTextField($label, $option)
 	{
@@ -742,28 +691,6 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
-	 * Function to Disable a Plugin
-	 *
-	 * @param   String  $pluginName  Name of the Plugin
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0.0
-	 */
-	public function disablePlugin($pluginName)
-	{
-		$this->amOnPage('/administrator/index.php?option=com_plugins');
-		$this->debug('I check for Notices and Warnings');
-		$this->checkForPhpNoticesOrWarnings();
-		$this->searchForItem($pluginName);
-		$this->waitForElement($this->searchResultPluginName($pluginName), 30);
-		$this->checkExistenceOf($pluginName);
-		$this->click(['xpath' => "//input[@id='cb0']"]);
-		$this->click(['xpath' => "//div[@id='toolbar-unpublish']/button"]);
-		$this->see(' disabled', ['id' => 'system-message-container']);
-	}
-
-	/**
 	 * Uninstall Extension based on a name
 	 *
 	 * @param   string  $extensionName  Is important to use a specific
@@ -808,7 +735,7 @@ class JoomlaBrowser extends WebDriver
 		{
 			$this->debug("Searching for $name");
 			$this->fillField(['id' => "filter_search"], $name);
-			$this->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+			$this->click(['xpath' => "//button[@title='Search']"]);
 
 			return;
 		}
@@ -970,22 +897,19 @@ class JoomlaBrowser extends WebDriver
 		switch ($input)
 		{
 			case "new":
-				$this->click(['xpath' => "//div[@id='toolbar-new']//button"]);
-				break;
-			case "edit":
-				$this->click(['xpath' => "//div[@id='toolbar-edit']//button"]);
+				$this->click(['id' => "toolbar-new"]);
 				break;
 			case "publish":
-				$this->click(['xpath' => "//div[@id='toolbar-publish']//button"]);
+				$this->click(['id' => "toolbar-publish"]);
 				break;
 			case "unpublish":
-				$this->click(['xpath' => "//div[@id='toolbar-unpublish']//button"]);
+				$this->click(['id' => "toolbar-unpublish"]);
 				break;
 			case "archive":
-				$this->click(['xpath' => "//div[@id='toolbar-archive']//button"]);
+				$this->click(['id' => "toolbar-archive"]);
 				break;
 			case "check-in":
-				$this->click(['xpath' => "//div[@id='toolbar-checkin']//button"]);
+				$this->click(['id' => "'toolbar-checkin"]);
 				break;
 			case "batch":
 				$this->click(['xpath' => "//div[@id='toolbar-batch']//button"]);
@@ -994,25 +918,28 @@ class JoomlaBrowser extends WebDriver
 				$this->click(['xpath' => "//div[@id='toolbar-refresh']//button"]);
 				break;
 			case "trash":
-				$this->click(['xpath' => "//div[@id='toolbar-trash']//button"]);
+				$this->click(['id' => "toolbar-trash"]);
 				break;
 			case "save":
-				$this->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+				$this->click(['id' => "toolbar-apply"]);
 				break;
 			case "save & close":
-				$this->click(['xpath' => "//div[@id='toolbar-save']//button"]);
+				$this->click(['id' => "toolbar-save"]);
 				break;
 			case "save & new":
-				$this->click(['xpath' => "//div[@id='toolbar-save-new']//button"]);
+				$this->click(['id' => "toolbar-save-new"]);
 				break;
 			case "cancel":
-				$this->click(['xpath' => "//div[@id='toolbar-cancel']//button"]);
+				$this->click(['id' => "toolbar-cancel"]);
 				break;
 			case "options":
-				$this->click(['xpath' => "//div[@id='toolbar-options']//button"]);
+				$this->click(['id' => "toolbar-options"]);
 				break;
 			case "empty trash":
-				$this->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
+				$this->click(['id' => "toolbar-"]);
+				break;
+			case "feature":
+				$this->click(['id' => "toolbar-featured"]);
 				break;
 		}
 	}
@@ -1034,23 +961,23 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug("I open the menus page");
 		$this->amOnPage('administrator/index.php?option=com_menus&view=menus');
-		$this->waitForText('Menus', TIMEOUT, ['css' => 'H1']);
+		$this->waitForText('Menus', 'TIMEOUT', ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$this->debug("I click in the menu: $menu");
 		$this->click(['link' => $menu]);
-		$this->waitForText('Menus: Items', TIMEOUT, ['css' => 'H1']);
+		$this->waitForText('Menus: Items', 'TIMEOUT', ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$this->debug("I click new");
 		$this->click("New");
-		$this->waitForText('Menus: New Item', TIMEOUT, ['css' => 'h1']);
+		$this->waitForText('Menus: New Item', 'TIMEOUT', ['css' => 'h1']);
 		$this->checkForPhpNoticesOrWarnings();
 		$this->fillField(['id' => 'jform_title'], $menuTitle);
 
 		$this->debug("Open the menu types iframe");
 		$this->click(['link' => "Select"]);
-		$this->waitForElement(['id' => 'menuTypeModal'], TIMEOUT);
+		$this->waitForElement(['id' => 'menuTypeModal'], 'TIMEOUT');
 		$this->wait(1);
 		$this->switchToIFrame("Menu Item Type");
 
@@ -1058,12 +985,12 @@ class JoomlaBrowser extends WebDriver
 
 		// Open the category
 		$this->wait(1);
-		$this->waitForElement(['link' => $menuCategory], TIMEOUT);
+		$this->waitForElement(['link' => $menuCategory], 'TIMEOUT');
 		$this->click(['link' => $menuCategory]);
 
 		$this->debug("Choose the menu item type: $menuItem");
 		$this->wait(1);
-		$this->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], TIMEOUT);
+		$this->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], 'TIMEOUT');
 		$this->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
 		$this->debug('I switch back to the main window');
 		$this->switchToIFrame();
@@ -1074,7 +1001,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I save the menu');
 		$this->click("Save");
 
-		$this->waitForText('Menu item saved', TIMEOUT, ['id' => 'system-message-container']);
+		$this->waitForText('Menu item successfully saved', 'TIMEOUT', ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -1146,8 +1073,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug('I click on never');
 		$this->wait(1);
-		$this->waitForElement(['link' => 'Never'], TIMEOUT);
-		$this->click(['link' => 'Never']);
+		$this->waitForElement(['link' => 'Always'], TIMEOUT);
+		$this->click(['link' => 'Always']);
 	}
 
 	/**
