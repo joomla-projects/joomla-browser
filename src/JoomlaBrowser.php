@@ -112,6 +112,11 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function doAdministratorLogin($user = null, $password = null)
 	{
+		if ($this->loadSessionSnapshot('adminLogin'))
+		{
+			return;
+		}
+
 		if (is_null($user))
 		{
 			$user = $this->config['username'];
@@ -135,6 +140,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click($this->locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
 		$this->waitForText('Control Panel', 4, $this->locator->controlPanelLocator);
+		$I->saveSessionSnapshot('adminLogin');
 	}
 
 	/**
