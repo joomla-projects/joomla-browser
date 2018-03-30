@@ -230,7 +230,7 @@ class JoomlaBrowser extends WebDriver
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
-		$this->click(['id' => "step1"]);
+		$this->click(['id' => 'step1']);
 
 		// I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
 		$this->debug('I fill Admin Email');
