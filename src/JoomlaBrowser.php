@@ -143,7 +143,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForText('Control Panel', 4, $this->locator->controlPanelLocator);
 
 		if ($useSnapshot) {
-			$I->saveSessionSnapshot($user);
+			$this->saveSessionSnapshot($user);
 		}
 	}
 
