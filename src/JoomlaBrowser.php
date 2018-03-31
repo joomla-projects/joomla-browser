@@ -12,7 +12,7 @@ use Codeception\Module\Locators\Locators;
 use Codeception\Module\WebDriver;
 use Codeception\Lib\ModuleContainer;
 
-const TIMEOUT = 180;
+const TIMEOUT = 60;
 
 /**
  * Joomla Browser class to perform test suits for Joomla.
