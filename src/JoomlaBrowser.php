@@ -897,13 +897,6 @@ class JoomlaBrowser extends WebDriver
 	{
 		$input = strtolower($button);
 
-		$screenSize = explode("x", $this->config['window_size']);
-
-		if ($screenSize[0] <= 480)
-		{
-			$this->click('Toolbar');
-		}
-
 		switch ($input)
 		{
 			case "new":
