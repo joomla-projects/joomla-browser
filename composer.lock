@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "744a36282e5979c5a044ae9abfd8859e",
+    "content-hash": "1552aa8d6adc08dd35e29ece953c41c4",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -1700,25 +1700,78 @@
             "time": "2017-03-20T17:10:46+00:00"
         },
         {
-            "name": "joomla-projects/joomla-testing-robo",
-            "version": "1.0.1",
+            "name": "joomla-projects/joomla-testing",
+            "version": "dev-container-test",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-projects/joomla-testing-robo.git",
-                "reference": "6d459ea7c3293b907e59429e077dea1367658f68"
+                "url": "https://github.com/joomla-projects/joomla-testing.git",
+                "reference": "705c7aeed75c181f3b7ad15a7af419173c867923"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-testing-robo/zipball/6d459ea7c3293b907e59429e077dea1367658f68",
-                "reference": "6d459ea7c3293b907e59429e077dea1367658f68",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-testing/zipball/705c7aeed75c181f3b7ad15a7af419173c867923",
+                "reference": "705c7aeed75c181f3b7ad15a7af419173c867923",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "consolidation/robo": "~1",
+                "joomla-projects/joomla-testing-robo": "dev-container-test",
+                "joomla-projects/virtualisation": "dev-container-test",
+                "symfony/process": "~3",
+                "symfony/yaml": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Testing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Tito Alvarez",
+                    "email": "tito.alvarez@community.joomla.org"
+                }
+            ],
+            "description": "Joomla automated testing scripts with container capabilities",
+            "keywords": [
+                "containers",
+                "docker",
+                "qa",
+                "robo",
+                "task",
+                "tests"
+            ],
+            "time": "2017-08-24T14:09:45+00:00"
+        },
+        {
+            "name": "joomla-projects/joomla-testing-robo",
+            "version": "dev-container-test",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-projects/joomla-testing-robo.git",
+                "reference": "8a44d557f43357f6da3d440bd2689949a9424129"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-testing-robo/zipball/8a44d557f43357f6da3d440bd2689949a9424129",
+                "reference": "8a44d557f43357f6da3d440bd2689949a9424129",
                 "shasum": ""
             },
             "require": {
                 "cloudinary/cloudinary_php": "~1",
                 "consolidation/robo": "~1",
+                "guzzlehttp/guzzle": "~6.3",
+                "joomla-projects/joomla-testing": "dev-container-test",
                 "knplabs/github-api": "~1",
                 "php": ">=5.4.0",
-                "squizlabs/php_codesniffer": "~1"
+                "squizlabs/php_codesniffer": "~2"
             },
             "replace": {
                 "joomla-projects/robo": "< 1.0"
@@ -1746,7 +1799,54 @@
                 "task",
                 "tests"
             ],
-            "time": "2016-12-14T20:43:15+00:00"
+            "time": "2018-01-05T05:43:27+00:00"
+        },
+        {
+            "name": "joomla/coding-standards",
+            "version": "2.0.0-rc",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla/coding-standards.git",
+                "reference": "4a9e350d7c55049df69bf7fa1d7b0be929537946"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/4a9e350d7c55049df69bf7fa1d7b0be929537946",
+                "reference": "4a9e350d7c55049df69bf7fa1d7b0be929537946",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10",
+                "squizlabs/php_codesniffer": "^2.8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.7"
+            },
+            "type": "phpcodesniffer-standard",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Joomla Coding Standards Contributors",
+                    "homepage": "https://github.com/joomla/coding-standards/graphs/contributors"
+                }
+            ],
+            "description": "Joomla Coding Standards",
+            "homepage": "https://github.com/joomla/coding-standards",
+            "keywords": [
+                "coding standards",
+                "joomla",
+                "php codesniffer",
+                "phpcs"
+            ],
+            "time": "2018-02-10T15:26:59+00:00"
         },
         {
             "name": "knplabs/github-api",
@@ -3172,32 +3272,35 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "1.5.6",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5"
+                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6f3e42d311b882b25b4d409d23a289f4d3b803d5",
-                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dcbed1074f8244661eecddfc2a675430d8d33f62",
+                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62",
                 "shasum": ""
             },
             "require": {
+                "ext-simplexml": "*",
                 "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
                 "php": ">=5.1.2"
             },
-            "suggest": {
-                "phpunit/php-timer": "dev-master"
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
             },
             "bin": [
-                "scripts/phpcs"
+                "scripts/phpcs",
+                "scripts/phpcbf"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-phpcs-fixer": "2.0.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -3206,12 +3309,12 @@
                     "CodeSniffer/CLI.php",
                     "CodeSniffer/Exception.php",
                     "CodeSniffer/File.php",
+                    "CodeSniffer/Fixer.php",
                     "CodeSniffer/Report.php",
                     "CodeSniffer/Reporting.php",
                     "CodeSniffer/Sniff.php",
                     "CodeSniffer/Tokens.php",
                     "CodeSniffer/Reports/",
-                    "CodeSniffer/CommentParser/",
                     "CodeSniffer/Tokenizers/",
                     "CodeSniffer/DocGenerators/",
                     "CodeSniffer/Standards/AbstractPatternSniff.php",
@@ -3237,13 +3340,13 @@
                     "role": "lead"
                 }
             ],
-            "description": "PHP_CodeSniffer tokenises PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
             "homepage": "http://www.squizlabs.com/php-codesniffer",
             "keywords": [
                 "phpcs",
                 "standards"
             ],
-            "time": "2014-12-04T22:32:15+00:00"
+            "time": "2017-05-22T02:43:20+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -3503,9 +3606,11 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "joomla-projects/joomla-testing-robo": 20
+    },
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.5.9"
