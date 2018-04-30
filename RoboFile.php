@@ -14,12 +14,10 @@
  * @since      1.0.0
  */
 
-include_once 'vendor/autoload.php';
-
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use Joomla\Testing\Robo\Tasks\loadTasks;
+	use \Joomla\Testing\Robo\Tasks\loadTasks;
 
 	/**
 	 * Check the code style of the project against a passed sniffers using PHP_CodeSniffer_CLI
