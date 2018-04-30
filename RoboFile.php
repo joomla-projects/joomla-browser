@@ -33,7 +33,6 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskCodeChecks()
 			->setBaseRepositoryPath(__DIR__)
-			->setcodeStyleName('Joomla')
 			->setCodeStyleStandardsFolder($sniffersPath)
 			->setCodeStyleCheckFolders(
 				array(
