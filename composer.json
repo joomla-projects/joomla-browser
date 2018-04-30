@@ -16,9 +16,7 @@
     ],
     "require": {
         "php"                                   : ">=5.5.9",
-        "consolidation/robo"                    : "~1"
-    },
-    "require-dev": {
+        "consolidation/robo"                    : "~1",
         "joomla-projects/joomla-testing-robo"   : "dev-container-test",
         "codeception/codeception"               : "^2.4",
         "joomla/coding-standards"               : "^2"
