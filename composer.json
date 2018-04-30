@@ -20,8 +20,7 @@
     },
     "require-dev": {
         "joomla-projects/joomla-testing-robo"   : "dev-container-test",
-        "codeception/codeception"               : "^2.4",
-        "joomla/coding-standards"               : "^2"
+        "codeception/codeception"               : "^2.4"
     },
     "autoload": {
         "psr-4": {

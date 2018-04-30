@@ -29,7 +29,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (is_null($sniffersPath))
 		{
-			$sniffersPath = __DIR__ . '/vendor/joomla/coding-standards';
+			$sniffersPath = __DIR__ . '/.tmp/coding-standards';
 		}
 
 		$this->taskCodeChecks()
