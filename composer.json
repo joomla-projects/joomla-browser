@@ -16,16 +16,16 @@
     ],
     "require": {
         "php"                                   : ">=5.5.9",
-        "consolidation/robo"                    : "~1",
-        "symfony/process"                       : "<4",
-        "symfony/console"                       : "<4",
-        "symfony/event-dispatcher"              : "<4",
-        "symfony/filesystem"                    : "<4",
-        "symfony/finder"                        : "<4",
-        "symfony/dom-crawler"                   : "<4",
-        "symfony/browser-kit"                   : "<4",
-        "symfony/css-selector"                  : "<4",
-        "symfony/yaml"                          : "<4"
+        "consolidation/robo"                    : "^1",
+        "symfony/process"                       : "^3",
+        "symfony/console"                       : "^3",
+        "symfony/event-dispatcher"              : "^3",
+        "symfony/filesystem"                    : "^3",
+        "symfony/finder"                        : "^3",
+        "symfony/dom-crawler"                   : "^3",
+        "symfony/browser-kit"                   : "^3",
+        "symfony/css-selector"                  : "^3",
+        "symfony/yaml"                          : "^3"
     },
     "require-dev": {
         "joomla-projects/joomla-testing-robo"   : "dev-container-test",
