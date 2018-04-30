@@ -15,22 +15,8 @@
         }
     ],
     "require": {
-        "php"                                   : ">=5.5.9",
-        "consolidation/robo"                    : "^1",
-        "symfony/process"                       : "^3",
-        "symfony/console"                       : "^3",
-        "symfony/event-dispatcher"              : "^3",
-        "symfony/filesystem"                    : "^3",
-        "symfony/finder"                        : "^3",
-        "symfony/dom-crawler"                   : "^3",
-        "symfony/browser-kit"                   : "^3",
-        "symfony/css-selector"                  : "^3",
-        "symfony/yaml"                          : "^3",
-        "symfony/debug"                         : "^3",
-        "doctrine/instantiator"                 : "^1.0",
-        "phpunit/php-code-coverage"             : "^5",
-        "phpunit/php-timer"                     : "^1",
-        "phpunit/phpunit-mock-objects"          : "^5"
+        "php"                                   : ">=7.1",
+        "consolidation/robo"                    : "^1"
     },
     "require-dev": {
         "joomla-projects/joomla-testing-robo"   : "dev-container-test",
