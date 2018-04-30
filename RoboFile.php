@@ -34,7 +34,7 @@ class RoboFile extends \Robo\Tasks
 		$this->taskCodeChecks()
 			->setBaseRepositoryPath(__DIR__)
 			->setCodeStyleStandardsFolder($sniffersPath)
-			->setCodeStyleCheckFolders(array('/src'))
+			->setCodeStyleCheckFolders('/src')
 			->checkCodeStyle()
 			->run()
 			->stopOnFail();
