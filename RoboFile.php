@@ -17,7 +17,7 @@
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use Joomla\Testing\Robo\Tasks\loadTasks;
+	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
 	/**
 	 * Check the code style of the project against a passed sniffers using PHP_CodeSniffer_CLI
