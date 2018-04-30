@@ -13,6 +13,9 @@
  *
  * @since      1.0.0
  */
+
+include_once 'vendor/autoload.php';
+
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
