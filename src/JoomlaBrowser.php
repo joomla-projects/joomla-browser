@@ -839,7 +839,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['link' => 'Module']);
 		$this->waitForElement(['id' => 'general'], 30);
 		$this->selectOptionInChosen('Position', $position);
-		$this->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
+		$this->click(['xpath' => "//div[@id='save-group-children-apply']/button"]);
 		$this->waitForText('Module saved', 30, ['id' => 'system-message-container']);
 	}
 
@@ -880,7 +880,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement(['id' => 'jform_menus-lbl'], 30);
 		$this->click(['id' => 'jform_assignment_chzn']);
 		$this->click(['xpath' => "//li[@data-option-array-index='0']"]);
-		$this->click(['xpath' => "//div[@id='toolbar-apply']/button"]);
+		$this->click(['xpath' => "//div[@id='save-group-children-apply']/button"]);
 		$this->waitForText('Module saved', 30, ['id' => 'system-message-container']);
 	}
 
@@ -924,13 +924,13 @@ class JoomlaBrowser extends WebDriver
 				$this->click(['id' => "toolbar-trash"]);
 				break;
 			case "save":
-				$this->click(['id' => "toolbar-apply"]);
+				$this->click(['id' => "save-group-children-apply"]);
 				break;
 			case "save & close":
-				$this->click(['id' => "toolbar-save"]);
+				$this->click(['id' => "save-group-children-save"]);
 				break;
 			case "save & new":
-				$this->click(['id' => "toolbar-save-new"]);
+				$this->click(['id' => "save-group-children-save-new"]);
 				break;
 			case "cancel":
 				$this->click(['id' => "toolbar-cancel"]);
