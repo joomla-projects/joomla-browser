@@ -348,7 +348,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for error reporting dropdown');
 		$this->selectOption('Error Reporting', 'Development');
 		$this->debug('I click on save');
-		$this->click(['id' => 'toolbar-apply']);
+		$this->clickToolbarButton('save');
 		$this->debug('I wait for global configuration being saved');
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->see('Configuration saved.', ['id' => 'system-message-container']);
