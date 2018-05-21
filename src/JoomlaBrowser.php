@@ -103,25 +103,28 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Function to Do Admin Login In Joomla!
 	 *
-	 * @param   string|null  $user      Optional Username. If not passed the one in acceptance.suite.yml will be used
-	 * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
+	 * @param   string|null  $user         Optional Username. If not passed the one in acceptance.suite.yml will be used
+	 * @param   string|null  $password     Optional password. If not passed the one in acceptance.suite.yml will be used
+	 * @param   bool         $useSnapshot  Whether or not you want to reuse the session from previous login. Enabled by default.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0.0
 	 */
-	public function doAdministratorLogin($user = null, $password = null)
+	public function doAdministratorLogin($user = null, $password = null, $useSnapshot = true)
 	{
 		if (is_null($user))
 		{
 			$user = $this->config['username'];
 		}
-
 		if (is_null($password))
 		{
 			$password = $this->config['password'];
 		}
-
+		if ($useSnapshot && $this->loadSessionSnapshot($user))
+		{
+			return;
+		}
 		$this->debug('I open Joomla Administrator Login Page');
 		$this->amOnPage($this->locator->adminLoginPageUrl);
 		$this->waitForElement($this->locator->adminLoginUserName, TIMEOUT);
@@ -129,12 +132,14 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField($this->locator->adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
 		$this->fillField($this->locator->adminLoginPassword, $password);
-
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
 		$this->waitForText($this->locator->adminControlPanelText, 4, $this->locator->controlPanelLocator);
+		if ($useSnapshot) {
+			$this->saveSessionSnapshot($user);
+		}
 	}
 
 	/**
