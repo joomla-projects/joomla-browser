@@ -102,26 +102,29 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Function to Do Admin Login In Joomla!
 	 *
-	 * @param   string|null  $user      Optional Username. If not passed the one in acceptance.suite.yml will be used
-	 * @param   string|null  $password  Optional password. If not passed the one in acceptance.suite.yml will be used
+	 * @param   string|null  $user         Optional Username. If not passed the one in acceptance.suite.yml will be used
+	 * @param   string|null  $password     Optional password. If not passed the one in acceptance.suite.yml will be used
+	 * @param   bool         $useSnapshot  Whether or not you want to reuse the session from previous login. Enabled by default.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0.0
 	 * @throws  \Exception
 	 */
-	public function doAdministratorLogin($user = null, $password = null)
+	public function doAdministratorLogin($user = null, $password = null, $useSnapshot = true)
 	{
 		if (is_null($user))
 		{
 			$user = $this->config['username'];
 		}
-
 		if (is_null($password))
 		{
 			$password = $this->config['password'];
 		}
-
+		if ($useSnapshot && $this->loadSessionSnapshot($user))
+		{
+			return;
+		}
 		$this->debug('I open Joomla Administrator Login Page');
 		$this->amOnPage($this->locator->adminLoginPageUrl);
 		$this->waitForElement($this->locator->adminLoginUserName, TIMEOUT);
@@ -129,12 +132,14 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField($this->locator->adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
 		$this->fillField($this->locator->adminLoginPassword, $password);
-
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
 		$this->waitForText($this->locator->adminControlPanelText, 4, $this->locator->controlPanelLocator);
+		if ($useSnapshot) {
+			$this->saveSessionSnapshot($user);
+		}
 	}
 
 	/**
@@ -323,7 +328,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForJS("return jQuery('form#adminForm input[name=instDefault]').attr('disabled') == 'disabled';", TIMEOUT);
 
 		$this->debug('Joomla is now installed');
-		$this->see('Congratulations! Joomla! is now installed.', array('xpath' => '//h3'));
+		$this->see('Congratulations! Joomla! is now installed.', '//h3');
 	}
 
 	/**
@@ -376,7 +381,7 @@ class JoomlaBrowser extends WebDriver
 		$this->wait(2);
 
 		$this->debug('Joomla is now installed');
-		$this->see('Congratulations! Joomla! is now installed.', array('xpath' => '//h3'));
+		$this->see('Congratulations! Joomla! is now installed.', '//h3');
 	}
 
 	/**
@@ -401,8 +406,8 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click on save');
 		$this->click(array('xpath' => "//div[@id='toolbar-apply']//button"));
 		$this->debug('I wait for global configuration being saved');
-		$this->waitForText('Global Configuration', TIMEOUT, array('css' => '.page-title'));
-		$this->see('Configuration saved.', array('id' => 'system-message-container'));
+		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$this->see('Configuration saved.', '#system-message-container');
 	}
 
 	/**
@@ -734,9 +739,9 @@ class JoomlaBrowser extends WebDriver
 		$this->searchForItem($pluginName);
 		$this->waitForElement($this->searchResultPluginName($pluginName), 30);
 		$this->checkExistenceOf($pluginName);
-		$this->click(array('xpath' => "//input[@id='cb0']"));
-		$this->click(array('xpath' => "//div[@id='toolbar-publish']/button"));
-		$this->see(' enabled', array('id' => 'system-message-container'));
+		$this->click(['xpath' => "//input[@id='cb0']"]);
+		$this->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
+		$this->see(' enabled', '#system-message-container');
 	}
 
 	/**
@@ -773,9 +778,9 @@ class JoomlaBrowser extends WebDriver
 		$this->searchForItem($pluginName);
 		$this->waitForElement($this->searchResultPluginName($pluginName), 30);
 		$this->checkExistenceOf($pluginName);
-		$this->click(array('xpath' => "//input[@id='cb0']"));
-		$this->click(array('xpath' => "//div[@id='toolbar-unpublish']/button"));
-		$this->see(' disabled', array('id' => 'system-message-container'));
+		$this->click(['xpath' => "//input[@id='cb0']"]);
+		$this->click(['xpath' => "//div[@id='toolbar-unpublish']/button"]);
+		$this->see(' disabled', '#system-message-container');
 	}
 
 	/**
@@ -797,8 +802,8 @@ class JoomlaBrowser extends WebDriver
 		$this->click(array('xpath' => "//input[@id='cb0']"));
 		$this->click(array('xpath' => "//div[@id='toolbar-delete']/button"));
 		$this->acceptPopup();
-		$this->waitForText('was successful', '30', array('id' => 'system-message-container'));
-		$this->see('was successful', array('id' => 'system-message-container'));
+		$this->waitForText('was successful', '30', ['id' => 'system-message-container']);
+		$this->see('was successful', '#system-message-container');
 		$this->searchForItem($extensionName);
 		$this->waitForText(
 			'There are no extensions installed matching your query.',
@@ -846,8 +851,8 @@ class JoomlaBrowser extends WebDriver
 	public function checkExistenceOf($name)
 	{
 		$this->debug("Verifying if $name exist in search result");
-		$this->seeElement(array('xpath' => "//form[@id='adminForm']/div/table/tbody"));
-		$this->see($name, array('xpath' => "//form[@id='adminForm']/div/table/tbody"));
+		$this->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
+		$this->see($name, "//form[@id='adminForm']/div/table/tbody");
 	}
 
 	/**
@@ -881,10 +886,10 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement(array('id' => 'j-main-container'), 30);
 		$this->searchForItem($languageName);
 		$this->waitForElement($this->searchResultLanguageName($languageName), 30);
-		$this->click(array('id' => "cb0"));
-		$this->click(array('xpath' => "//div[@id='toolbar-upload']/button"));
-		$this->waitForText('was successful.', TIMEOUT, array('id' => 'system-message-container'));
-		$this->see('No Matching Results', array('class' => 'alert-no-items'));
+		$this->click(['id' => "cb0"]);
+		$this->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
+		$this->waitForText('was successful.', TIMEOUT, ['id' => 'system-message-container']);
+		$this->see('No Matching Results', '.alert-no-items');
 		$this->debug($languageName . ' successfully installed');
 	}
 
@@ -1211,7 +1216,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('see a success message after saving the category');
 
-		$this->see('Category saved', array('id' => 'system-message-container'));
+		$this->see('Category saved', '#system-message-container');
 		$this->checkForPhpNoticesOrWarnings();
 	}
 }
