@@ -16,7 +16,12 @@
     ],
     "require": {
         "php"                                   : ">=5.5.9",
-        "consolidation/robo"                    : "^1"
+        "consolidation/robo"                    : "^1",
+        "symfony/console"                       : "~3|~4",
+        "symfony/filesystem"                    : "~3|~4",
+        "symfony/finder"                        : "~3|~4",
+        "symfony/process"                       : "~3|~4",
+        "symfony/yaml"                          : "~3|~4"
     },
     "require-dev": {
         "joomla-projects/joomla-testing-robo"   : "dev-container-test",
