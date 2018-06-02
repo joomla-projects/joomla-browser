@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php"                                   : ">=7.1",
+        "php"                                   : ">=5.5.9",
         "consolidation/robo"                    : "^1"
     },
     "require-dev": {
