@@ -31,10 +31,6 @@ matrix:
   allow_failures:
     - php: nightly
 
-matrix:
-  allow_failures:
-    - php: nightly
-
 before_script:
   - composer self-update
   - if [ $COMPOSER_UPDATE == "true" ]; then composer update; else composer install --prefer-dist --no-progress --no-interaction; fi
