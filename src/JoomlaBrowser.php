@@ -1196,4 +1196,70 @@ class JoomlaBrowser extends WebDriver
 		$this->see('Category saved', '#system-message-container');
 		$this->checkForPhpNoticesOrWarnings();
 	}
+	/**
+	 * Site Offline
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.5
+	 */
+	public function setSiteOffline()
+	{
+		$this->debug('I set the site to offline');
+		$this->doAdministratorLogin();
+		$this->amOnPage('/administrator/index.php?option=com_config');
+		$this->click(['id' => 'jform_offline1']);
+		$this->click("Save");
+		$this->see('Configuration saved', ['id' => 'system-message-container']);
+	}
+	/**
+	 * Site Online
+	 *
+	 * @param   \AcceptanceTester   $I  Acceptance Tester
+	 *
+	 * @return void
+	 */
+	public function setSiteOnline()
+	{
+		$this->debug('I set the site to online');
+		$this->doAdministratorLogin();
+		$this->amOnPage('/administrator/index.php?option=com_config');
+		$this->click(['id' => 'jform_offline0']);
+		$this->click("Save");
+		$this->see('Configuration saved', ['id' => 'system-message-container']);
+	}
+	/**
+	 * Search Engine Optimization
+	 *
+	 * @param   \AcceptanceTester   $I  Acceptance Tester
+	 *
+	 * @return void
+	 */
+	public function setSiteSeoYes()
+	{
+		$this->debug('I set the Search engine optimisation to Yes');
+		$this->doAdministratorLogin();
+		$this->amOnPage('/administrator/index.php?option=com_config');
+		$this->click(['id' => 'jform_sef1']);
+		//Select Option 'After'
+		$this->selectOption(['id' => 'jform_sitename_pagetitles'],'After');
+		$this->click("Save");
+		$this->see('Configuration saved', ['id' => 'system-message-container']);
+	}
+	/**
+	 * Search Engine Optimization
+	 *
+	 * @param   \AcceptanceTester   $I  Acceptance Tester
+	 *
+	 * @return void
+	 */
+	public function setSiteSeoNo()
+	{
+		$this->debug('I set the Search engine optimisation to No');
+		$this->doAdministratorLogin();
+		$this->amOnPage('/administrator/index.php?option=com_config');
+		$this->click(['id' => 'jform_sef0']);
+		$this->click("Save");
+		$this->see('Configuration saved', ['id' => 'system-message-container']);
+	}
 }
