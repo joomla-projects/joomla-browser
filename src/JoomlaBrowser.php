@@ -1013,7 +1013,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   3.7.5
 	 */
-	public function setSiteOffline($enable)
+	public function setSiteOffline($enable == true)
 	{
         	$this->debug('I set the site to offline');
         	$this->doAdministratorLogin();
@@ -1035,7 +1035,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @return void
 	 */
-	public function setSiteSearchEngineFriendly($enable)
+	public function setSiteSearchEngineFriendly($enable == true)
 	{
         	$this->debug('I set the Search engine optimisation to Yes');
         	$this->doAdministratorLogin();
@@ -1135,7 +1135,7 @@ class JoomlaBrowser extends WebDriver
                 	//Module saved
                 	$this->see('Module saved', ['id' => 'system-message-container']);
                 	break;
-       		}
+		}
     	}
 }
 
