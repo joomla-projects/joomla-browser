@@ -14,7 +14,7 @@ const TIMEOUT = 60;
  * Joomla Browser class to perform test suits for Joomla.
  *
  * @since  1.0
- */
+ */		
 class JoomlaBrowser extends WebDriver
 {
         /**
@@ -1015,17 +1015,14 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function setSiteOffline($enable)
 	{
+        $this->debug('I set the site to offline');
+        $this->doAdministratorLogin();
+        $this->amOnPage('/administrator/index.php?option=com_config');
 		if($enable == true){
-			$this->debug('I set the site to offline');
-			$this->doAdministratorLogin();
-			$this->amOnPage('/administrator/index.php?option=com_config');
 			$this->click(['id' => 'jform_offline1']);
 			$this->click("Save");
 			$this->see('Configuration saved', ['id' => 'system-message-container']);
 		}else{
-			$this->debug('I set the site to online');
-			$this->doAdministratorLogin();
-			$this->amOnPage('/administrator/index.php?option=com_config');
 			$this->click(['id' => 'jform_offline0']);
 			$this->click("Save");
 			$this->see('Configuration saved', ['id' => 'system-message-container']);
@@ -1040,23 +1037,105 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function setSiteSearchEngineFriendly($enable)
 	{
+        $this->debug('I set the Search engine optimisation to Yes');
+        $this->doAdministratorLogin();
+        $this->amOnPage('/administrator/index.php?option=com_config');
 		if($enable == true){
-			$this->debug('I set the Search engine optimisation to Yes');
-			$this->doAdministratorLogin();
-			$this->amOnPage('/administrator/index.php?option=com_config');
 			$this->click(['id' => 'jform_sef1']);
 			//Select Option 'After'
 			$this->selectOption(['id' => 'jform_sitename_pagetitles'],'After');
 			$this->click("Save");
 			$this->see('Configuration saved', ['id' => 'system-message-container']);
 		}else{
-			$this->debug('I set the Search engine optimisation to No');
-			$this->doAdministratorLogin();
-			$this->amOnPage('/administrator/index.php?option=com_config');
 			$this->click(['id' => 'jform_sef0']);
 			$this->click("Save");
 			$this->see('Configuration saved', ['id' => 'system-message-container']);
 		}
 	}
+	/**
+     * Create Module
+     *
+     * @param   \AcceptanceTester $I          Acceptance Tester
+     * @param   string            $scenario   Scenario
+     *
+     * @return void
+     */
+    public function createModule($moduleType, $moduleName, $category)
+    {
+        $this->doAdministratorLogin();
+        $this->amOnPage('/administrator/index.php?option=com_modules');
+        // New Module
+        $this->click('New');
+        // Select Module Type
+        $this->see('Select a Module Type');
+        /**
+         * Module Types
+         * Articles - Archived
+         * Articles - Categories
+         * Articles - Category
+         */
+        switch ($moduleType)
+        {
+            case 'Articles - Archived' :
+		$this->click(['link' => $moduleType]);
+                // Title
+                $this->fillField(['id' => 'jform_title'], $moduleName);
+                // Set Position
+                $this->click('Type or Select a Position');
+                $this->fillField(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],'Main Top');
+                $this->pressKey(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],\Facebook\WebDriver\WebDriverKeys::ENTER);
+                // Save It
+                $this->click(['xpath' => "//button[contains(@class, 'dropdown-toggle')]"]);
+                $this->clickToolbarButton('save & close');
+                $this->see('Module saved', ['id' => 'system-message-container']);
+                break;
+            case 'Articles - Categories' :
+		$this->click(['link' => $moduleType]);
+                // Title
+                $this->fillField(['id' => 'jform_title'], $moduleName);
+                // Set Position
+                $this->click('Type or Select a Position');
+                $this->fillField(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],'Main Top');
+                $this->pressKey(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],\Facebook\WebDriver\WebDriverKeys::ENTER);
+                // Select category as 'Google Summer Of Codes'
+                $this->click(['id' => 'jform_params_parent_select']);
+                $this->switchToIFrame('Select or Change Category');
+                $this->wait(1);
+                $this->searchForItem($category);
+                $this->wait(1);
+                $this->see($category);
+                $this->click(['link' => $category]);
+                $this->switchToPreviousTab();
+                // Save
+                $this->wait(1);
+                $this->click(['xpath' => "//button[contains(@class, 'dropdown-toggle')]"]);
+                $this->clickToolbarButton('save & close');
+                //Module saved
+                $this->see('Module saved', ['id' => 'system-message-container']);
+                break;
+            case 'Articles - Category' :
+		$this->click(['link' => $moduleType]);
+                // Title
+                $this->fillField(['id' => 'jform_title'], $moduleName);
+                /**
+                 * Set Position
+                 * setModulePosition not working. Tried both
+                 * $I->setModulePosition($moduleName,'Main Top[main-top]'); and
+                 * $I->setModulePosition($moduleName,'Main Top');
+                 */
+                $this->click('Type or Select a Position');
+                $this->fillField(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],'Main Top');
+		$this->pressKey(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],\Facebook\WebDriver\WebDriverKeys::ENTER);
+                // Filter Options
+                $this->click(['link' => 'Filtering Options']);
+                // Select category as 'Google Summer Of Codes'
+                $this->selectOption(['id' => 'jform_params_catid'], $category);
+                $this->click(['xpath' => "//button[contains(@class, 'dropdown-toggle')]"]);
+                $this->clickToolbarButton('save & close');
+                //Module saved
+                $this->see('Module saved', ['id' => 'system-message-container']);
+                break;
+        }
+    }
 }
 
