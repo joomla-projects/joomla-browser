@@ -1121,4 +1121,177 @@ class JoomlaBrowser extends WebDriver
 		$this->see('Category saved', ['id' => 'system-message-container']);
 		$this->checkForPhpNoticesOrWarnings();
 	}
+	/**
+	 * Site Offline
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.5
+	 */
+	public function setSiteOffline($enable == true)
+	{
+		$this->debug('I set the site to offline');
+		$this->doAdministratorLogin();
+		$this->amOnPage('/administrator/index.php?option=com_config');
+		if($enable == true){
+			$this->click(['id' => 'jform_offline1']);
+		}else{
+			$this->click(['id' => 'jform_offline0']);
+		}
+		$this->click("Save");
+		$this->see('Configuration saved', ['id' => 'system-message-container']);
+	}
+	/**
+	 * Search Engine Optimization
+	 *
+	 * @param   \AcceptanceTester   $I  Acceptance Tester
+	 *
+	 * @return void
+	 */
+	public function setSiteSearchEngineFriendly($enable == true)
+	{
+		$this->debug('I set the Search engine optimisation to Yes');
+		$this->doAdministratorLogin();
+		$this->amOnPage('/administrator/index.php?option=com_config');
+		// If-else statement
+		if ($enable == true){
+			$this->click(['id' => 'jform_sef1']);
+			//Select Option 'After'
+			$this->selectOption(['id' => 'jform_sitename_pagetitles'],'After');
+		}
+		else
+		{
+			$this->click(['id' => 'jform_sef0']);
+		}
+		$this->click("Save");
+		$this->see('Configuration saved', ['id' => 'system-message-container']);
+	}
+	/**
+	 * Create Module
+	 *
+	 * @param   string  $moduleType Type of Module
+	 * @param   string  $moduleName Name of Module
+	 * @param   string  $category   Category of Module
+	 * @return void
+	 */
+	public function createModule($moduleType, $moduleName, $category)
+	{
+		$this->doAdministratorLogin();
+		$this->amOnPage('/administrator/index.php?option=com_modules');
+		// New Module
+		$this->click('New');
+		// Select Module Type
+		$this->see('Select a Module Type');
+		// Module Type
+		$this->click(['link' => $moduleType]);
+		// Title
+		$this->fillField(['id' => 'jform_title'], $moduleName);
+		/**
+		 * Set Position
+		 * setModulePosition not working. Tried both
+		 * $I->setModulePosition($moduleName,'Main Top[main-top]'); and
+		 * $I->setModulePosition($moduleName,'Main Top');
+		 */
+		$this->click('Type or Select a Position');
+		$this->fillField(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],'Main Top');
+		$this->pressKey(['xpath' => '//*[@id="jform_position_chzn"]/div/div/input'],\Facebook\WebDriver\WebDriverKeys::ENTER);
+		/**
+		 * Module Types
+		 * Articles - Archived
+		 * Articles - Categories
+		 * Articles - Category
+		 * Banners
+		 * Breadcrumbs
+		 * Articles - Most Read
+		 * Articles - Newsflash
+		 * Articles - Related
+		 * Custom
+		 * Feed Display
+		 * Latest Users
+		 * Login
+		 * Search
+		 * Smart Search
+		 * Language Switcher
+		 * Menu
+		 * Statistics
+		 * Syndication Feeds
+		 * Tags - Popular
+		 */
+		switch ($moduleType)
+		{
+			case 'Articles - Archived' :
+				break;
+			case 'Articles - Categories' :
+				// Select category as 'Google Summer Of Codes'
+				$this->click(['id' => 'jform_params_parent_select']);
+				$this->switchToIFrame('Select or Change Category');
+				$this->wait(1);
+				$this->searchForItem($category);
+				$this->wait(1);
+				$this->see($category);
+				$this->click(['link' => $category]);
+				$this->switchToPreviousTab();
+				// Save
+				$this->wait(1);
+				break;
+			case 'Articles - Category' :
+				// Filter Options
+				$this->click(['link' => 'Filtering Options']);
+				// Select category as 'Google Summer Of Codes'
+				$this->selectOption(['id' => 'jform_params_catid'], $category);
+				break;
+			case 'Articles - Latest' :
+				$this->scrollTo(['id' => 'jform_params_catid'],$category);
+				$this->selectOption(['id' => 'jform_params_catid'],$category);
+				break;
+			case 'Articles - Most Read' :
+				$this->scrollTo(['id' => 'jform_params_catid'],$category);
+				$this->selectOption(['id' => 'jform_params_catid'],$category);
+				break;
+			case 'Articles - Newsflash' :
+				$this->click(['id' => 'jform_params_catid_chzn']);
+				$this->fillField(['xpath' => '//*[@id="jform_params_catid_chzn"]/ul/li/input'],$category);
+				$this->pressKey(['xpath' => '//*[@id="jform_params_catid_chzn"]/ul/li/input'],\Facebook\WebDriver\WebDriverKeys::ENTER);
+				break;
+			case 'Articles - Related' :
+				break;
+			case 'Banners' :
+				// Select category 'Uncategorised'
+				$this->scrollTo(['id' => 'jform_params_catid'],'Uncategorised');
+				$this->selectOption(['id' => 'jform_params_catid'],'Uncategorised');
+				$this->scrollTo(['id' => 'jform_params_header_text']);
+				$this->fillField(['id' => 'jform_params_header_text'],'This is text header for Module of Banners');
+				$this->scrollTo(['id' => 'jform_params_footer_text']);
+				$this->fillField(['id' => 'jform_params_footer_text'],'This is text footer for Module of Banners');
+				break;
+			case 'Breadcrumbs' :
+				$this->fillField(['id' => 'jform_params_homeText'],'Home entry for Module of breadcrumbs');
+				break;
+			case 'Custom' :
+				break;
+			case 'Feed Display' :
+				$this->fillField(['id' => 'jform_params_rssurl'],'https://www.joomla.org');
+				break;
+			case 'Language Switcher' :
+				$this->fillField(['id' => 'jform_params_header_text'],'This is pre-text for Module');
+				$this->fillField(['id' => 'jform_params_footer_text'],'This is post-text for Module');
+				$this->click(['id' => 'jform_params_dropdown1']);
+				break;
+			case 'Latest Users' :
+				break;
+			case 'Login' :
+				$this->fillField(['id' => 'jform_params_pretext'],'This is pre-text for Module');
+				$this->fillField(['id' => 'jform_params_posttext'],'This is post-text for Module');
+				$this->fillField(['id' => 'jform_params_login'],'http://localhost/joomlaMain/test-install/');
+				$this->fillField(['id' => 'jform_params_logout'],'https://www.joomla.org');
+				$this->scrollTo(['id' => 'jform_params_name1']);
+				$this->click(['id' => 'jform_params_name1']);
+				break;
+		}
+		// Save It
+		$this->click(['xpath' => "//button[contains(@class, 'dropdown-toggle')]"]);
+		$this->clickToolbarButton('save & close');
+		$this->see('Module saved', ['id' => 'system-message-container']);
+		$this->searchForItem($moduleName);
+	}
 }
