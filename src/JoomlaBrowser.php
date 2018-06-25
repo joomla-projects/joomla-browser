@@ -1133,7 +1133,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I set the site to offline');
 		$this->doAdministratorLogin();
 		$this->amOnPage('/administrator/index.php?option=com_config');
-		if($enable == true){
+		if ($enable == true){
 			$this->click(['id' => 'jform_offline1']);
 		}else{
 			$this->click(['id' => 'jform_offline0']);
