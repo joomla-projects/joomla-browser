@@ -816,7 +816,7 @@ class JoomlaBrowser extends WebDriver
 			TIMEOUT,
 			array('class' => 'alert-no-items')
 		);
-		$this->see('There are no extensions installed matching your query.', array('class' => 'alert-no-items'));
+		$this->see('There are no extensions installed matching your query.', '.alert-no-items');
 		$this->debug('Extension successfully uninstalled');
 	}
 
