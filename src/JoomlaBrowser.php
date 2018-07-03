@@ -17,7 +17,7 @@ const TIMEOUT = 60;
  */		
 class JoomlaBrowser extends WebDriver
 {
-		/**
+	/**
 	 * The module required fields, to be set in the suite .yml configuration file.
 	 *
 	 * @var     array
@@ -1094,7 +1094,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click("Save");
 		$this->see('Configuration saved', ['id' => 'system-message-container']);
 	}
-	
+
 	/**
      * Create Module
      *
