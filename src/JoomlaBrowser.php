@@ -61,6 +61,7 @@ class JoomlaBrowser extends WebDriver
 		// Instantiate the locator
 		$this->instantiateLocator();
 	}
+
 	/**
 	 * Function to instantiate the Locator Class, In case of a custom Template,
 	 * path to the custom Template Locator could be passed in Acceptance.suite.yml file
@@ -89,6 +90,7 @@ class JoomlaBrowser extends WebDriver
 		$class         = $this->config['locator class'];
 		$this->locator = new $class;
 	}
+
 	/**
 	 * Function to Do Admin Login In Joomla!
 	 *
@@ -130,6 +132,7 @@ class JoomlaBrowser extends WebDriver
 			$this->saveSessionSnapshot($user);
 		}
 	}
+
 	/**
 	 * Function to Do Frontend Login In Joomla!
 	 *
@@ -162,6 +165,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait to see Frontend Member Profile Form with the Logout button in the module');
 		$this->waitForElement($this->locator->frontEndLoginSuccess, TIMEOUT);
 	}
+
 	/**
 	 * Function to Do frontend Logout in Joomla!
 	 *
@@ -180,6 +184,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement($this->locator->frontEndLoginForm, 30);
 		$this->seeElement($this->locator->frontEndLoginForm);
 	}
+
 	/**
 	 * Installs Joomla
 	 *
@@ -232,6 +237,7 @@ class JoomlaBrowser extends WebDriver
 		$this->wait(1);
 		$this->waitForText('Congratulations! Your Joomla site is ready.', TIMEOUT, ['xpath' => '//h3']);
 	}
+
 	/**
 	 * Install Joomla removing the Installation folder at the end of the execution
 	 *
@@ -247,6 +253,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Joomla is now installed');
 		$this->click(['link' => "Complete & Open Admin"]);
 	}
+
 	/**
 	 * Installs Joomla with Multilingual Feature active
 	 *
@@ -289,6 +296,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Joomla is now installed');
 		$this->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h3']);
 	}
+
 	/**
 	 * Sets in Administrator->Global Configuration the Error reporting to Development
 	 * {@internal doAdminLogin() before}
@@ -313,6 +321,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
+
 	/**
 	 * Installs a Extension in Joomla that is located in a folder inside the server
 	 *
@@ -332,6 +341,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Suggested to use installExtensionFromFolder instead of installExtensionFromDirectory');
 		$this->installExtensionFromFolder($path, $type);
 	}
+
 	/**
 	 * Installs a Extension in Joomla that is located in a folder inside the server
 	 *
@@ -355,6 +365,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForText('was successful', 'TIMEOUT', ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
+
 	/**
 	 * Installs a Extension in Joomla that is located in a url
 	 *
@@ -389,6 +400,7 @@ class JoomlaBrowser extends WebDriver
 			$this->debug('Installation of the package was successful.' . $url);
 		}
 	}
+
 	/**
 	 * Installs a Extension in Joomla using the file upload option
 	 *
@@ -422,6 +434,7 @@ class JoomlaBrowser extends WebDriver
 			$this->debug('Installation of the package was successful.');
 		}
 	}
+
 	/**
 	 * Function to check for PHP Notices or Warnings
 	 *
@@ -447,6 +460,7 @@ class JoomlaBrowser extends WebDriver
 		$this->dontSeeInPageSource('<b>Strict standards</b>:');
 		$this->dontSeeInPageSource('The requested page can\'t be found');
 	}
+
 	/**
 	 * Selects an option in a Joomla Radio Field based on its label
 	 *
@@ -464,6 +478,7 @@ class JoomlaBrowser extends WebDriver
 		$radioId = $label->getAttribute('for');
 		$this->click("//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]");
 	}
+
 	/**
 	 * Selects an option in a Chosen Selector based on its label
 	 *
@@ -486,6 +501,7 @@ class JoomlaBrowser extends WebDriver
 		// Gives time to chosen to close
 		$this->wait(1);
 	}
+
 	/**
 	 * Selects an option in a Chosen Selector based on its label with filling the textfield
 	 *
@@ -511,6 +527,7 @@ class JoomlaBrowser extends WebDriver
 		// Gives time to chosen to close
 		$this->wait(1);
 	}
+
 	/**
 	 * Selects an option in a Chosen Selector based on its id
 	 *
@@ -529,6 +546,7 @@ class JoomlaBrowser extends WebDriver
 		// Gives time to chosen to close
 		$this->wait(1);
 	}
+
 	/**
 	 * Selects an option in a Chosen Selector based on its id
 	 *
@@ -548,6 +566,7 @@ class JoomlaBrowser extends WebDriver
 		// Give time to Chosen to update
 		$this->wait(1);
 	}
+
 	/**
 	 * Selects one or more options in a Chosen Multiple Select based on its label
 	 *
@@ -573,6 +592,7 @@ class JoomlaBrowser extends WebDriver
 			$this->wait(1);
 		}
 	}
+
 	/**
 	 * Function to Logout from Administrator Panel in Joomla!
 	 *
@@ -589,6 +609,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
 		$this->waitForText('Log in', TIMEOUT, ['xpath' => "//fieldset[@class='loginform']//button"]);
 	}
+
 	/**
 	 * Function to Enable a Plugin
 	 *
@@ -610,6 +631,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
 		$this->see(' enabled', ['id' => 'system-message-container']);
 	}
+
 	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
@@ -624,6 +646,7 @@ class JoomlaBrowser extends WebDriver
 		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
 		return $path;
 	}
+
 	/**
 	 * Uninstall Extension based on a name
 	 *
@@ -653,6 +676,7 @@ class JoomlaBrowser extends WebDriver
 		$this->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
 		$this->debug('Extension successfully uninstalled');
 	}
+
 	/**
 	 * Function to Search For an Item in Joomla! Administrator Lists views
 	 *
@@ -674,6 +698,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('clearing search filter');
 		$this->click(['xpath' => "//button[@type='button' and @data-original-title='Clear']"]);
 	}
+
 	/**
 	 * Function to Check of the Item Exist in Search Results in Administrator List.
 	 *
@@ -690,6 +715,7 @@ class JoomlaBrowser extends WebDriver
 		$this->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
 		$this->see($name, ['xpath' => "//form[@id='adminForm']/div/table/tbody"]);
 	}
+
 	/**
 	 * Function to select all the item in the Search results in Administrator List
 	 *
@@ -702,6 +728,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug("Selecting Checkall button");
 		$this->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
 	}
+
 	/**
 	 * Function to install a language through the interface
 	 *
@@ -725,6 +752,7 @@ class JoomlaBrowser extends WebDriver
 		$this->see('No Matching Results', ['class' => 'alert-no-items']);
 		$this->debug($languageName . ' successfully installed');
 	}
+
 	/**
 	 * Function to return Path for the Language Name to be searched for
 	 *
@@ -737,6 +765,7 @@ class JoomlaBrowser extends WebDriver
 		$xpath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
 		return $xpath;
 	}
+
 	/**
 	 * Publishes a module on frontend in given position
 	 *
@@ -757,6 +786,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['xpath' => "//div[@id='save-group-children-apply']/button"]);
 		$this->waitForText('Module saved', 30, ['id' => 'system-message-container']);
 	}
+
 	/**
 	 * Publishes a module on all frontend pages
 	 *
@@ -774,6 +804,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
 		$this->waitForText(' published.', 30, ['id' => 'system-message-container']);
 	}
+
 	/**
 	 * Changes the module Menu assignment to be shown on all the pages of the website
 	 *
@@ -796,6 +827,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['xpath' => "//div[@id='save-group-children-apply']/button"]);
 		$this->waitForText('Module saved', 30, ['id' => 'system-message-container']);
 	}
+
 	/**
 	 * Function to select Toolbar buttons in Joomla! Admin Toolbar Panel
 	 *
@@ -860,6 +892,7 @@ class JoomlaBrowser extends WebDriver
 				break;
 		}
 	}
+
 	/**
 	 * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
 	 *
@@ -912,6 +945,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click("Save");
 		$this->waitForText('Menu item successfully saved', 'TIMEOUT', ['id' => 'system-message-container']);
 	}
+
 	/**
 	 * Function to filter results in Joomla! Administrator.
 	 *
@@ -943,6 +977,7 @@ class JoomlaBrowser extends WebDriver
 		}
 		$this->debug('Applied filters');
 	}
+
 	/**
 	 * Function to Verify the Tabs on a Joomla! screen
 	 *
@@ -961,6 +996,7 @@ class JoomlaBrowser extends WebDriver
 		$this->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
 		$this->debug('Verify the Tabs');
 	}
+
 	/**
 	 * Hide the statistics info message
 	 *
@@ -977,6 +1013,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement(['link' => 'Always'], TIMEOUT);
 		$this->click(['link' => 'Always']);
 	}
+
 	/**
 	 * Create a new category
 	 *
@@ -1010,6 +1047,7 @@ class JoomlaBrowser extends WebDriver
 		$this->see('Category saved', ['id' => 'system-message-container']);
 		$this->checkForPhpNoticesOrWarnings();
 	}
+
 	/**
 	 * Site Offline
 	 *
@@ -1017,7 +1055,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   3.7.5
 	 */
-	public function setSiteOffline($enable)
+	public function setSiteOffline($enable == true)
 	{
 		$this->debug('I set the site to offline');
 		$this->doAdministratorLogin();
@@ -1030,6 +1068,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click("Save");
 		$this->see('Configuration saved', ['id' => 'system-message-container']);
 	}
+
 	/**
 	 * Search Engine Optimization
 	 *
@@ -1037,7 +1076,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @return void
 	 */
-	public function setSiteSearchEngineFriendly($enable)
+	public function setSiteSearchEngineFriendly($enable == true)
 	{
 		$this->debug('I set the Search engine optimisation to Yes');
 		$this->doAdministratorLogin();
@@ -1055,6 +1094,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click("Save");
 		$this->see('Configuration saved', ['id' => 'system-message-container']);
 	}
+	
 	/**
      * Create Module
      *
