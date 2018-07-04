@@ -45,6 +45,7 @@ class JoomlaBrowser extends WebDriver
 	 * @since   3.7.4.2
 	 */
 	protected $locator;
+	
 	/**
 	 * Module constructor.
 	 *
@@ -58,6 +59,7 @@ class JoomlaBrowser extends WebDriver
 	public function __construct(ModuleContainer $moduleContainer, $config = null)
 	{
 		parent::__construct($moduleContainer, $config);
+		
 		// Instantiate the locator
 		$this->instantiateLocator();
 	}
@@ -123,6 +125,7 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField($this->locator->adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
 		$this->fillField($this->locator->adminLoginPassword, $password);
+		
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
@@ -204,6 +207,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement('#jform_language', 10);
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->wait(2);
+		
 		// Wait for chosen to render the field
 		$this->debug('I select en-GB as installation language');
 		$this->debug('Wait for chosen to render the Languages list field');
@@ -211,6 +215,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->click(['id' => 'step1']);
+		
 		// I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
 		$this->debug('I fill Admin Email');
 		$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
