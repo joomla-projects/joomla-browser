@@ -5,11 +5,15 @@
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Codeception\Module;
+
 use Codeception\Module\Locators\Locators;
 use Codeception\Module\WebDriver;
 use Codeception\Lib\ModuleContainer;
+
 const TIMEOUT = 60;
+
 /**
  * Joomla Browser class to perform test suits for Joomla.
  *
