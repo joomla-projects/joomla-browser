@@ -129,4 +129,68 @@ class Locators
 	 * @since  3.7.5
 	 */
 	public $adminControlPanelText = 'Control Panel';
+
+	/**
+	 * Admin Module URL
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */	
+	public static $moduleUrl = '/administrator/index.php?option=com_modules';
+	/**
+	 * Select Module Title
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $moduleTitle = ['id' => 'jform_title'];
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $filterOptions = ['link' => 'Filtering Options'];
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $selectModuleCategory = ['id' => 'jform_params_catid'];
+	/**
+	 * Drop Down Toggle Element.
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $dropDownToggle = ['xpath' => "//button[contains(@class, 'dropdown-toggle')]"];
+	/**
+	 * Fill Category
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $fillModuleCategory = ['xpath' => '//div[@id="jform_params_catid_chzn"]/ul/li/input'];
+	/**
+	 * Select
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $moduleSelect = ['id' => 'jform_params_parent_select'];
+	/**
+	 * Select Module Position
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $modulePosition = ['xpath' => '//div[@id="jform_position_chzn"]/div/div/input'];
+	/**
+	 * Select Module category
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $moduleCategory = ['id' => 'jform_params_catid_chzn'];
 }
