@@ -1372,12 +1372,12 @@ class JoomlaBrowser extends WebDriver
                 		$this->scrollTo(['id' => 'jform_params_name1']);
                 		$this->click(['id' => 'jform_params_name1']);
                 		break;
-        		}
-        		// Save It
-			$this->click(Locators::$dropDownToggle);
-        		$this->clickToolbarButton('save & close');
-        		$this->see('Module saved', ['id' => 'system-message-container']);
-        		$this->searchForItem($moduleName);
 		}
+        	// Save It
+		$this->click(Locators::$dropDownToggle);
+        	$this->clickToolbarButton('save & close');
+        	$this->see('Module saved', ['id' => 'system-message-container']);
+        	$this->searchForItem($moduleName);
 	}
+	
 }
