@@ -1209,7 +1209,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug('I set the site to offline');
 		$this->doAdministratorLogin();
-		$this->amOnPage('/administrator/index.php?option=com_config');
+		$this->amOnPage(Locators::$globalConfiguratinUrl);
 		if($enable == true){
 			$this->click('#jform_offline1');
 		}else{
@@ -1232,7 +1232,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug('I set the Search engine optimisation to Yes');
 		$this->doAdministratorLogin();
-		$this->amOnPage('/administrator/index.php?option=com_config');
+		$this->amOnPage(Locators::$globalConfiguratinUrl);
 		// If-else statement
 		if ($enable == true){
 			$this->click('#jform_sef1');

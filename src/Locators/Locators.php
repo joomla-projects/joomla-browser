@@ -131,19 +131,27 @@ class Locators
 	public $adminControlPanelText = 'Control Panel';
 
 	/**
+	 * Global Configuration URL
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */	
+	public static $globalConfiguratinUrl = '/administrator/index.php?option=com_config';
+
+	/**
 	 * Admin Module URL
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */	
 	public static $moduleUrl = '/administrator/index.php?option=com_modules';
 	/**
 	 * Select Module Title
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $moduleTitle = ['id' => 'jform_title'];
+	public static $moduleTitle = '#jform_title';
 	/**
 	 * Select Filter Options
 	 *
@@ -154,43 +162,43 @@ class Locators
 	/**
 	 * Select Filter Options
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $selectModuleCategory = ['id' => 'jform_params_catid'];
+	public static $selectModuleCategory = '#jform_params_catid';
 	/**
 	 * Drop Down Toggle Element.
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $dropDownToggle = ['xpath' => "//button[contains(@class, 'dropdown-toggle')]"];
+	public static $dropDownToggle = "//button[contains(@class, 'dropdown-toggle')]";
 	/**
 	 * Fill Category
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $fillModuleCategory = ['xpath' => '//div[@id="jform_params_catid_chzn"]/ul/li/input'];
+	public static $fillModuleCategory = '//div[@id="jform_params_catid_chzn"]/ul/li/input';
 	/**
 	 * Select
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $moduleSelect = ['id' => 'jform_params_parent_select'];
+	public static $moduleSelect = '#jform_params_parent_select';
 	/**
 	 * Select Module Position
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $modulePosition = ['xpath' => '//div[@id="jform_position_chzn"]/div/div/input'];
+	public static $modulePosition = '//div[@id="jform_position_chzn"]/div/div/input';
 	/**
 	 * Select Module category
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $moduleCategory = ['id' => 'jform_params_catid_chzn'];
+	public static $moduleCategory = 'jform_params_catid_chzn';
 }
