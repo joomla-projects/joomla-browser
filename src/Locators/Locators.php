@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    JoomlaBrowser
+ *
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 namespace Codeception\Module\Locators;
 
 /**
@@ -16,7 +23,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $loginUserName = ['id' => 'username'];
+	public $loginUserName = array('id' => 'username');
 
 	/**
 	 * Locator for the Password field
@@ -24,7 +31,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $loginPassword = ['id' => 'password'];
+	public $loginPassword = array('id' => 'password');
 
 	/**
 	 * Locator for the Login Button
@@ -32,35 +39,35 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $loginButton = ['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"];
+	public $loginButton = array('xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button");
 
 	/**
 	 * Locator for the Logout Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLoginSuccess = ['xpath' => "//form[@id='login-form']/div[@class='logout-button']"];
+	public $frontEndLoginSuccess = array('xpath' => "//form[@id='login-form']/div[@class='logout-button']");
 
 	/**
 	 * Locator for the Logout Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLogoutButton = ['xpath' => "//div[@class='logout-button']//input[@value='Log out']"];
+	public $frontEndLogoutButton = array('xpath' => "//div[@class='logout-button']//input[@value='Log out']");
 
 	/**
 	 * Locator for the Login Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLoginForm = ['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"];
+	public $frontEndLoginForm = array('xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]");
 
 	/**
 	 * Locator for the Login Page Url
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -68,40 +75,40 @@ class Locators
 
 	/**
 	 * Locator for the administrator username field
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $adminLoginUserName = ['id' => 'mod-login-username'];
+	public $adminLoginUserName = array('id' => 'mod-login-username');
 
 	/**
 	 * Locator for the admin password field
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $adminLoginPassword = ['id' => 'mod-login-password'];
+	public $adminLoginPassword = array('id' => 'mod-login-password');
 
 	/**
 	 * Locator for the Login Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $adminLoginButton = ['xpath' => "//button[contains(normalize-space(), 'Log in')]"];
+	public $adminLoginButton = array('xpath' => "//button[contains(normalize-space(), 'Log in')]");
 
 	/**
 	 * Locator for the Control Panel
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $controlPanelLocator = ['css' => 'h1.page-title'];
+	public $controlPanelLocator = array('css' => 'h1.page-title');
 
 	/**
 	 * Locator for the Login URL
-	 * 
-	 * @var    array
+	 *
+	 * @var    string
 	 * @since  3.7.4.2
 	 */
 	public $frontEndLoginUrl = '/index.php?option=com_users&view=login';
@@ -112,7 +119,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.5
 	 */
-	public $adminToolbarButtonNew = ['class' => 'button-new'];
+	public $adminToolbarButtonNew = array('class' => 'button-new');
 
 	/**
 	 * Apply Button in the Admin toolbar
@@ -120,12 +127,12 @@ class Locators
 	 * @var    array
 	 * @since  3.7.5
 	 */
-	public $adminToolbarButtonApply = ['class' => 'button-apply'];
+	public $adminToolbarButtonApply = array('class' => 'button-apply');
 
 	/**
 	 * Admin Control Panel Text
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  3.7.5
 	 */
 	public $adminControlPanelText = 'Control Panel';

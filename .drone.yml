@@ -1,0 +1,8 @@
+pipeline:
+  phpcs:
+    image: composer:latest
+    commands:
+      - echo $(date)
+      - composer install --prefer-dist --no-progress --no-interaction
+      - vendor/bin/robo check:codestyle
+      - echo $(date)

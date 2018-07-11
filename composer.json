@@ -16,14 +16,22 @@
     ],
     "require": {
         "php"                                   : ">=5.5.9",
-        "consolidation/robo"                    : "~1"
+        "consolidation/robo"                    : "^1",
+        "symfony/console"                       : "~3|~4",
+        "symfony/filesystem"                    : "~3|~4",
+        "symfony/finder"                        : "~3|~4",
+        "symfony/process"                       : "~3|~4",
+        "symfony/yaml"                          : "~3|~4"
     },
     "require-dev": {
-        "joomla-projects/joomla-testing-robo"   : "~1.0"
+        "joomla-projects/joomla-testing-robo"   : "dev-container-test",
+        "codeception/codeception"               : "~2.4"
     },
     "autoload": {
         "psr-4": {
             "Codeception\\Module\\"             : "src"
         }
-    }
+    },
+    "minimum-stability"                         : "dev",
+    "prefer-stable"                             : true
 }
