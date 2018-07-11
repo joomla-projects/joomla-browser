@@ -1211,12 +1211,12 @@ class JoomlaBrowser extends WebDriver
 		$this->doAdministratorLogin();
 		$this->amOnPage('/administrator/index.php?option=com_config');
 		if($enable == true){
-			$this->click(['id' => 'jform_offline1']);
+			$this->click('#jform_offline1');
 		}else{
-			$this->click(['id' => 'jform_offline0']);
+			$this->click('#jform_offline0');
 		}
 		$this->click("Save");
-		$this->see('Configuration saved', ['id' => 'system-message-container']);
+		$this->see('Configuration saved', '#system-message-container');
 	}
 
 	/**
@@ -1235,16 +1235,16 @@ class JoomlaBrowser extends WebDriver
 		$this->amOnPage('/administrator/index.php?option=com_config');
 		// If-else statement
 		if ($enable == true){
-			$this->click(['id' => 'jform_sef1']);
+			$this->click('#jform_sef1');
 			//Select Option 'After'
-			$this->selectOption(['id' => 'jform_sitename_pagetitles'],'After');
+			$this->selectOption('#jform_sitename_pagetitles','After');
 		}
 		else
 		{
-			$this->click(['id' => 'jform_sef0']);
+			$this->click('#jform_sef0');
 		}
 		$this->click("Save");
-		$this->see('Configuration saved', ['id' => 'system-message-container']);
+		$this->see('Configuration saved', '#system-message-container');
 	}
 
 	/**
