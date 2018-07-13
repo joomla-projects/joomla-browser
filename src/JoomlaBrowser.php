@@ -1205,12 +1205,13 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   4.0.0
 	 */
-	public function setSiteOffline ($enable == true)
+	public function setSiteOffline ($enable = true)
 	{
 		$this->debug('I set the site to offline');
 		$this->doAdministratorLogin();
 		$this->amOnPage(Locators::$globalConfiguratinUrl);
-		if($enable == true){
+		if ($enable)
+		{
 			$this->click('#jform_offline1');
 		}else{
 			$this->click('#jform_offline0');
@@ -1228,13 +1229,14 @@ class JoomlaBrowser extends WebDriver
 	 * 
 	 * @since   4.0.0
 	 */
-	public function setSiteSearchEngineFriendly ($enable == true)
+	public function setSiteSearchEngineFriendly ($enable = true)
 	{
 		$this->debug('I set the Search engine optimisation to Yes');
 		$this->doAdministratorLogin();
 		$this->amOnPage(Locators::$globalConfiguratinUrl);
 		// If-else statement
-		if ($enable == true){
+		if ($enable)
+		{
 			$this->click('#jform_sef1');
 			//Select Option 'After'
 			$this->selectOption('#jform_sitename_pagetitles','After');
