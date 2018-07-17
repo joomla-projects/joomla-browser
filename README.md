@@ -1,5 +1,9 @@
 # Joomla Browser (Codeception Module)
-[![Latest Stable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/stable)](https://packagist.org/packages/joomla-projects/joomla-browser) [![Total Downloads](https://poser.pugx.org/joomla-projects/joomla-browser/downloads)](https://packagist.org/packages/joomla-projects/joomla-browser) [![Latest Unstable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/unstable)](https://packagist.org/packages/joomla-projects/joomla-browser) [![License](https://poser.pugx.org/joomla-projects/joomla-browser/license)](https://packagist.org/packages/joomla-projects/joomla-browser)
+[![Latest Stable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/stable)](https://packagist.org/packages/joomla-projects/joomla-browser)
+[![Total Downloads](https://poser.pugx.org/joomla-projects/joomla-browser/downloads)](https://packagist.org/packages/joomla-projects/joomla-browser)
+[![Latest Unstable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/unstable)](https://packagist.org/packages/joomla-projects/joomla-browser)
+[![License](https://poser.pugx.org/joomla-projects/joomla-browser/license)](https://packagist.org/packages/joomla-projects/joomla-browser)
+[![Drone](http://ci.joomla.org/api/badges/joomla-projects/joomla-browser/status.svg)](http://ci.joomla.org/joomla-projects/joomla-browser)
 
 ## Table of Contents
 
