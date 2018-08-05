@@ -51,6 +51,24 @@ class JoomlaBrowser extends WebDriver
 	protected $locator;
 
 	/**
+	 * Getting a locator path from $this->locator (Locators)
+	 *
+	 * @param   string  $locator  Locator to get
+	 *
+	 * @return mixed|false
+	 * @since  3.8.11
+	 */
+	public function getLocatorPath($locator)
+	{
+		if (!isset($this->locator->$locator))
+		{
+			return false;
+		}
+
+		return $this->locator->$locator;
+	}
+
+	/**
 	 * Module constructor.
 	 *
 	 * Requires module container (to provide access between modules of suite) and config.
