@@ -1229,7 +1229,8 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Create a user in the administrator site
 	 *
-	 * @param   string  $username   User name
+	 * @param   string  $name       Name
+	 * @param   string  $username   User name (login)
 	 * @param   string  $password   Password
 	 * @param   string  $email      Email
 	 * @param   string  $userGroup  Group id to attach to the user
@@ -1239,7 +1240,7 @@ class JoomlaBrowser extends WebDriver
 	 * @since   3.8.11
 	 * @throws  \Exception
 	 */
-	public function createUser($username, $password, $email, $userGroup = 'Super Users')
+	public function createUser($name, $username, $password, $email, $userGroup = 'Super Users')
 	{
 		$this->debug('User creation');
 		$this->doAdministratorLogin();
@@ -1254,7 +1255,8 @@ class JoomlaBrowser extends WebDriver
 
 		$this->checkForPhpNoticesOrWarnings();
 		$this->debug('I fill up the new user information');
-		$this->fillField(array('id' => 'jform_name'), $username);
+		$this->fillField(array('id' => 'jform_name'), $name);
+		$this->fillField(array('id' => 'jform_username'), $username);
 		$this->fillField(array('id' => 'jform_password'), $password);
 		$this->fillField(array('id' => 'jform_password2'), $password);
 		$this->fillField(array('id' => 'jform_email'), $email);
