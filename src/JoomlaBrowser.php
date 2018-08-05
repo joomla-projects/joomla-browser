@@ -1257,7 +1257,6 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(array('id' => 'jform_name'), $username);
 		$this->fillField(array('id' => 'jform_password'), $password);
 		$this->fillField(array('id' => 'jform_password2'), $password);
-		$this->fillField(array('id' => 'jform_password2'), $password);
 		$this->fillField(array('id' => 'jform_email'), $email);
 
 		$this->debug('I open the Assigned User Groups Tab and assign the user group');
