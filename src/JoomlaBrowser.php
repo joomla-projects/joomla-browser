@@ -900,19 +900,19 @@ class JoomlaBrowser extends WebDriver
 		switch ($input)
 		{
 			case "new":
-				$this->click(['id' => "toolbar-new"]);
+				$this->click("//button[contains(@class, 'button-new')]");
 				break;
 			case "publish":
-				$this->click(['id' => "toolbar-publish"]);
+				$this->click("//button[contains(@class, 'button-publish')]");
 				break;
 			case "unpublish":
-				$this->click(['id' => "toolbar-unpublish"]);
+				$this->click("//button[contains(@class, 'button-unpublish')]");
 				break;
 			case "archive":
-				$this->click(['id' => "toolbar-archive"]);
+				$this->click("//button[contains(@class, 'button-archive')]");
 				break;
 			case "check-in":
-				$this->click(['id' => "'toolbar-checkin"]);
+				$this->click("//button[contains(@class, 'button-checkin')]");
 				break;
 			case "batch":
 				$this->click(['xpath' => "//div[@id='toolbar-batch']//button"]);
