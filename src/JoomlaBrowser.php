@@ -123,13 +123,14 @@ class JoomlaBrowser extends WebDriver
 			$password = $this->config['password'];
 		}
 
+		$this->debug('I open Joomla Administrator Login Page');
+		$this->amOnPage($this->locator->adminLoginPageUrl);
+
 		if ($useSnapshot && $this->loadSessionSnapshot($user))
 		{
 			return;
 		}
 
-		$this->debug('I open Joomla Administrator Login Page');
-		$this->amOnPage($this->locator->adminLoginPageUrl);
 		$this->waitForElement($this->locator->adminLoginUserName, TIMEOUT);
 		$this->debug('Fill Username Text Field');
 		$this->fillField($this->locator->adminLoginUserName, $user);
