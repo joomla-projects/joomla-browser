@@ -107,14 +107,14 @@ class JoomlaBrowser extends WebDriver
 	 * @return mixed|false
 	 * @since  3.8.11
 	 */
-	public function getLocatorPath($locator)
+	public function getLocatorPath($path)
 	{
-		if (!isset($this->locator->$locator))
+		if (!isset($this->locator->$path))
 		{
 			return false;
 		}
 
-		return $this->locator->$locator;
+		return $this->locator->$path;
 	}
 
 	/**
