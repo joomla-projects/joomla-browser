@@ -102,7 +102,7 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Locator getter
 	 *
-	 * @param   string  $locator  Locator to get
+	 * @param   string  $path  Locator to get
 	 *
 	 * @return mixed|false
 	 * @since  3.8.11
