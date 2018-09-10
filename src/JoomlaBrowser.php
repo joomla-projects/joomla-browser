@@ -100,6 +100,24 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
+	 * Locator getter
+	 *
+	 * @param   string  $path  Locator to get
+	 *
+	 * @return mixed|false
+	 * @since  3.8.11
+	 */
+	public function getLocatorPath($path)
+	{
+		if (!isset($this->locator->$path))
+		{
+			return false;
+		}
+
+		return $this->locator->$path;
+	}
+
+	/**
 	 * Function to Do Admin Login In Joomla!
 	 *
 	 * @param   string|null  $user         Optional Username. If not passed the one in acceptance.suite.yml will be used
