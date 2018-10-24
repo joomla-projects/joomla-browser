@@ -264,7 +264,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I select es-ES as installation language');
 
 		// Select a random language to force reloading of the lang strings after selecting English
-		$this->selectOptionInChosenWithTextField('#jform_language', 'Spanish (Español)');
+		$this->selectOptionInChosenWithTextField('#jform_language', 'Español (España)');
 		$this->waitForText('Configuración principal', TIMEOUT, 'h3');
 
 		// Wait for chosen to render the field
