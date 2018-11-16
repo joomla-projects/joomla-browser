@@ -1076,8 +1076,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug('I click on never');
 		$this->wait(1);
-		$this->waitForElement(['link' => 'Always'], TIMEOUT);
-		$this->click(['link' => 'Always']);
+		$this->waitForElement('.js-pstats-btn-allow-never', TIMEOUT);
+		$this->click('.js-pstats-btn-allow-never');
 	}
 
 	/**
