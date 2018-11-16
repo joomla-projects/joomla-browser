@@ -1080,6 +1080,8 @@ class JoomlaBrowser extends WebDriver
 		$this->wait(1);
 		$this->waitForElement('.js-pstats-btn-allow-never', TIMEOUT);
 		$this->click('.js-pstats-btn-allow-never');
+		// TODO improve, this needs to wait until the ajax call is over
+		$this->wait(1);
 	}
 
 	/**
