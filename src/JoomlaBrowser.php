@@ -344,6 +344,8 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for Global Configuration title');
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->debug('I open the Server Tab');
+		// TODO improve
+		$this->wait(1);
 		$this->click(['link' => 'Server']);
 		$this->debug('I wait for error reporting dropdown');
 		$this->selectOption('Error Reporting', 'Development');
