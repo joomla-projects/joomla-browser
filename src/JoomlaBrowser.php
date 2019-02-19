@@ -926,7 +926,7 @@ class JoomlaBrowser extends WebDriver
 				$this->click(['id' => "toolbar-trash"]);
 				break;
 			case "save":
-				$this->click(['id' => "save-group-children-apply"]);
+				$this->click(['id' => "toolbar-apply"]);
 				break;
 			case "save & close":
 				$this->click(['id' => "save-group-children-save"]);
