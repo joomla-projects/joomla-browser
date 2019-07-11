@@ -656,12 +656,11 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function doAdministratorLogout()
 	{
-		$this->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
+		$this->click($this->locator->adminLogoutDropdown);
 		$this->debug("I click on Top Right corner toggle to Logout from Admin");
-		$this->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], TIMEOUT);
-		$this->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
-		$this->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
-		$this->waitForText('Log in', TIMEOUT, ['xpath' => "//fieldset[@class='loginform']//button"]);
+		$this->click($this->locator->adminLogoutText);
+		$this->waitForElement($this->locator->adminLoginUserName, TIMEOUT);
+		$this->waitForText($this->locator->adminLoginText, TIMEOUT, $this->locator->adminLoginSubmitButton);
 	}
 
 	/**
