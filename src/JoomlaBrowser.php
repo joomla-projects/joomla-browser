@@ -11,6 +11,7 @@ namespace Codeception\Module;
 use Codeception\Module\Locators\Locators;
 use Codeception\Module\WebDriver;
 use Codeception\Lib\ModuleContainer;
+use Exception;
 
 const TIMEOUT = 120;
 
@@ -110,6 +111,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function doAdministratorLogin($user = null, $password = null, $useSnapshot = true)
 	{
@@ -156,6 +158,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function doFrontEndLogin($user = null, $password = null)
 	{
@@ -190,6 +193,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function doFrontendLogout()
 	{
@@ -209,6 +213,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
 	public function installJoomla()
 	{
@@ -284,11 +289,12 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @param   array  $languages  Array containing the language names to be installed
 	 *
-	 * @example: $this->installJoomlaMultilingualSite(['Spanish', 'French']);
-	 *
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
+	 * @example : $this->installJoomlaMultilingualSite(['Spanish', 'French']);
+	 *
 	 */
 	public function installJoomlaMultilingualSite($languages = array())
 	{
@@ -336,6 +342,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function setErrorReportingToDevelopment()
 	{
@@ -387,6 +394,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return    void
 	 *
 	 * @since    3.0.0
+	 * @throws Exception
 	 */
 	public function installExtensionFromFolder($path, $type = 'Extension')
 	{
@@ -411,6 +419,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return    void
 	 *
 	 * @since    3.0.0
+	 * @throws Exception
 	 */
 	public function installExtensionFromUrl($url, $type = 'Extension')
 	{
@@ -447,6 +456,7 @@ class JoomlaBrowser extends WebDriver
 	 * {@internal doAdminLogin() before}
 	 *
 	 * @return    void
+	 * @throws Exception
 	 */
 	public function installExtensionFromFileUpload($file, $type = 'Extension')
 	{
@@ -653,6 +663,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function doAdministratorLogout()
 	{
@@ -671,6 +682,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function enablePlugin($pluginName)
 	{
@@ -709,6 +721,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function uninstallExtension($extensionName)
 	{
@@ -791,6 +804,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $languageName  Name of the language you want to install
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function installLanguage($languageName)
 	{
@@ -830,6 +844,7 @@ class JoomlaBrowser extends WebDriver
 	 * @param   string  $position  The template position of a module. Right position by default
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function setModulePosition($module, $position = 'position-7')
 	{
@@ -852,6 +867,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function publishModule($module)
 	{
@@ -870,6 +886,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function displayModuleOnAllPages($module)
 	{
@@ -960,6 +977,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.0.0
+	 * @throws Exception
 	 */
 	public function createMenuItem($menuTitle, $menuCategory, $menuItem, $menu = 'Main Menu', $language = 'All')
 	{
@@ -1072,6 +1090,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.5.0
+	 * @throws Exception
 	 */
 	public function disableStatistics()
 	{
@@ -1092,6 +1111,7 @@ class JoomlaBrowser extends WebDriver
 	 * @return  void
 	 *
 	 * @since   3.7.5
+	 * @throws Exception
 	 */
 	public function createCategory($title, $extension = '')
 	{
