@@ -240,8 +240,10 @@ class JoomlaBrowser extends WebDriver
 		// I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
 		$this->debug('I fill Admin Email');
 		$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
+		$this->debug('I fill Admin Name');
+		$this->fillField(['id' => 'jform_admin_name'], $this->config['name']);
 		$this->debug('I fill Admin Username');
-		$this->fillField(['id' => 'jform_admin_user'], $this->config['username']);
+		$this->fillField(['id' => 'jform_admin_username'], $this->config['username']);
 		$this->debug('I fill Admin Password');
 		$this->fillField(['id' => 'jform_admin_password'], $this->config['password']);
 		$this->click(['id' => "step2"]);
