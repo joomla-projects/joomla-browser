@@ -241,7 +241,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I fill Admin Email');
 		$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
 		$this->debug('I fill Admin Name');
-		$this->fillField(['id' => 'jform_admin_name'], $this->config['name']);
+		$this->fillField(['id' => 'jform_admin_user'], $this->config['name']);
 		$this->debug('I fill Admin Username');
 		$this->fillField(['id' => 'jform_admin_username'], $this->config['username']);
 		$this->debug('I fill Admin Password');
