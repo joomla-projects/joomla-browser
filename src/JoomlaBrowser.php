@@ -138,6 +138,9 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Fill Password Text Field');
 		$this->fillField($this->locator->adminLoginPassword, $password);
 
+		// Wait for JS to execute
+		$this->wait(0.5);
+
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
