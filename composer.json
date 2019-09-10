@@ -3,7 +3,7 @@
     "description"   : "joomla-browser Codeception Module",
     "keywords"      : ["BDD", "acceptance testing", "tdd", "joomla"],
     "homepage"      : "https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
-    "license"       : "GPL-2.0+",
+    "license"       : "GPL-2.0-or-later",
     "authors"       : [
         {
           "name"    : "Puneet Kala",
