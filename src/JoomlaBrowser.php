@@ -283,7 +283,7 @@ class JoomlaBrowser extends WebDriver
 		$this->installJoomla();
 
 		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@class='form-check-input']"]);
+		$this->click(['id' => 'removeInstallationFolder']);
 
 		$this->debug('Joomla is now installed');
 		$this->click(['link' => "Complete & Open Admin"]);
