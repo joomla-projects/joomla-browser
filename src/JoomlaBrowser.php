@@ -285,6 +285,10 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Removing Installation Folder');
 		$this->click(['id' => 'removeInstallationFolder']);
 
+		// Accept the confirmation alert
+		$this->seeInPopup('Are you sure you want to delete?');
+		$this->acceptPopup();
+
 		$this->debug('Joomla is now installed');
 		$this->click(['link' => "Complete & Open Admin"]);
 	}
