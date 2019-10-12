@@ -972,10 +972,13 @@ class JoomlaBrowser extends WebDriver
 				$this->click(['id' => "toolbar-options"]);
 				break;
 			case "empty trash":
-				$this->click(['id' => "toolbar-"]);
+				$this->click(['id' => "toolbar-delete"]);
 				break;
 			case "feature":
 				$this->click(['id' => "toolbar-featured"]);
+				break;
+			case "action":
+				$this->click(['id' => "toolbar-status-group"]);
 				break;
 		}
 	}
