@@ -139,13 +139,13 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField($this->locator->adminLoginPassword, $password);
 
 		// Wait for JS to execute
-		$this->wait(0.5);
+		$this->wait(1.5);
 
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
-		$this->waitForText('Control Panel', 4, $this->locator->controlPanelLocator);
+		$this->waitForText('Control Panel', 5, $this->locator->controlPanelLocator);
 
 		if ($useSnapshot)
 		{
