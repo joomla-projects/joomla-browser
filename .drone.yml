@@ -1,0 +1,28 @@
+---
+kind: pipeline
+name: default
+
+clone:
+  depth: 42
+
+steps:
+  - name: composer
+    image: joomlaprojects/docker-tools:develop
+    depends_on: [ restore-cache ]
+    commands:
+      - composer validate --no-check-all --strict
+      - composer install --no-progress --no-suggest
+
+  - name: phpcs
+    image: joomlaprojects/docker-images:php7.2
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src
+      - echo $(date)
+
+---
+kind: signature
+hmac: f9e707b8a9668a599058c4fa59cd7325b5a9978c7ecfe5e41b61b59c0a2b2724
+
+...
