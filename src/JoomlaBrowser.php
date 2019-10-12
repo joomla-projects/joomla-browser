@@ -1160,7 +1160,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('see a success message after saving the category');
 
-		$this->waitForText('Category saved', 30, ['id' => 'system-message-container']);
+		$this->waitForText('Category saved', TIMEOUT, ['id' => 'system-message-container']);
 		$this->checkForPhpNoticesOrWarnings();
 	}
 }
