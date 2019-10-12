@@ -8,14 +8,12 @@ clone:
 steps:
   - name: composer
     image: joomlaprojects/docker-tools:develop
-    depends_on: [ restore-cache ]
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
-    depends_on: [ composer ]
     commands:
       - echo $(date)
       - ./vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src
@@ -23,6 +21,6 @@ steps:
 
 ---
 kind: signature
-hmac: b1e5c31f1cd3f295bc7d7bc5dfd93f03398d342619ab7ea708fd5744ea1e93bb
+hmac: 6938afe15e326bcf67fdbb386c1b98cebe6b379b3cf4b08d93e5d8f4ded329e6
 
 ...
