@@ -375,7 +375,7 @@ class JoomlaBrowser extends WebDriver
 		$this->clickToolbarButton('save');
 		$this->debug('I wait for global configuration being saved');
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
-		$this->see('Configuration saved.', ['id' => 'system-message-container']);
+		$this->waitForText('Configuration saved.', TIMEOUT, ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -419,7 +419,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 		$this->fillField(['id' => 'install_directory'], $path);
 		$this->click(['id' => 'installbutton_directory']);
-		$this->waitForText('was successful', 'TIMEOUT', ['id' => 'system-message-container']);
+		$this->waitForText('was successful', TIMEOUT, ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
 
@@ -709,7 +709,7 @@ class JoomlaBrowser extends WebDriver
 		$this->checkExistenceOf($pluginName);
 		$this->click(['xpath' => "//input[@id='cb0']"]);
 		$this->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
-		$this->see(' enabled', ['id' => 'system-message-container']);
+		$this->waitForText(' enabled', TIMEOUT, ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -1160,7 +1160,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('see a success message after saving the category');
 
-		$this->see('Category saved', ['id' => 'system-message-container']);
+		$this->waitForText('Category saved', TIMEOUT, ['id' => 'system-message-container']);
 		$this->checkForPhpNoticesOrWarnings();
 	}
 }
