@@ -291,6 +291,9 @@ class JoomlaBrowser extends WebDriver
 		$this->seeInPopup('Are you sure you want to delete?');
 		$this->acceptPopup();
 
+		// Wait until the installation folder is gone and the "customize installation" box has been removed
+		$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
+
 		$this->debug('Joomla is now installed');
 		$this->click(['link' => "Complete & Open Admin"]);
 	}
