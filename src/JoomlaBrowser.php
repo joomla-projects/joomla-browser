@@ -147,7 +147,8 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait to see Administrator Control Panel');
 		$this->waitForText('Control Panel', 4, $this->locator->controlPanelLocator);
 
-		if ($useSnapshot) {
+		if ($useSnapshot)
+		{
 			$this->saveSessionSnapshot($user);
 		}
 	}
@@ -223,7 +224,8 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open Joomla Installation Configuration Page');
 		$this->amOnPage('/installation/index.php');
 		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
-			. 'permissions to install joomla and execution will be stopped');
+			. 'permissions to install joomla and execution will be stopped'
+		);
 		$this->dontSeeElement(['id' => 'ftp']);
 
 		// I Wait for the text Main Configuration, meaning that the page is loaded
@@ -360,6 +362,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for Global Configuration title');
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->debug('I open the Server Tab');
+
 		// TODO improve
 		$this->wait(1);
 		$this->click(['link' => 'Server']);
@@ -1107,6 +1110,7 @@ class JoomlaBrowser extends WebDriver
 		$this->wait(1);
 		$this->waitForElement('.js-pstats-btn-allow-never', TIMEOUT);
 		$this->click('.js-pstats-btn-allow-never');
+
 		// TODO improve, this needs to wait until the ajax call is over
 		$this->wait(1);
 	}
