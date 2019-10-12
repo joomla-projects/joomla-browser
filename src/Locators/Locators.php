@@ -36,7 +36,7 @@ class Locators
 
 	/**
 	 * Locator for the Logout Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -44,7 +44,7 @@ class Locators
 
 	/**
 	 * Locator for the Logout Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -52,7 +52,7 @@ class Locators
 
 	/**
 	 * Locator for the Login Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -60,7 +60,7 @@ class Locators
 
 	/**
 	 * Locator for the Login Page Url
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -68,7 +68,7 @@ class Locators
 
 	/**
 	 * Locator for the administrator username field
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -76,7 +76,7 @@ class Locators
 
 	/**
 	 * Locator for the admin password field
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -84,7 +84,7 @@ class Locators
 
 	/**
 	 * Locator for the Login Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -92,7 +92,7 @@ class Locators
 
 	/**
 	 * Locator for the Control Panel
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -100,7 +100,7 @@ class Locators
 
 	/**
 	 * Locator for the Login URL
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -129,4 +129,36 @@ class Locators
 	 * @since  3.7.5
 	 */
 	public $adminControlPanelText = 'Control Panel';
+
+	/**
+	 * Admin Logout Dropdown
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminLogoutDropdown = ['css' => ".nav-link > .fa-user"];
+
+	/**
+	 * Admin Login Text
+	 *
+	 * @var    string
+	 * @since  3.7.5
+	 */
+	public $adminLoginText = 'Log in';
+
+	/**
+	 * Admin Logout Text
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminLogoutText = ['xpath' => "//a[contains(text(),'Log out')]"];
+
+	/**
+	 * Locator for the administrator login submit button
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminLoginSubmitButton = ['id' => 'btn-login-submit'];
 }

@@ -137,6 +137,9 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Fill Password Text Field');
 		$this->fillField($this->locator->adminLoginPassword, $password);
 
+		// Wait for JS to execute
+		$this->wait(0.5);
+
 		// @todo: update login button in joomla login screen to make this xPath more friendly
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
@@ -239,8 +242,10 @@ class JoomlaBrowser extends WebDriver
 		// I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
 		$this->debug('I fill Admin Email');
 		$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
+		$this->debug('I fill Admin Name');
+		$this->fillField(['id' => 'jform_admin_user'], $this->config['name']);
 		$this->debug('I fill Admin Username');
-		$this->fillField(['id' => 'jform_admin_user'], $this->config['username']);
+		$this->fillField(['id' => 'jform_admin_username'], $this->config['username']);
 		$this->debug('I fill Admin Password');
 		$this->fillField(['id' => 'jform_admin_password'], $this->config['password']);
 		$this->click(['id' => "step2"]);
@@ -277,7 +282,11 @@ class JoomlaBrowser extends WebDriver
 		$this->installJoomla();
 
 		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@class='form-check-input']"]);
+		$this->click(['id' => 'removeInstallationFolder']);
+
+		// Accept the confirmation alert
+		$this->seeInPopup('Are you sure you want to delete?');
+		$this->acceptPopup();
 
 		$this->debug('Joomla is now installed');
 		$this->click(['link' => "Complete & Open Admin"]);
@@ -666,12 +675,11 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function doAdministratorLogout()
 	{
-		$this->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
+		$this->click($this->locator->adminLogoutDropdown);
 		$this->debug("I click on Top Right corner toggle to Logout from Admin");
-		$this->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], $this->locator->timeout);
-		$this->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
-		$this->waitForElement(['id' => 'mod-login-username'], $this->locator->timeout);
-		$this->waitForText('Log in', $this->locator->timeout, ['xpath' => "//fieldset[@class='loginform']//button"]);
+		$this->click($this->locator->adminLogoutText);
+		$this->waitForElement($this->locator->adminLoginUserName, $this->locator->timeout);
+		$this->waitForText($this->locator->adminLoginText, $this->locator->timeout, $this->locator->adminLoginSubmitButton);
 	}
 
 	/**
