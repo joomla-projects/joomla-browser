@@ -131,7 +131,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('I open Joomla Administrator Login Page');
 		$this->amOnPage($this->locator->adminLoginPageUrl);
-		$this->waitForElement($this->locator->adminLoginUserName, $this->locator->timeout);
+		$this->waitForElement($this->locator->adminLoginUserName, $this->config['timeout']);
 		$this->debug('Fill Username Text Field');
 		$this->fillField($this->locator->adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
@@ -183,7 +183,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click($this->locator->loginButton);
 		$this->debug('I wait to see Frontend Member Profile Form with the Logout button in the module');
 
-		$this->waitForElement($this->locator->frontEndLoginSuccess, $this->locator->timeout);
+		$this->waitForElement($this->locator->frontEndLoginSuccess, $this->config['timeout']);
 	}
 
 	/**
@@ -262,7 +262,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click Install Joomla Button');
 		$this->click(['id' => 'setupButton']);
 		$this->wait(5);
-		$this->waitForText('Congratulations! Your Joomla site is ready.', $this->locator->timeout, ['xpath' => '//h2']);
+		$this->waitForText('Congratulations! Your Joomla site is ready.', $this->config['timeout'], ['xpath' => '//h2']);
 	}
 
 	/**
@@ -307,7 +307,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('I go to Install Languages page');
 		$this->click(['id' => 'instLangs']);
-		$this->waitForText('Install Language packages', $this->locator->timeout, ['xpath' => '//h3']);
+		$this->waitForText('Install Language packages', $this->config['timeout'], ['xpath' => '//h3']);
 
 		foreach ($languages as $language)
 		{
@@ -316,14 +316,14 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->click(['link' => 'Next']);
-		$this->waitForText('Multilingual', $this->locator->timeout, ['xpath' => '//h3']);
+		$this->waitForText('Multilingual', $this->config['timeout'], ['xpath' => '//h3']);
 		$this->selectOptionInRadioField('Activate the multilingual feature', 'Yes');
 		$this->waitForElementVisible(['id' => 'jform_activatePluginLanguageCode-lbl']);
 		$this->selectOptionInRadioField('Install localised content', 'Yes');
 		$this->selectOptionInRadioField('Enable the language code plugin', 'Yes');
 		$this->click(['link' => 'Next']);
 
-		$this->waitForText('Congratulations! Joomla! is now installed.', $this->locator->timeout, ['xpath' => '//h2']);
+		$this->waitForText('Congratulations! Joomla! is now installed.', $this->config['timeout'], ['xpath' => '//h2']);
 		$this->debug('Removing Installation Folder');
 		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
 
@@ -348,7 +348,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open Joomla Global Configuration Page');
 		$this->amOnPage('/administrator/index.php?option=com_config');
 		$this->debug('I wait for Global Configuration title');
-		$this->waitForText('Global Configuration', $this->locator->timeout, ['css' => '.page-title']);
+		$this->waitForText('Global Configuration', $this->config['timeout'], ['css' => '.page-title']);
 		$this->debug('I open the Server Tab');
 		// TODO improve
 		$this->wait(1);
@@ -358,7 +358,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click on save');
 		$this->clickToolbarButton('save');
 		$this->debug('I wait for global configuration being saved');
-		$this->waitForText('Global Configuration', $this->locator->timeout, ['css' => '.page-title']);
+		$this->waitForText('Global Configuration', $this->config['timeout'], ['css' => '.page-title']);
 		$this->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 
@@ -668,10 +668,10 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
 		$this->debug("I click on Top Right corner toggle to Logout from Admin");
-		$this->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], $this->locator->timeout);
+		$this->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], $this->config['timeout']);
 		$this->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
-		$this->waitForElement(['id' => 'mod-login-username'], $this->locator->timeout);
-		$this->waitForText('Log in', $this->locator->timeout, ['xpath' => "//fieldset[@class='loginform']//button"]);
+		$this->waitForElement(['id' => 'mod-login-username'], $this->config['timeout']);
+		$this->waitForText('Log in', $this->config['timeout'], ['xpath' => "//fieldset[@class='loginform']//button"]);
 	}
 
 	/**
@@ -818,7 +818,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElement($this->searchResultLanguageName($languageName), 30);
 		$this->click(['id' => "cb0"]);
 		$this->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
-		$this->waitForText('was successful.', $this->locator->timeout, ['id' => 'system-message-container']);
+		$this->waitForText('was successful.', $this->config['timeout'], ['id' => 'system-message-container']);
 		$this->see('No Matching Results', ['class' => 'alert-no-items']);
 		$this->debug($languageName . ' successfully installed');
 	}
@@ -1096,7 +1096,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug('I click on never');
 		$this->wait(1);
-		$this->waitForElement('.js-pstats-btn-allow-never', $this->locator->timeout);
+		$this->waitForElement('.js-pstats-btn-allow-never', $this->config['timeout']);
 		$this->click('.js-pstats-btn-allow-never');
 		// TODO improve, this needs to wait until the ajax call is over
 		$this->wait(1);
