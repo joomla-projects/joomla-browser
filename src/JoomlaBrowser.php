@@ -924,7 +924,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0.0
+	 * @since   4.0.0
 	 */
 	public function clickToolbarButton($button)
 	{
@@ -936,25 +936,25 @@ class JoomlaBrowser extends WebDriver
 				$this->click("//button[contains(@class, 'button-new')]");
 				break;
 			case "publish":
-				$this->click("//button[contains(@class, 'button-publish')]");
+				$this->click("#status-group-children-publish");
 				break;
 			case "unpublish":
-				$this->click("//button[contains(@class, 'button-unpublish')]");
+				$this->click("#status-group-children-unpublish");
 				break;
 			case "archive":
-				$this->click("//button[contains(@class, 'button-archive')]");
+				$this->click("#status-group-children-archive");
 				break;
 			case "check-in":
-				$this->click("//button[contains(@class, 'button-checkin')]");
+				$this->click("#status-group-children-checkin");
 				break;
 			case "batch":
-				$this->click(['xpath' => "//div[@id='toolbar-batch']//button"]);
+				$this->click("#status-group-children-batch");
 				break;
 			case "rebuild":
 				$this->click(['xpath' => "//div[@id='toolbar-refresh']//button"]);
 				break;
 			case "trash":
-				$this->click(['id' => "toolbar-trash"]);
+				$this->click("#status-group-children-trash");
 				break;
 			case "save":
 				$this->click(['id' => "toolbar-apply"]);
@@ -975,7 +975,10 @@ class JoomlaBrowser extends WebDriver
 				$this->click(['id' => "toolbar-delete"]);
 				break;
 			case "feature":
-				$this->click(['id' => "toolbar-featured"]);
+				$this->click("#status-group-children-featured");
+				break;
+			case "unfeature":
+				$this->click("#status-group-children-unfeatured");
 				break;
 			case "action":
 				$this->click(['id' => "toolbar-status-group"]);
