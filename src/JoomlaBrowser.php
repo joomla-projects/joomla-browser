@@ -130,6 +130,9 @@ class JoomlaBrowser extends WebDriver
 			return;
 		}
 
+		// Wait for preparing the login page
+		$this->wait(2);
+
 		$this->debug('I open Joomla Administrator Login Page');
 		$this->amOnPage($this->locator->adminLoginPageUrl);
 		$this->waitForElement($this->locator->adminLoginUserName, TIMEOUT);
@@ -238,13 +241,16 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I select en-GB as installation language');
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
+		$this->click(['id' => 'step0']);
+
+		// Wait for fill the site name and site email
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
+		$this->debug('I fill Admin Email');
+		$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
 		$this->click(['id' => 'step1']);
 
 		// I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
-		$this->debug('I fill Admin Email');
-		$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
 		$this->debug('I fill Admin Name');
 		$this->fillField(['id' => 'jform_admin_user'], $this->config['name']);
 		$this->debug('I fill Admin Username');
@@ -270,7 +276,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click Install Joomla Button');
 		$this->click(['id' => 'setupButton']);
 		$this->wait(1);
-		$this->waitForText('Congratulations! Your Joomla site is ready.', TIMEOUT, ['xpath' => '//h2']);
+		$this->waitForText('Please wait while your site is installing…', TIMEOUT, ['xpath' => '//p']);
 	}
 
 	/**
@@ -283,19 +289,20 @@ class JoomlaBrowser extends WebDriver
 	public function installJoomlaRemovingInstallationFolder()
 	{
 		$this->installJoomla();
-
+		$this->wait(2);
+		$this->amOnPage('/installation/index.php');
 		$this->debug('Removing Installation Folder');
 		$this->click(['id' => 'removeInstallationFolder']);
 
 		// Accept the confirmation alert
-		$this->seeInPopup('Are you sure you want to delete?');
+		$this->seeInPopup('Are you sure you want to delete? Confirming will permanently delete the installation folder.');
 		$this->acceptPopup();
 
 		// Wait until the installation folder is gone and the "customize installation" box has been removed
 		$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
 
 		$this->debug('Joomla is now installed');
-		$this->click(['link' => "Complete & Open Admin"]);
+		$this->click(['link' => "Open Admin"]);
 	}
 
 	/**
