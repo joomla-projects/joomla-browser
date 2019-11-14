@@ -53,12 +53,12 @@ class JoomlaBrowser extends WebDriver
 	protected $locator;
 
 	/**
-	 * If the test run for spring template
+	 * If the test run for "khonsu" template
 	 *
 	 * @var		boolean
 	 * @since	4.0.0
 	 */
-	protected $isSpringTemplate = false;
+	protected $isKhonsu = false;
 
 	/**
 	 * Module constructor.
@@ -74,9 +74,9 @@ class JoomlaBrowser extends WebDriver
 	{
 		parent::__construct($moduleContainer, $config);
 
-		// Check if the backend template is spring or not
-		$this->isSpringTemplate = isset($this->config['backend_template'])
-			&& $this->config['backend_template'] === 'spring';
+		// Check if the backend template is "khonsu" or not
+		$this->isKhonsu = isset($this->config['backend_template'])
+			&& $this->config['backend_template'] === 'khonsu';
 
 		// Instantiate the locator
 		$this->instantiateLocator();
@@ -142,7 +142,7 @@ class JoomlaBrowser extends WebDriver
 			return;
 		}
 
-		if ($this->isSpringTemplate)
+		if ($this->isKhonsu)
 		{
 			// Wait for preparing the login page
 			$this->wait(2);
@@ -257,7 +257,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('Wait for chosen to render the Languages list field');
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
 
-		if ($this->isSpringTemplate)
+		if ($this->isKhonsu)
 		{
 			$this->click(['id' => 'step0']);
 		}
@@ -266,8 +266,8 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 
-		// If the backend template is "spring" then fill the site email in this step
-		if ($this->isSpringTemplate)
+		// If the backend template is "khonsu" then fill the site email in this step
+		if ($this->isKhonsu)
 		{
 			$this->debug('I fill Admin Email');
 			$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
@@ -275,8 +275,8 @@ class JoomlaBrowser extends WebDriver
 
 		$this->click(['id' => 'step1']);
 
-		// If backend template is not "spring" then fill admin email after clicking #step1
-		if (!$this->isSpringTemplate)
+		// If backend template is not "khonsu" then fill admin email after clicking #step1
+		if (!$this->isKhonsu)
 		{
 			$this->debug('I fill Admin Email');
 			$this->fillField(['id' => 'jform_admin_email'], $this->config['admin email']);
@@ -310,7 +310,7 @@ class JoomlaBrowser extends WebDriver
 		$this->wait(1);
 
 		// Check the text after clicking setupButton
-		if ($this->isSpringTemplate)
+		if ($this->isKhonsu)
 		{
 			$this->waitForText('Please wait while your site is installing…', TIMEOUT, ['xpath' => '//p']);
 		}
@@ -331,8 +331,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-		// For template "spring" wait 2 sec after installation finished
-		if ($this->isSpringTemplate)
+		// For template "khonsu" wait 2 sec after installation finished
+		if ($this->isKhonsu)
 		{
 			$this->wait(2);
 			$this->amOnPage('/installation/index.php');
@@ -342,7 +342,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['id' => 'removeInstallationFolder']);
 
 		// Accept the confirmation alert
-		if ($this->isSpringTemplate)
+		if ($this->isKhonsu)
 		{
 			$this->seeInPopup('Are you sure you want to delete? Confirming will permanently delete the installation folder.');
 		}
@@ -358,7 +358,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('Joomla is now installed');
 
-		if ($this->isSpringTemplate)
+		if ($this->isKhonsu)
 		{
 			$this->click(['link' => "Open Admin"]);
 		}
