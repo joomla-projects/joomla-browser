@@ -331,12 +331,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-		// For template "khonsu" wait 2 sec after installation finished
-		if ($this->isKhonsu)
-		{
-			$this->wait(2);
-			$this->amOnPage('/installation/index.php');
-		}
+		// Wait for the visibility of #removeInstallationFolder Element
+		$this->waitForElementVisible("#removeInstallationFolder", TIMEOUT);
 
 		$this->debug('Removing Installation Folder');
 		$this->click(['id' => 'removeInstallationFolder']);
