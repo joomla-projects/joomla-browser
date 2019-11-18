@@ -137,6 +137,7 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField($this->locator->adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
 		$this->fillField($this->locator->adminLoginPassword, $password);
+		$this->makeScreenshot('loginPage');
 
 		// Wait for JS to execute
 		$this->wait(1.5);
