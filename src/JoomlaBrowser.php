@@ -332,7 +332,7 @@ class JoomlaBrowser extends WebDriver
 		$this->installJoomla();
 
 		// Wait for the visibility of #removeInstallationFolder Element
-		$this->waitForElementVisible("#removeInstallationFolder", TIMEOUT);
+		$this->waitForElement(['id' => 'removeInstallationFolder'], TIMEOUT);
 
 		$this->debug('Removing Installation Folder');
 		$this->click(['id' => 'removeInstallationFolder']);
@@ -438,7 +438,16 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for error reporting dropdown');
 		$this->selectOption('Error Reporting', 'Development');
 		$this->debug('I click on save');
-		$this->clickToolbarButton('save');
+
+		if ($this->isKhonsu)
+		{
+			$this->clickToolbarButton('apply');
+		}
+		else
+		{
+			$this->clickToolbarButton('save');
+		}
+
 		$this->debug('I wait for global configuration being saved');
 		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->waitForText('Configuration saved.', TIMEOUT, ['id' => 'system-message-container']);
@@ -1023,6 +1032,9 @@ class JoomlaBrowser extends WebDriver
 				$this->click("#status-group-children-trash");
 				break;
 			case "save":
+				$this->click(['id' => "save-group-children-apply"]);
+				break;
+			case "apply":
 				$this->click(['id' => "toolbar-apply"]);
 				break;
 			case "save & close":
