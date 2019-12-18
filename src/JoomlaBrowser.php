@@ -133,11 +133,14 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I open Joomla Administrator Login Page');
 		$this->amOnPage($this->locator->adminLoginPageUrl);
 		$this->waitForElement($this->locator->adminLoginUserName, TIMEOUT);
+
+		// Wait for CSS animations to finish (1 second in scss - give 1.5 to be safe)
+		$this->wait(1.5);
+
 		$this->debug('Fill Username Text Field');
 		$this->fillField($this->locator->adminLoginUserName, $user);
 		$this->debug('Fill Password Text Field');
 		$this->fillField($this->locator->adminLoginPassword, $password);
-		$this->makeScreenshot('loginPage');
 
 		// Wait for JS to execute
 		$this->wait(1.5);
