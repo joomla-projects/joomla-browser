@@ -1280,7 +1280,8 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(array('id' => 'jform_password2'), $password);
 		$this->fillField(array('id' => 'jform_email'), $email);
 
-		if (!empty($userGroup)) {
+		if (!empty($userGroup)) 
+		{
 			$this->debug('I open the Assigned User Groups Tab and assign the user group');
 			$this->click(array('link' => 'Assigned User Groups'));
 			$this->click(array('xpath' => "//label[contains(text()[normalize-space()], '$userGroup')]"));
