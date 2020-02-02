@@ -1,7 +1,5 @@
 <?php
 /**
- * @package    JoomlaBrowser
- *
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -1280,9 +1278,12 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(array('id' => 'jform_password2'), $password);
 		$this->fillField(array('id' => 'jform_email'), $email);
 
-		$this->debug('I open the Assigned User Groups Tab and assign the user group');
-		$this->click(array('link' => 'Assigned User Groups'));
-		$this->click(array('xpath' => "//label[contains(text()[normalize-space()], '$userGroup')]"));
+		if (!empty($userGroup))
+		{
+			$this->debug('I open the Assigned User Groups Tab and assign the user group');
+			$this->click($this->locator->adminManageUsersUserGroupAssignmentTab);
+			$this->click($this->locator->adminManageUsersUserGroupAssignmentCheckbox($userGroup));
+		}
 
 		$this->debug('Click new user apply button');
 		$this->click($this->locator->adminToolbarButtonApply);

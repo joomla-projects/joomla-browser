@@ -1,7 +1,5 @@
 <?php
 /**
- * @package    JoomlaBrowser
- *
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -136,4 +134,25 @@ class Locators
 	 * @since  3.7.5
 	 */
 	public $adminControlPanelText = 'Control Panel';
+
+	/**
+	 * Manage User - User Group Assignment Tab
+	 *
+	 * @var    string
+	 * @since  3.9.1
+	 */
+	public $adminManageUsersUserGroupAssignmentTab = array('link' => 'Assigned User Groups');
+
+	/**
+	 * Manage User - User Group Assignment Tab - User Group checkbox
+	 *
+	 * @param   string $userGroup display name of the user group
+	 * @return array
+	 * @since  3.9.1
+	 */
+	public function adminManageUsersUserGroupAssignmentCheckbox($userGroup)
+	{
+		return array('xpath' => "//label[contains(text()[normalize-space()], '$userGroup')]");
+	}
+
 }
