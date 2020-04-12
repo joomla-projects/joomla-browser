@@ -354,7 +354,7 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
-	 * Sets in Administrator->Global Configuration the Error reporting to Development
+	 * Sets in Administrator->Global Configuration the Error reporting to Maximum (formerly development)
 	 * {@internal doAdminLogin() before}
 	 *
 	 * @return  void
@@ -374,7 +374,7 @@ class JoomlaBrowser extends WebDriver
 		$this->wait(1);
 		$this->click(['link' => 'Server']);
 		$this->debug('I wait for error reporting dropdown');
-		$this->selectOption('Error Reporting', 'Development');
+		$this->selectOption('Error Reporting', 'Maximum');
 		$this->debug('I click on save');
 		$this->clickToolbarButton('save');
 		$this->debug('I wait for global configuration being saved');
