@@ -924,13 +924,14 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Function to select Toolbar buttons in Joomla! Admin Toolbar Panel
 	 *
-	 * @param   string  $button  The full name of the button
+	 * @param   string  $button       The full name of the button
+	 * @param   string  $subselector  Subselector to further define the button
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function clickToolbarButton($button)
+	public function clickToolbarButton($button, $subselector = null)
 	{
 		$input = strtolower($button);
 
@@ -986,6 +987,9 @@ class JoomlaBrowser extends WebDriver
 				break;
 			case "action":
 				$this->click(['id' => "toolbar-status-group"]);
+				break;
+			case "transition":
+				$this->click(".button-transition.transition-" . $subselector);
 				break;
 		}
 	}
