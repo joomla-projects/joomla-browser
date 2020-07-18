@@ -498,7 +498,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', array('css' => 'H1'));
-		
+
 		// The page needs some time to get interactive.
 		$this->wait(1);
 		$this->click(array('link' => 'Install from URL'));
