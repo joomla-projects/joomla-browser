@@ -149,7 +149,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
-		$this->waitForText('Control Panel', TIMEOUT, $this->locator->controlPanelLocator);
+		$this->waitForText($this->locator->adminControlPanelText, TIMEOUT, $this->locator->controlPanelLocator);
 
 		if ($useSnapshot)
 		{
