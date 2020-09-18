@@ -135,7 +135,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.5
 	 */
-	public $adminControlPanelText = 'Control Panel';
+	public $adminControlPanelText = 'Home Dashboard';
 
 	/**
 	 * Admin Logout Dropdown
