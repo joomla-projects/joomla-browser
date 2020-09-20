@@ -444,6 +444,8 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', ['css' => 'H1']);
+		$this->wait(1);
+		$this->waitForElementNotVisible(['xpath' => '//joomla-core-loader']);
 		$this->click(['link' => 'Install from URL']);
 		$this->debug('I enter the url');
 		$this->fillField(['id' => 'install_url'], $url);
@@ -749,17 +751,19 @@ class JoomlaBrowser extends WebDriver
 		$this->searchForItem($extensionName);
 		$this->waitForElement(['id' => 'manageList'], '30');
 		$this->click(['xpath' => "//input[@id='cb0']"]);
-		$this->click(['xpath' => "//div[@id='toolbar-delete']/button"]);
+		$this->click(['xpath' => "//joomla-toolbar-button[@id='toolbar-delete']/button"]);
 		$this->acceptPopup();
 		$this->waitForText('was successful', '30', ['id' => 'system-message-container']);
 		$this->see('was successful', ['id' => 'system-message-container']);
+		$this->debug('I check for warnings during the uninstall process');
+		$this->dontSeeElement(['xpath' => "//joomla-alert[@type='warning']"]);
 		$this->searchForItem($extensionName);
 		$this->waitForText(
-			'There are no extensions installed matching your query.',
+			'No Matching Results',
 			TIMEOUT,
-			['class' => 'alert-no-items']
+			['class' => 'alert-info']
 		);
-		$this->see('There are no extensions installed matching your query.', ['class' => 'alert-no-items']);
+		$this->see('No Matching Results', ['class' => 'alert-info']);
 		$this->debug('Extension successfully uninstalled');
 	}
 
@@ -778,13 +782,13 @@ class JoomlaBrowser extends WebDriver
 		{
 			$this->debug("Searching for $name");
 			$this->fillField(['id' => "filter_search"], $name);
-			$this->click(['xpath' => "//button[@title='Search']"]);
+			$this->click(['xpath' => "//button[@aria-label='Search']"]);
 
 			return;
 		}
 
 		$this->debug('clearing search filter');
-		$this->click(['xpath' => "//button[@type='button' and @data-original-title='Clear']"]);
+		$this->click('Clear', ['xpath' => "//button[@type='button']"]);
 	}
 
 	/**
