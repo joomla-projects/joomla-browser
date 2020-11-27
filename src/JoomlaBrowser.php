@@ -1174,4 +1174,57 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForText('Category saved', TIMEOUT, ['id' => 'system-message-container']);
 		$this->checkForPhpNoticesOrWarnings();
 	}
+
+	/**
+	 * Create a user in the administrator site
+	 *
+	 * @param   string  $name       Name
+	 * @param   string  $username   User name (login)
+	 * @param   string  $password   Password
+	 * @param   string  $email      Email
+	 * @param   string  $userGroup  Group id to attach to the user
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.11
+	 * @throws  \Exception
+	 */
+	public function createUser($name, $username, $password, $email, $userGroup = 'Super Users')
+	{
+		$this->debug('User creation');
+		$this->doAdministratorLogin();
+
+		$this->amOnPage('administrator/index.php?option=com_users');
+
+		$this->waitForElement(array('class' => 'page-title'));
+		$this->checkForPhpNoticesOrWarnings();
+
+		$this->debug('Click new user button');
+		$this->click($this->locator->adminToolbarButtonNew);
+
+		$this->checkForPhpNoticesOrWarnings();
+		$this->debug('I fill up the new user information');
+
+		$this->click($this->locator->adminManageUsersAccountDetailsTab);
+		$this->fillField(array('id' => 'jform_name'), $name);
+		$this->fillField(array('id' => 'jform_username'), $username);
+		$this->fillField(array('id' => 'jform_password'), $password);
+		$this->fillField(array('id' => 'jform_password2'), $password);
+		$this->fillField(array('id' => 'jform_email'), $email);
+
+		if (!empty($userGroup))
+		{
+			$this->debug('I open the Assigned User Groups Tab and assign the user group');
+			$this->click($this->locator->adminManageUsersUserGroupAssignmentTab);
+			$this->click($this->locator->adminManageUsersUserGroupAssignmentCheckbox($userGroup));
+		}
+
+		$this->debug('Click new user apply button');
+		$this->click($this->locator->adminToolbarButtonApply);
+
+		$this->debug('see a success message after saving the user');
+		$this->waitForText('User saved', TIMEOUT, '#system-message-container');
+		$this->see('User saved', '#system-message-container');
+		$this->checkForPhpNoticesOrWarnings();
+	}
 }
