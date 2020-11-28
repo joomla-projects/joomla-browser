@@ -272,7 +272,7 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
 		$this->debug('I click Install Joomla Button');
 		$this->click(['id' => 'setupButton']);
-		$this->wait(5);
+		$this->wait(1);
 		$this->waitForText('Congratulations! Your Joomla site is ready.', $this->config['timeout'], ['xpath' => '//h2']);
 	}
 
