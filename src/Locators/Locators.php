@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    JoomlaBrowser
+ *
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 namespace Codeception\Module\Locators;
 
 /**
@@ -128,7 +135,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.5
 	 */
-	public $adminControlPanelText = 'Control Panel';
+	public $adminControlPanelText = 'Home Dashboard';
 
 	/**
 	 * Admin Logout Dropdown
@@ -161,4 +168,33 @@ class Locators
 	 * @since  3.7.5
 	 */
 	public $adminLoginSubmitButton = ['id' => 'btn-login-submit'];
+
+	/**
+	 * Manage User - User Group Assignment Tab
+	 *
+	 * @var    string
+	 * @since  3.9.1
+	 */
+	public $adminManageUsersUserGroupAssignmentTab = array('link' => 'Assigned User Groups');
+
+	/**
+	 * Manage User - Account Details Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminManageUsersAccountDetailsTab = array('link' => 'Account Details');
+
+
+	/**
+	 * Manage User - User Group Assignment Tab - User Group checkbox
+	 *
+	 * @param   string $userGroup display name of the user group
+	 * @return array
+	 * @since  3.9.1
+	 */
+	public function adminManageUsersUserGroupAssignmentCheckbox($userGroup)
+	{
+		return array('xpath' => "//label[contains(text()[normalize-space()], '$userGroup')]");
+	}
 }
