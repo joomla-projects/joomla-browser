@@ -148,7 +148,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click Login button');
 		$this->click($this->locator->adminLoginButton);
 		$this->debug('I wait to see Administrator Control Panel');
-		$this->waitForText($this->locator->adminControlPanelText, TIMEOUT, $this->locator->controlPanelLocator);
+		$this->waitForText($this->locator->adminControlPanelText, $this->config['timeout'], $this->locator->controlPanelLocator);
 
 		if ($useSnapshot)
 		{
@@ -422,7 +422,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I enter the Path');
 		$this->fillField(['id' => 'install_directory'], $path);
 		$this->click(['id' => 'installbutton_directory']);
-		$this->waitForText('was successful', TIMEOUT, ['id' => 'system-message-container']);
+		$this->waitForText('was successful', $this->config['timeout'], ['id' => 'system-message-container']);
 		$this->debug("$type successfully installed from $path");
 	}
 
@@ -714,7 +714,7 @@ class JoomlaBrowser extends WebDriver
 		$this->checkExistenceOf($pluginName);
 		$this->click(['xpath' => "//input[@id='cb0']"]);
 		$this->click(['xpath' => "//div[@id='toolbar-publish']/button"]);
-		$this->waitForText(' enabled', TIMEOUT, ['id' => 'system-message-container']);
+		$this->waitForText(' enabled', $this->config['timeout'], ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -759,7 +759,7 @@ class JoomlaBrowser extends WebDriver
 		$this->searchForItem($extensionName);
 		$this->waitForText(
 			'No Matching Results',
-			TIMEOUT,
+			$this->config['timeout'],
 			['class' => 'alert-info']
 		);
 		$this->see('No Matching Results', ['class' => 'alert-info']);
@@ -1015,23 +1015,23 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug("I open the menus page");
 		$this->amOnPage('administrator/index.php?option=com_menus&view=menus');
-		$this->waitForText('Menus', 'TIMEOUT', ['css' => 'H1']);
+		$this->waitForText('Menus', $this->config['timeout'], ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$this->debug("I click in the menu: $menu");
 		$this->click(['link' => $menu]);
-		$this->waitForText('Menus: Items', 'TIMEOUT', ['css' => 'H1']);
+		$this->waitForText('Menus: Items', $this->config['timeout'], ['css' => 'H1']);
 		$this->checkForPhpNoticesOrWarnings();
 
 		$this->debug("I click new");
 		$this->click("New");
-		$this->waitForText('Menus: New Item', 'TIMEOUT', ['css' => 'h1']);
+		$this->waitForText('Menus: New Item', $this->config['timeout'], ['css' => 'h1']);
 		$this->checkForPhpNoticesOrWarnings();
 		$this->fillField(['id' => 'jform_title'], $menuTitle);
 
 		$this->debug("Open the menu types iframe");
 		$this->click(['link' => "Select"]);
-		$this->waitForElement(['id' => 'menuTypeModal'], 'TIMEOUT');
+		$this->waitForElement(['id' => 'menuTypeModal'], $this->config['timeout']);
 		$this->wait(1);
 		$this->switchToIFrame("Menu Item Type");
 
@@ -1039,12 +1039,12 @@ class JoomlaBrowser extends WebDriver
 
 		// Open the category
 		$this->wait(1);
-		$this->waitForElement(['link' => $menuCategory], 'TIMEOUT');
+		$this->waitForElement(['link' => $menuCategory], $this->config['timeout']);
 		$this->click(['link' => $menuCategory]);
 
 		$this->debug("Choose the menu item type: $menuItem");
 		$this->wait(1);
-		$this->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], 'TIMEOUT');
+		$this->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], $this->config['timeout']);
 		$this->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
 		$this->debug('I switch back to the main window');
 		$this->switchToIFrame();
@@ -1055,7 +1055,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I save the menu');
 		$this->click("Save");
 
-		$this->waitForText('Menu item successfully saved', 'TIMEOUT', ['id' => 'system-message-container']);
+		$this->waitForText('Menu item successfully saved', $this->config['timeout'], ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -1174,7 +1174,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('see a success message after saving the category');
 
-		$this->waitForText('Category saved', TIMEOUT, ['id' => 'system-message-container']);
+		$this->waitForText('Category saved', $this->config['timeout'], ['id' => 'system-message-container']);
 		$this->checkForPhpNoticesOrWarnings();
 	}
 
@@ -1226,7 +1226,7 @@ class JoomlaBrowser extends WebDriver
 		$this->click($this->locator->adminToolbarButtonApply);
 
 		$this->debug('see a success message after saving the user');
-		$this->waitForText('User saved', TIMEOUT, '#system-message-container');
+		$this->waitForText('User saved', $this->config['timeout'], '#system-message-container');
 		$this->see('User saved', '#system-message-container');
 		$this->checkForPhpNoticesOrWarnings();
 	}
