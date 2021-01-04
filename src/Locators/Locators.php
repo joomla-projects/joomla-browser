@@ -39,7 +39,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $loginButton = ['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"];
+	public $loginButton = ['xpath' => "//div[@class='com-users-login login']/form/fieldset/div[4]/div/button"];
 
 	/**
 	 * Locator for the Logout Button
@@ -47,7 +47,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLoginSuccess = ['xpath' => "//form[@id='login-form']/div[@class='logout-button']"];
+	public $frontEndLoginSuccess = ['xpath' => "//form[@class='mod-login-logout form-vertical']/div[@class='mod-login-logout__button logout-button']"];
 
 	/**
 	 * Locator for the Logout Button
