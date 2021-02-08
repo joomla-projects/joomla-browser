@@ -47,7 +47,9 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLoginSuccess = ['xpath' => "//form[@class='mod-login-logout form-vertical']/div[@class='mod-login-logout__button logout-button']"];
+	public $frontEndLoginSuccess = [
+		'xpath' => "//form[@class='mod-login-logout form-vertical']/div[@class='mod-login-logout__button logout-button']"
+	];
 
 	/**
 	 * Locator for the Logout Button
