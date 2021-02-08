@@ -57,7 +57,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLogoutButton = ['xpath' => "//div[@class='logout-button']//input[@value='Log out']"];
+	public $frontEndLogoutButton = ['xpath' => "//div[contains(@class, 'logout-button')]//input[@value='Log out']"];
 
 	/**
 	 * Locator for the Login Button
@@ -65,7 +65,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLoginForm = ['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"];
+	public $frontEndLoginForm = ['xpath' => "//div[contains(@class, 'login')]//button[contains(text(), 'Log in')]"];
 
 	/**
 	 * Locator for the Login Page Url
