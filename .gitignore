@@ -19,6 +19,9 @@ Desktop.ini
 .project
 .settings
 
+# VS Code
+*.code-workspace
+
 # Temp files
 *.tmp
 *.bak
