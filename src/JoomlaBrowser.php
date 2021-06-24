@@ -1087,7 +1087,7 @@ class JoomlaBrowser extends WebDriver
         $this->debug("Open the menu category: $menuCategory");
 
         // Open the category
-        $this->wait(2);
+        $this->wait(1);
         $this->waitForElement(array('link' => $menuCategory), TIMEOUT);
         $this->click(array('link' => $menuCategory));
 
