@@ -1079,10 +1079,7 @@ class JoomlaBrowser extends WebDriver
         $this->fillField(array('id' => 'jform_title'), $menuTitle);
 
         $this->debug("Open the menu types iframe");
-        // $this->click(array('link' => "Select"));
-        // $this->click("Select");
         $this->click(array('xpath' => "//button[@data-target='#menuTypeModal']"));
-        // $this->click("Select");
         $this->waitForElement(array('id' => 'menuTypeModal'), TIMEOUT);
         $this->wait(1);
         $this->switchToIFrame("Menu Item Type");
