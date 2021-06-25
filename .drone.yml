@@ -1,6 +1,6 @@
 pipeline:
   phpcs:
-    image: composer:latest
+    image: composer:1.9
     commands:
       - echo $(date)
       - composer install --prefer-dist --no-progress --no-interaction
