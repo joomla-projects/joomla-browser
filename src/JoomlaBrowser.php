@@ -471,6 +471,9 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', array('css' => 'H1'));
+
+		// Let the tabsset come to life
+		$this->wait(1);
 		$this->click(array('link' => 'Install from Folder'));
 		$this->debug('I enter the Path');
 		$this->fillField(array('id' => 'install_directory'), $path);
@@ -496,7 +499,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', array('css' => 'H1'));
-
+		
 		// Let the tabsset come to life
 		$this->wait(1);
 		$this->click(array('link' => 'Install from URL'));
