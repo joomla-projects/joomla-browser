@@ -371,7 +371,7 @@ class JoomlaBrowser extends WebDriver
 
 		// TODO improve
 		$this->wait(1);
-		$this->click(['link' => 'Server']);
+		$this->click(array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-server']"));
 		$this->debug('I wait for error reporting dropdown');
 		$this->selectOption('Error Reporting', 'Maximum');
 		$this->debug('I click on save');
