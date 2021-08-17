@@ -258,7 +258,7 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I click Install Joomla Button');
 		$this->click(['id' => 'setupButton']);
 		$this->wait(1);
-		$this->waitForText('Congratulations! Your Joomla site is ready.', TIMEOUT, ['xpath' => '//h2']);
+		$this->waitForText('Congratulations!', TIMEOUT, ['xpath' => '//h2']);
 	}
 
 	/**
@@ -272,10 +272,6 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@class='form-check-input']"]);
-
-		$this->debug('Joomla is now installed');
 		$this->click(['link' => "Complete & Open Admin"]);
 	}
 
@@ -318,15 +314,8 @@ class JoomlaBrowser extends WebDriver
 		$this->selectOptionInRadioField('Enable the language code plugin', 'Yes');
 		$this->click(['link' => 'Next']);
 
-		$this->waitForText('Congratulations! Joomla! is now installed.', TIMEOUT, ['xpath' => '//h2']);
-		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
+		$this->waitForText('Congratulations!', TIMEOUT, ['xpath' => '//h2']);
 
-		// @todo https://github.com/joomla-projects/joomla-browser/issues/45
-		$this->wait(2);
-
-		$this->debug('Joomla is now installed');
-		$this->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h2']);
 	}
 
 	/**
