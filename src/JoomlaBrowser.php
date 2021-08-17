@@ -289,7 +289,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-		if (!$this->haveVisible('#removeInstallationFolder'))
+		if ($this->haveVisible('#removeInstallationFolder'))
 		{
 			$this->debug('Removing Installation Folder');
 			$this->click(['id' => 'removeInstallationFolder']);
@@ -348,7 +348,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->waitForText('Congratulations! Joomla! is now installed.', $this->config['timeout'], ['xpath' => '//h2']);
 
-		if (!$this->haveVisible('#removeInstallationFolder'))
+		if ($this->haveVisible('#removeInstallationFolder'))
 		{
 			$this->debug('Removing Installation Folder');
 			$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
