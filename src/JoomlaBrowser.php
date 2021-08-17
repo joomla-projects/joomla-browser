@@ -287,6 +287,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
+		// TODO: This will not show in stable mode. Tests need to handle this accordingly
 		$this->debug('Removing Installation Folder');
 		$this->click(['id' => 'removeInstallationFolder']);
 
@@ -298,7 +299,7 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
 
 		$this->debug('Joomla is now installed');
-		$this->click(['link' => "Complete & Open Admin"]);
+		$this->click(['button' => "Complete & Open Admin"]);
 	}
 
 	/**
