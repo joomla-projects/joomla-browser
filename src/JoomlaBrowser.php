@@ -20,6 +20,8 @@ use Joomla\Browser\Locators\Locators;
  */
 class JoomlaBrowser extends WebDriver
 {
+	use ElementIsVisibleTrait;
+
 	/**
 	 * The module required fields, to be set in the suite .yml configuration file.
 	 *
@@ -287,16 +289,18 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-		// TODO: This will not show in stable mode. Tests need to handle this accordingly
-		$this->debug('Removing Installation Folder');
-		$this->click(['id' => 'removeInstallationFolder']);
+		if (!$this->haveVisible('#removeInstallationFolder'))
+		{
+			$this->debug('Removing Installation Folder');
+			$this->click(['id' => 'removeInstallationFolder']);
 
-		// Accept the confirmation alert
-		$this->seeInPopup('Are you sure you want to delete?');
-		$this->acceptPopup();
+			// Accept the confirmation alert
+			$this->seeInPopup('Are you sure you want to delete?');
+			$this->acceptPopup();
 
-		// Wait until the installation folder is gone and the "customize installation" box has been removed
-		$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
+			// Wait until the installation folder is gone and the "customize installation" box has been removed
+			$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
+		}
 
 		$this->debug('Joomla is now installed');
 		$this->click(['button' => "Complete & Open Admin"]);
@@ -343,11 +347,15 @@ class JoomlaBrowser extends WebDriver
 		$this->click(['link' => 'Next']);
 
 		$this->waitForText('Congratulations! Joomla! is now installed.', $this->config['timeout'], ['xpath' => '//h2']);
-		$this->debug('Removing Installation Folder');
-		$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
 
-		// @todo https://github.com/joomla-projects/joomla-browser/issues/45
-		$this->wait(2);
+		if (!$this->haveVisible('#removeInstallationFolder'))
+		{
+			$this->debug('Removing Installation Folder');
+			$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
+
+			// Wait until the installation folder is gone and the "customize installation" box has been removed
+			$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
+		}
 
 		$this->debug('Joomla is now installed');
 		$this->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h2']);
