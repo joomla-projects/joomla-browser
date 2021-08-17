@@ -287,7 +287,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-    $this->click(['button' => "Complete & Open Admin"]);
+		$this->click(['button' => "Complete & Open Admin"]);
 	}
 
 	/**
