@@ -1,5 +1,5 @@
 # Joomla Browser (Codeception Module)
-[![Latest Stable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/stable)](https://packagist.org/packages/joomla-projects/joomla-browser) [![Total Downloads](https://poser.pugx.org/joomla-projects/joomla-browser/downloads)](https://packagist.org/packages/joomla-projects/joomla-browser) [![Latest Unstable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/unstable)](https://packagist.org/packages/joomla-projects/joomla-browser) [![License](https://poser.pugx.org/joomla-projects/joomla-browser/license)](https://packagist.org/packages/joomla-projects/joomla-browser)
+[![Latest Stable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/stable)](https://packagist.org/packages/joomla-projects/joomla-browser) [![Total Downloads](https://poser.pugx.org/joomla-projects/joomla-browser/downloads)](https://packagist.org/packages/joomla-projects/joomla-browser) [![Latest Unstable Version](https://poser.pugx.org/joomla-projects/joomla-browser/v/unstable)](https://packagist.org/packages/joomla-projects/joomla-browser) [![License](https://poser.pugx.org/joomla-projects/joomla-browser/license)](https://packagist.org/packages/joomla-projects/joomla-browser)  [![Build Status](https://ci.joomla.org/api/badges/joomla-projects/joomla-browser/status.svg?branch=4.0.0)](https://ci.joomla.org/joomla-projects/joomla-browser)
 
 ## Table of Contents
 
@@ -106,12 +106,8 @@ You should remove the WebDriver module and replace it with the JoomlaBrowser mod
             ...
 ```
 
-## Tools
-Joomla Browser comes with a set of tools added via robo.li
-
 ### Code Style Checker
 To check automatically the code style execute the following commands in your Terminal window at the root of the repository:
 
 - `$ composer install`
-- `$ vendor/bin/robo`
-- `$ vendor/bin/robo check:codestyle`
+- `$ vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src`

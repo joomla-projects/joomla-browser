@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    JoomlaBrowser
+ *
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 namespace Codeception\Module\Locators;
 
 /**
@@ -32,35 +39,37 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $loginButton = ['xpath' => "//div[@class='login']/form/fieldset/div[4]/div/button"];
+	public $loginButton = ['xpath' => "//div[@class='com-users-login login']/form/fieldset/div[4]/div/button"];
 
 	/**
 	 * Locator for the Logout Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLoginSuccess = ['xpath' => "//form[@id='login-form']/div[@class='logout-button']"];
+	public $frontEndLoginSuccess = [
+		'xpath' => "//form[@class='mod-login-logout form-vertical']/div[@class='mod-login-logout__button logout-button']"
+	];
 
 	/**
 	 * Locator for the Logout Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLogoutButton = ['xpath' => "//div[@class='logout-button']//input[@value='Log out']"];
+	public $frontEndLogoutButton = ['xpath' => "//div[contains(@class, 'logout-button')]//input[@value='Log out']"];
 
 	/**
 	 * Locator for the Login Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLoginForm = ['xpath' => "//div[@class='login']//button[contains(text(), 'Log in')]"];
+	public $frontEndLoginForm = ['xpath' => "//div[contains(@class, 'login')]//button[contains(text(), 'Log in')]"];
 
 	/**
 	 * Locator for the Login Page Url
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -68,7 +77,7 @@ class Locators
 
 	/**
 	 * Locator for the administrator username field
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -76,7 +85,7 @@ class Locators
 
 	/**
 	 * Locator for the admin password field
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -84,7 +93,7 @@ class Locators
 
 	/**
 	 * Locator for the Login Button
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -92,7 +101,7 @@ class Locators
 
 	/**
 	 * Locator for the Control Panel
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -100,7 +109,7 @@ class Locators
 
 	/**
 	 * Locator for the Login URL
-	 * 
+	 *
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
@@ -128,5 +137,66 @@ class Locators
 	 * @var    array
 	 * @since  3.7.5
 	 */
-	public $adminControlPanelText = 'Control Panel';
+	public $adminControlPanelText = 'Home Dashboard';
+
+	/**
+	 * Admin Logout Dropdown
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminLogoutDropdown = ['css' => ".nav-link > .fa-user"];
+
+	/**
+	 * Admin Login Text
+	 *
+	 * @var    string
+	 * @since  3.7.5
+	 */
+	public $adminLoginText = 'Log in';
+
+	/**
+	 * Admin Logout Text
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminLogoutText = ['xpath' => "//a[contains(text(),'Log out')]"];
+
+	/**
+	 * Locator for the administrator login submit button
+	 *
+	 * @var    array
+	 * @since  3.7.5
+	 */
+	public $adminLoginSubmitButton = ['id' => 'btn-login-submit'];
+
+	/**
+	 * Manage User - User Group Assignment Tab
+	 *
+	 * @var    string
+	 * @since  3.9.1
+	 */
+	public $adminManageUsersUserGroupAssignmentTab = array('link' => 'Assigned User Groups');
+
+	/**
+	 * Manage User - Account Details Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminManageUsersAccountDetailsTab = array('link' => 'Account Details');
+
+
+	/**
+	 * Manage User - User Group Assignment Tab - User Group checkbox
+	 *
+	 * @param   string $userGroup display name of the user group
+	 * @return array
+	 * @since  3.9.1
+	 */
+	public function adminManageUsersUserGroupAssignmentCheckbox($userGroup)
+	{
+		return array('xpath' => "//label[contains(text()[normalize-space()], '$userGroup')]");
+	}
 }
