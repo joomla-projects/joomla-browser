@@ -15,7 +15,9 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9"
+        "php": ">=7.2.0",
+        "codeception/codeception": "~4.1",
+        "codeception/module-webdriver": "^1.0"
     },
     "require-dev": {
         "joomla/coding-standards": "~3.0@dev",
@@ -23,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Codeception\\Module\\": "src"
+            "Joomla\\Browser\\": "src"
         }
     }
 }

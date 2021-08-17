@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Codeception\Module;
+namespace Joomla\Browser;
 
-use Codeception\Module\Locators\Locators;
 use Codeception\Module\WebDriver;
 use Codeception\Lib\ModuleContainer;
 use Exception;
+use Joomla\Browser\Locators\Locators;
 
 /**
  * Joomla Browser class to perform test suits for Joomla.

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Codeception\Module\Locators;
+namespace Joomla\Browser\Locators;
 
 /**
  * Joomla Browser Locator class to hold selector value for the default theme
