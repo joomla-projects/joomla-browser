@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "joomla-projects/joomla-testing-robo"   : "dev-container-test",
-        "codeception/codeception"               : "~2.4"
+        "codeception/codeception"               : "~3.1"
     },
     "autoload": {
         "psr-4": {
