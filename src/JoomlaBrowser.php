@@ -303,7 +303,7 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		$this->debug('Joomla is now installed');
-		$this->click('Open Admin');
+		$this->click('Open Administrator');
 	}
 
 	/**
