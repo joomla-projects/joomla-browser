@@ -535,6 +535,8 @@ class JoomlaBrowser extends WebDriver
 			$this->amOnPage($page);
 		}
 
+		$this->dontSeeInPageSource('Deprecated:');
+		$this->dontSeeInPageSource('<b>Deprecated</b>:');
 		$this->dontSeeInPageSource('Notice:');
 		$this->dontSeeInPageSource('<b>Notice</b>:');
 		$this->dontSeeInPageSource('Warning:');
