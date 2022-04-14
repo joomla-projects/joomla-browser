@@ -117,5 +117,4 @@ Joomla Browser comes with a set of tools added via robo.li
 To check automatically the code style execute the following commands in your Terminal window at the root of the repository:
 
 - `$ composer install`
-- `$ vendor/bin/robo`
-- `$ vendor/bin/robo check:codestyle`
+- `$ vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src`
