@@ -471,6 +471,9 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', array('css' => 'H1'));
+
+		// Let the tabsset come to life
+		$this->wait(1);
 		$this->click(array('link' => 'Install from Folder'));
 		$this->debug('I enter the Path');
 		$this->fillField(array('id' => 'install_directory'), $path);
@@ -1295,5 +1298,20 @@ class JoomlaBrowser extends WebDriver
 
 		$this->see('User saved', '#system-message-container');
 		$this->checkForPhpNoticesOrWarnings();
+	}
+
+	/**
+	 * Get a value from the configuration
+	 *
+	 * @param   string  $name  Name of the config option
+	 *
+	 * @return  mixed
+	 *
+	 * @since   4.0
+	 * @throws  \Codeception\Exception\ModuleException
+	 */
+	public function getConfig($name)
+	{
+		return $this->config[$name];
 	}
 }

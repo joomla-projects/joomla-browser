@@ -18,6 +18,10 @@ Desktop.ini
 .buildpath
 .project
 .settings
+.vscode
+
+# VS Code
+*.code-workspace
 
 # Temp files
 *.tmp
