@@ -1,8 +1,28 @@
-pipeline:
-  phpcs:
-    image: composer:1.9
+---
+kind: pipeline
+name: default
+
+clone:
+
+steps:
+  - name: composer
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+    commands:
+      - composer validate --no-check-all --strict
+      - composer install --no-progress --no-suggest
+
+  - name: phpcs
+    image: joomlaprojects/docker-images:php7.4
     commands:
       - echo $(date)
-      - composer install --prefer-dist --no-progress --no-interaction
-      - vendor/bin/robo check:codestyle
+      - ./vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src
       - echo $(date)
+
+---
+kind: signature
+hmac: 87b066184613e920466064596cfde1fb9e7aae0ed7ca860ac91c7f199fc3e67f
+
+...
