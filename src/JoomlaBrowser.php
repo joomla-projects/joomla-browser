@@ -1301,18 +1301,17 @@ class JoomlaBrowser extends WebDriver
 	}
 
 	/**
-	 * getConfig
+	 * Get a value from the configuration
 	 *
-	 * @param   string $value  Get the setting from the option
+	 * @param   string  $name  Name of the config option
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 *
-	 * @since version
-	 * @throws \Codeception\Exception\ModuleException
+	 * @since   4.0
+	 * @throws  \Codeception\Exception\ModuleException
 	 */
-	public function getConfig($value)
+	public function getConfig($name)
 	{
-		// return $this->getModule('JoomlaBrowser')->_getConfig($value);
-		return $this->config[$value];
+		return $this->config[$name];
 	}
 }
