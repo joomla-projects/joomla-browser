@@ -237,12 +237,11 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for Main Configuration');
 		$this->waitForElement('#jform_language', 10);
 		$this->debug('Wait for chosen to render the Languages list field');
-		$this->wait(2);
-
-		// Wait for chosen to render the field
+		$this->wait(1);
 		$this->debug('I select en-GB as installation language');
-		$this->debug('Wait for chosen to render the Languages list field');
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
+		$this->wait(2);
+		$this->debug('Wait for the page to reload in the selected language');
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->click(['id' => 'step1']);
