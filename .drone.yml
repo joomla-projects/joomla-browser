@@ -3,17 +3,19 @@ kind: pipeline
 name: default
 
 clone:
-  depth: 42
 
 steps:
   - name: composer
-    image: joomlaprojects/docker-tools:develop
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
 
   - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
+    image: joomlaprojects/docker-images:php7.4
     commands:
       - echo $(date)
       - ./vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src
@@ -21,6 +23,6 @@ steps:
 
 ---
 kind: signature
-hmac: 6938afe15e326bcf67fdbb386c1b98cebe6b379b3cf4b08d93e5d8f4ded329e6
+hmac: 87b066184613e920466064596cfde1fb9e7aae0ed7ca860ac91c7f199fc3e67f
 
 ...
