@@ -187,6 +187,85 @@ class Locators
 	 */
 	public $adminManageUsersAccountDetailsTab = array('link' => 'Account Details');
 
+	/**
+	 * Global Configuration URL
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $globalConfiguratinUrl = '/administrator/index.php?option=com_config';
+
+	/**
+	 * Admin Module URL
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleUrl = '/administrator/index.php?option=com_modules';
+
+	/**
+	 * Select Module Title
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleTitle = '#jform_title';
+
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $filterOptions = ['link' => 'Filtering Options'];
+
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $selectModuleCategory = '#jform_params_catid';
+
+	/**
+	 * Drop Down Toggle Element.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $dropDownToggle = "//button[contains(@class, 'dropdown-toggle')]";
+
+	/**
+	 * Fill Category
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $fillModuleCategory = '//div[@id="jform_params_catid_chzn"]/ul/li/input';
+
+	/**
+	 * Select
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleSelect = '#jform_params_parent_select';
+
+	/**
+	 * Select Module Position
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $modulePosition = '//div[@id="jform_position_chzn"]/div/div/input';
+
+	/**
+	 * Select Module category
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleCategory = 'jform_params_catid_chzn';
 
 	/**
 	 * Manage User - User Group Assignment Tab - User Group checkbox
