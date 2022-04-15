@@ -1295,7 +1295,7 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function setSiteSearchEngineFriendly($enable = true)
 	{
-		$this->debug($enable ? 'I set SEF URLs to Yes' : 'I set SEF URLs to No' );
+		$this->debug($enable ? 'I set SEF URLs to Yes' : 'I set SEF URLs to No');
 		$this->amOnPage(Locators::$globalConfigurationUrl);
 		$this->click($this->locator->adminConfigurationSiteTab);
 		$this->scrollTo('#jform_sef');
