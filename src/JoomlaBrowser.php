@@ -379,7 +379,7 @@ class JoomlaBrowser extends WebDriver
 
 		// TODO improve
 		$this->wait(1);
-		$this->click(array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-server']"));
+		$this->click($this->locator->adminConfigurationServerTab);
 		$this->debug('I wait for error reporting dropdown');
 		$this->selectOption('Error Reporting', 'Maximum');
 		$this->debug('I click on save');
@@ -562,6 +562,29 @@ class JoomlaBrowser extends WebDriver
 		$radioId = $label->getAttribute('for');
 
 		$this->click("//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]");
+	}
+
+	/**
+	 * Selects an option of a switcher radio field with check if the field is already selected
+	 *
+	 * @param   string  $selector  Selector of the <input type="radio"/> field
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function selectOptionInSwitcherRadioField($selector)
+	{
+		$isChecked = $this->grabAttributeFrom($selector, 'checked');
+
+		if ($isChecked == 'true')
+		{
+			$this->debug('The value seems to already be checked.');
+		}
+		else
+		{
+			$this->click($selector);
+		}
 	}
 
 	/**
@@ -1252,18 +1275,10 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function setSiteOffline($enable = true)
 	{
-		$this->debug('I set the site to offline');
-		$this->doAdministratorLogin();
-		$this->amOnPage(Locators::$globalConfiguratinUrl);
-
-		if ($enable)
-		{
-			$this->click('#jform_offline1');
-		}
-		else
-		{
-			$this->click('#jform_offline0');
-		}
+		$this->debug($enable ? 'I set the site to be offline' : 'I set the site to be online');
+		$this->amOnPage(Locators::$globalConfigurationUrl);
+		$this->click($this->locator->adminConfigurationSiteTab);
+		$this->selectOptionInSwitcherRadioField($enable ? '#jform_offline1' : '#jform_offline0');
 
 		$this->click("Save");
 		$this->see('Configuration saved', '#system-message-container');
@@ -1280,19 +1295,11 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function setSiteSearchEngineFriendly($enable = true)
 	{
-		$this->debug('I set the Search engine optimisation to Yes');
-		$this->doAdministratorLogin();
-		$this->amOnPage(Locators::$globalConfiguratinUrl);
-
-		if ($enable)
-		{
-			$this->click('#jform_sef1');
-			$this->selectOption('#jform_sitename_pagetitles', 'After');
-		}
-		else
-		{
-			$this->click('#jform_sef0');
-		}
+		$this->debug($enable ? 'I set SEF URLs to Yes' : 'I set SEF URLs to No' );
+		$this->amOnPage(Locators::$globalConfigurationUrl);
+		$this->click($this->locator->adminConfigurationSiteTab);
+		$this->scrollTo('#jform_sef');
+		$this->selectOptionInSwitcherRadioField($enable ? '#jform_sef1' : '#jform_sef0');
 
 		$this->click("Save");
 		$this->see('Configuration saved', '#system-message-container');
@@ -1311,7 +1318,6 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function createModule($moduleType, $moduleName, $category)
 	{
-		$this->doAdministratorLogin();
 		$this->amOnPage(Locators::$moduleUrl);
 
 		// New Module
@@ -1321,14 +1327,14 @@ class JoomlaBrowser extends WebDriver
 		$this->see('Select a Module Type');
 
 		// Module Type
-		$this->click(['link' => $moduleType]);
+		$this->click($moduleType, '.new-modules');
 
 		// Title
 		$this->fillField(Locators::$moduleTitle, $moduleName);
 
-		$this->click('Type or Select a Position');
-		$this->fillField(Locators::$modulePosition, 'Main Top');
-		$this->pressKey(Locators::$modulePosition, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$this->click('#jform_position-lbl');
+		$this->type('Main-top');
+		$this->pressKey('.choices__input.choices__input--cloned', \Facebook\WebDriver\WebDriverKeys::ENTER);
 
 		/**
 		 * Module Types
@@ -1424,7 +1430,6 @@ class JoomlaBrowser extends WebDriver
 		}
 
 		// Save It
-		$this->click(Locators::$dropDownToggle);
 		$this->clickToolbarButton('save & close');
 		$this->see('Module saved', ['id' => 'system-message-container']);
 		$this->searchForItem($moduleName);

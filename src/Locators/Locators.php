@@ -188,12 +188,36 @@ class Locators
 	public $adminManageUsersAccountDetailsTab = array('link' => 'Account Details');
 
 	/**
+	 * Global Configuration - Site Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationSiteTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-site']");
+
+	/**
+	 * Global Configuration - System Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationSystemTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-system']");
+
+	/**
+	 * Global Configuration - Server Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationServerTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-server']");
+
+	/**
 	 * Global Configuration URL
 	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $globalConfiguratinUrl = '/administrator/index.php?option=com_config';
+	public static $globalConfigurationUrl = '/administrator/index.php?option=com_config';
 
 	/**
 	 * Admin Module URL
@@ -228,36 +252,12 @@ class Locators
 	public static $selectModuleCategory = '#jform_params_catid';
 
 	/**
-	 * Drop Down Toggle Element.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	public static $dropDownToggle = "//button[contains(@class, 'dropdown-toggle')]";
-
-	/**
 	 * Fill Category
 	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */
 	public static $fillModuleCategory = '//div[@id="jform_params_catid_chzn"]/ul/li/input';
-
-	/**
-	 * Select
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	public static $moduleSelect = '#jform_params_parent_select';
-
-	/**
-	 * Select Module Position
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	public static $modulePosition = '//div[@id="jform_position_chzn"]/div/div/input';
 
 	/**
 	 * Select Module category
