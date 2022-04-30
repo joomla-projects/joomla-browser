@@ -31,7 +31,7 @@ steps:
       - mkdir cache
       - mkdir test-install
       - cd cache
-      - git clone git@github.com:joomla/joomla-cms.git . --depth 1
+      - git clone https://github.com/joomla/joomla-cms.git . --depth 1
       - composer install
       - npm i
       - cp -a cache/. test-install/
@@ -61,6 +61,6 @@ services:
 
 ---
 kind: signature
-hmac: 42128ad2465222bf54d2e588689d01d508ef55cb8556a58dd7e5def88cef76c1
+hmac: d184dacf54a23885e448206fffcc0bf9beebbb98932218498dfe4529c33adb09
 
 ...
