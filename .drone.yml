@@ -39,6 +39,10 @@ steps:
   - name: acceptance_tests
     image: joomlaprojects/docker-images:systemtests
     commands:
+      - apache2ctl -D FOREGROUND &
+      - google-chrome --version
+      - xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
+      - ./vendor/bin/codecept build
       - ./vendor/bin/codecept run --fail-fast --steps --debug tests/acceptance
 
 volumes:
@@ -57,6 +61,6 @@ services:
 
 ---
 kind: signature
-hmac: 31883f2f79360f073cdda76827e0431d42ae78ca9007fb0ae6d97a193b32677a
+hmac: 42128ad2465222bf54d2e588689d01d508ef55cb8556a58dd7e5def88cef76c1
 
 ...
