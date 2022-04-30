@@ -21,8 +21,72 @@ steps:
       - ./vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src
       - echo $(date)
 
+  - name: prepare_test_environment
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+    commands:
+      - echo $(date)
+      - mkdir cache
+      - cd cache
+      - git clone https://github.com/joomla/joomla-cms.git . --depth 1
+      - composer install
+
+  - name: npm
+    image: node:14-alpine
+    commands:
+      - cd cache
+      - npm i --unsafe-perm
+
+  - name: acceptance_tests
+    image: joomlaprojects/docker-images:systemtests
+    commands:
+      - cp -a cache/. /tests/www/test-install/
+      - chown -R www-data /tests/www/test-install/
+      - apache2ctl -D FOREGROUND &
+      - google-chrome --version
+      - selenium-standalone start > tests/_output/selenium.log 2>&1 &
+      - sleep 6
+      - ./vendor/bin/codecept build
+      - ./vendor/bin/codecept run --fail-fast --steps --debug tests/acceptance
+
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
+      - /bin/upload.sh
+    when:
+      status:
+        - failure
+
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+
+services:
+  - name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
 ---
 kind: signature
-hmac: 87b066184613e920466064596cfde1fb9e7aae0ed7ca860ac91c7f199fc3e67f
+hmac: 483099ce7da400f6c64bdc2af8686a243002c9bf64dadec5a17e18d835dfe94f
 
 ...

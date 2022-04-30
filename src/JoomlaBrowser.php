@@ -281,18 +281,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-		if ($this->haveVisible('#removeInstallationFolder'))
-		{
-			$this->debug('Removing Installation Folder');
-			$this->click(['id' => 'removeInstallationFolder']);
-
-			// Accept the confirmation alert
-			$this->seeInPopup('Are you sure you want to delete?');
-			$this->acceptPopup();
-
-			// Wait until the installation folder is gone and the "customize installation" box has been removed
-			$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
-		}
+		$this->removeInstallationFolder();
 
 		$this->debug('Joomla is now installed');
 		$this->click('Open Administrator');
@@ -321,36 +310,64 @@ class JoomlaBrowser extends WebDriver
 		$this->installJoomla();
 
 		$this->debug('I go to Install Languages page');
-		$this->click(['id' => 'instLangs']);
-		$this->waitForText('Install Language packages', $this->config['timeout'], ['xpath' => '//h3']);
+		$this->click(['id' => 'installAddFeatures']);
+		$this->waitForText('Install Additional Languages', $this->config['timeout']);
 
 		foreach ($languages as $language)
 		{
 			$this->debug('I mark the checkbox of the language: ' . $language);
+			$this->scrollTo(['xpath' => "//label[contains(text()[normalize-space()], '$language')]"]);
+			$this->wait(.5);
 			$this->click(['xpath' => "//label[contains(text()[normalize-space()], '$language')]"]);
 		}
 
-		$this->click(['link' => 'Next']);
-		$this->waitForText('Multilingual', $this->config['timeout'], ['xpath' => '//h3']);
-		$this->selectOptionInRadioField('Activate the multilingual feature', 'Yes');
-		$this->waitForElementVisible(['id' => 'jform_activatePluginLanguageCode-lbl']);
-		$this->selectOptionInRadioField('Install localised content', 'Yes');
-		$this->selectOptionInRadioField('Enable the language code plugin', 'Yes');
-		$this->click(['link' => 'Next']);
+		$this->scrollTo(['id' => 'installLanguagesButton']);
+		$this->wait(.5);
+		$this->click(['id' => 'installLanguagesButton']);
+		$this->waitForText('Set default language', $this->config['timeout'], ['id' => 'defaultLanguagesButton']);
+		$this->seeOptionIsSelected('input[name=administratorlang]', 'English (en-GB)');
+		$this->seeOptionIsSelected('input[name=frontendlang]', 'English (en-GB)');
+		$this->scrollTo('#defaultLanguagesButton');
+		$this->wait(.5);
+		$this->click('#defaultLanguagesButton');
+		$this->wait(1);
+		$this->scrollTo(['id' => 'system-message-container']);
+		$this->waitForText('Joomla has set en-GB as your default ADMINISTRATOR language.', $this->config['timeout']);
+		$this->see('Joomla has set en-GB as your default ADMINISTRATOR language.');
 
-		$this->waitForText('Congratulations! Joomla! is now installed.', $this->config['timeout'], ['xpath' => '//h2']);
+		$this->removeInstallationFolder();
 
+		$this->debug('Joomla is now installed');
+		$this->scrollTo('#installCongrat');
+		$this->wait(.5);
+		$this->see('Open Site');
+	}
+
+	/**
+	 * Remove the installation folder after installing Joomla.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws Exception
+	 *
+	 */
+	protected function removeInstallationFolder()
+	{
 		if ($this->haveVisible('#removeInstallationFolder'))
 		{
 			$this->debug('Removing Installation Folder');
-			$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
+			$this->scrollTo(['id' => 'removeInstallationFolder']);
+			$this->wait(.5);
+			$this->click(['id' => 'removeInstallationFolder']);
+
+			// Accept the confirmation alert
+			$this->seeInPopup('Are you sure you want to delete?');
+			$this->acceptPopup();
 
 			// Wait until the installation folder is gone and the "customize installation" box has been removed
 			$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
 		}
-
-		$this->debug('Joomla is now installed');
-		$this->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h2']);
 	}
 
 	/**
@@ -531,7 +548,8 @@ class JoomlaBrowser extends WebDriver
 		$this->dontSeeInPageSource('<b>Deprecated</b>:');
 		$this->dontSeeInPageSource('Notice:');
 		$this->dontSeeInPageSource('<b>Notice</b>:');
-		$this->dontSeeInPageSource('Warning:');
+
+		// $this->dontSeeInPageSource('Warning:'); We have translation strings with this in the backend.
 		$this->dontSeeInPageSource('<b>Warning</b>:');
 		$this->dontSeeInPageSource('Strict standards:');
 		$this->dontSeeInPageSource('<b>Strict standards</b>:');
@@ -713,8 +731,8 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function doAdministratorLogout()
 	{
-		$this->click($this->locator->adminLogoutDropdown);
 		$this->debug("I click on Top Right corner toggle to Logout from Admin");
+		$this->click($this->locator->adminLogoutDropdown);
 		$this->click($this->locator->adminLogoutText);
 		$this->waitForElement($this->locator->adminLoginUserName, $this->config['timeout']);
 		$this->waitForText($this->locator->adminLoginText, $this->config['timeout'], $this->locator->adminLoginSubmitButton);
@@ -1130,7 +1148,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   3.0.0
 	 */
-	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//joomla-tab/div[@role='tablist']/button"])
 	{
 		$actualArrayOfTabs = $this->grabMultiple($tabsLocator);
 
@@ -1207,18 +1225,18 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Create a user in the administrator site
 	 *
-	 * @param   string  $name       Name
-	 * @param   string  $username   User name (login)
-	 * @param   string  $password   Password
-	 * @param   string  $email      Email
-	 * @param   string  $userGroup  Group id to attach to the user
+	 * @param   string  $name        Name
+	 * @param   string  $username    User name (login)
+	 * @param   string  $password    Password
+	 * @param   string  $email       Email
+	 * @param   string  $userGroups  List of user groups to add the user to
 	 *
 	 * @return  void
 	 *
 	 * @since   3.8.11
 	 * @throws  \Exception
 	 */
-	public function createUser($name, $username, $password, $email, $userGroup = 'Super Users')
+	public function createUser($name, $username, $password, $email, $userGroups = ['Super Users'])
 	{
 		$this->debug('User creation');
 		$this->doAdministratorLogin();
@@ -1241,11 +1259,21 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(array('id' => 'jform_password2'), $password);
 		$this->fillField(array('id' => 'jform_email'), $email);
 
-		if (!empty($userGroup))
+		if (!empty($userGroups))
 		{
 			$this->debug('I open the Assigned User Groups Tab and assign the user group');
 			$this->click($this->locator->adminManageUsersUserGroupAssignmentTab);
-			$this->click($this->locator->adminManageUsersUserGroupAssignmentCheckbox($userGroup));
+			$this->uncheckOption('Registered');
+
+			if (!is_array($userGroups))
+			{
+				$userGroups = [$userGroups];
+			}
+
+			foreach ($userGroups as $group)
+			{
+				$this->checkOption($this->locator->adminManageUsersUserGroupAssignmentCheckbox($group));
+			}
 		}
 
 		$this->debug('Click new user apply button');
@@ -1426,5 +1454,20 @@ class JoomlaBrowser extends WebDriver
 		$this->clickToolbarButton('save & close');
 		$this->see('Module saved', ['id' => 'system-message-container']);
 		$this->searchForItem($moduleName);
+	}
+
+	/**
+	 * Get a value from the configuration
+	 *
+	 * @param   string  $name  Name of the config option
+	 *
+	 * @return  mixed
+	 *
+	 * @since   4.0
+	 * @throws  \Codeception\Exception\ModuleException
+	 */
+	public function getConfig($name)
+	{
+		return $this->config[$name];
 	}
 }
