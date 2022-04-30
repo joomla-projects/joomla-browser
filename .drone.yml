@@ -47,6 +47,7 @@ steps:
       - apache2ctl -D FOREGROUND &
       - google-chrome --version
       - selenium-standalone start > tests/_output/selenium.log 2>&1 &
+      - sleep 6
       - ./vendor/bin/codecept build
       - ./vendor/bin/codecept run --fail-fast --steps --debug tests/acceptance
 
@@ -66,6 +67,6 @@ services:
 
 ---
 kind: signature
-hmac: 6e14977ea328f3dd03edada245ffe67a1d4d92a93b460cb6c8098b55191810d1
+hmac: 08c2ce806fda43948d62c0cdfd10d5edff1388b161be5529b829927423418b85
 
 ...
