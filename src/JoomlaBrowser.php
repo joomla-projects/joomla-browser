@@ -548,7 +548,7 @@ class JoomlaBrowser extends WebDriver
 		$this->dontSeeInPageSource('<b>Deprecated</b>:');
 		$this->dontSeeInPageSource('Notice:');
 		$this->dontSeeInPageSource('<b>Notice</b>:');
-		$this->dontSeeInPageSource('Warning:');
+		//$this->dontSeeInPageSource('Warning:'); We have translation strings with this in the backend.
 		$this->dontSeeInPageSource('<b>Warning</b>:');
 		$this->dontSeeInPageSource('Strict standards:');
 		$this->dontSeeInPageSource('<b>Strict standards</b>:');
@@ -1124,7 +1124,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   3.0.0
 	 */
-	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//joomla-tab/div[@role='tablist']/button"])
 	{
 		$actualArrayOfTabs = $this->grabMultiple($tabsLocator);
 
