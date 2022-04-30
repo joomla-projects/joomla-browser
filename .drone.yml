@@ -37,7 +37,7 @@ steps:
   - name: npm
     image: node:14-alpine
     commands:
-      - cd test-install
+      - cd cache
       - npm i --unsafe-perm
 
   - name: acceptance_tests
@@ -66,6 +66,6 @@ services:
 
 ---
 kind: signature
-hmac: e62775e9a615227776f20feb57c7e49de53a46081ba14b69f6932a522bb396ba
+hmac: 6e14977ea328f3dd03edada245ffe67a1d4d92a93b460cb6c8098b55191810d1
 
 ...
