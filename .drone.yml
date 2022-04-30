@@ -21,8 +21,42 @@ steps:
       - ./vendor/bin/phpcs --extensions=php -p --standard=vendor/joomla/coding-standards/Joomla src
       - echo $(date)
 
+  - name: prepare_test_environment
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+    commands:
+      - echo $(date)
+      - mkdir cache
+      - mkdir test-install
+      - cd cache
+      - git clone git@github.com:joomla/joomla-cms.git . --depth 1
+      - composer install
+      - npm i
+      - cp -a cache/. test-install/
+
+  - name: acceptance_tests
+    image: joomlaprojects/docker-images:systemtests
+    commands:
+      - ./vendor/bin/codecept run --fail-fast --steps --debug tests/acceptance
+
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+
+services:
+  - name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
 ---
 kind: signature
-hmac: 87b066184613e920466064596cfde1fb9e7aae0ed7ca860ac91c7f199fc3e67f
+hmac: 31883f2f79360f073cdda76827e0431d42ae78ca9007fb0ae6d97a193b32677a
 
 ...
