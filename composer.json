@@ -19,6 +19,11 @@
             "email": "javier.gomez@community.joomla.org"
         }
     ],
+    "config": {
+        "platform": {
+            "php": "7.2.5"
+        }
+    },
     "require": {
         "php": ">=7.2.0",
         "codeception/codeception": "~4.1",
