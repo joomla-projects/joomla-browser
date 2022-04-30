@@ -45,7 +45,7 @@ steps:
       - cp -a cache/. test-install/
       - apache2ctl -D FOREGROUND &
       - google-chrome --version
-      - xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
+      - selenium-standalone start > tests/Codeception/_output/selenium.log 2>&1 &
       - ./vendor/bin/codecept build
       - ./vendor/bin/codecept run --fail-fast --steps --debug tests/acceptance
 
@@ -65,6 +65,6 @@ services:
 
 ---
 kind: signature
-hmac: 687b9ce319b17dc34cb9397543c6cd660404f48dcb9a32c4f42b2cd45d66701e
+hmac: 7c59ffcd29563fb9b9d4b57c5aa85f19dab1f738195282558c708a84c78b6676
 
 ...
