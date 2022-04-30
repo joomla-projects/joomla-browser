@@ -36,7 +36,6 @@ steps:
 
   - name: npm
     image: node:14-alpine
-    depends_on: [ phpcs ]
     commands:
       - npm i --unsafe-perm
 
@@ -66,6 +65,6 @@ services:
 
 ---
 kind: signature
-hmac: 95de67b39f800fef16ffb24d7fbc93491e4d826322516a6e93394c5e611ec185
+hmac: 687b9ce319b17dc34cb9397543c6cd660404f48dcb9a32c4f42b2cd45d66701e
 
 ...
