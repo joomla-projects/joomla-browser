@@ -548,7 +548,8 @@ class JoomlaBrowser extends WebDriver
 		$this->dontSeeInPageSource('<b>Deprecated</b>:');
 		$this->dontSeeInPageSource('Notice:');
 		$this->dontSeeInPageSource('<b>Notice</b>:');
-		//$this->dontSeeInPageSource('Warning:'); We have translation strings with this in the backend.
+
+		// $this->dontSeeInPageSource('Warning:'); We have translation strings with this in the backend.
 		$this->dontSeeInPageSource('<b>Warning</b>:');
 		$this->dontSeeInPageSource('Strict standards:');
 		$this->dontSeeInPageSource('<b>Strict standards</b>:');
