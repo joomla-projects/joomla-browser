@@ -707,8 +707,8 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function doAdministratorLogout()
 	{
-		$this->click($this->locator->adminLogoutDropdown);
 		$this->debug("I click on Top Right corner toggle to Logout from Admin");
+		$this->click($this->locator->adminLogoutDropdown);
 		$this->click($this->locator->adminLogoutText);
 		$this->waitForElement($this->locator->adminLoginUserName, $this->config['timeout']);
 		$this->waitForText($this->locator->adminLoginText, $this->config['timeout'], $this->locator->adminLoginSubmitButton);
@@ -1201,18 +1201,18 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Create a user in the administrator site
 	 *
-	 * @param   string  $name       Name
-	 * @param   string  $username   User name (login)
-	 * @param   string  $password   Password
-	 * @param   string  $email      Email
-	 * @param   string  $userGroup  Group id to attach to the user
+	 * @param   string  $name        Name
+	 * @param   string  $username    User name (login)
+	 * @param   string  $password    Password
+	 * @param   string  $email       Email
+	 * @param   string  $userGroups  List of user groups to add the user to
 	 *
 	 * @return  void
 	 *
 	 * @since   3.8.11
 	 * @throws  \Exception
 	 */
-	public function createUser($name, $username, $password, $email, $userGroup = 'Super Users')
+	public function createUser($name, $username, $password, $email, $userGroups = ['Super Users'])
 	{
 		$this->debug('User creation');
 		$this->doAdministratorLogin();
@@ -1235,11 +1235,21 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(array('id' => 'jform_password2'), $password);
 		$this->fillField(array('id' => 'jform_email'), $email);
 
-		if (!empty($userGroup))
+		if (!empty($userGroups))
 		{
 			$this->debug('I open the Assigned User Groups Tab and assign the user group');
 			$this->click($this->locator->adminManageUsersUserGroupAssignmentTab);
-			$this->click($this->locator->adminManageUsersUserGroupAssignmentCheckbox($userGroup));
+			$this->uncheckOption('Registered');
+
+			if (!is_array($userGroups))
+			{
+				$userGroups = [$userGroups];
+			}
+
+			foreach ($userGroups as $group)
+			{
+				$this->checkOption($this->locator->adminManageUsersUserGroupAssignmentCheckbox($group));
+			}
 		}
 
 		$this->debug('Click new user apply button');
