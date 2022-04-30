@@ -43,7 +43,7 @@ steps:
   - name: acceptance_tests
     image: joomlaprojects/docker-images:systemtests
     commands:
-      - cp -a cache/. test-install/
+      - cp -a cache/. /tests/www/test-install/
       - apache2ctl -D FOREGROUND &
       - google-chrome --version
       - selenium-standalone start > tests/_output/selenium.log 2>&1 &
@@ -67,6 +67,6 @@ services:
 
 ---
 kind: signature
-hmac: 08c2ce806fda43948d62c0cdfd10d5edff1388b161be5529b829927423418b85
+hmac: c3dd6c60252859b59c1eb3db1f20ab1561ebcf7c9a24a9fe5bab9dd096ce96a1
 
 ...

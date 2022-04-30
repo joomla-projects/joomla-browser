@@ -33,8 +33,8 @@ modules:
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
             timeout: 90                            # or 90000 the same result
             log_js_errors: true
-            cmsPath: '/tests/www/test-install-test'        # ; If you want to setup your test website (document root) in a different folder, you can do that here.
-            localUser: 'www-data'                          # (Linux / Mac only) If you want to set a different owner for the CMS test folder
+            cmsPath: '/tests/www/test-install'     # ; If you want to setup your test website (document root) in a different folder, you can do that here.
+            localUser: 'www-data'                  # (Linux / Mac only) If you want to set a different owner for the CMS test folder
         Helper\JoomlaDb:
             dsn: 'mysql:host=mysql;dbname=test_joomla'
             user: 'root'

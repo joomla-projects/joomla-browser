@@ -1261,4 +1261,19 @@ class JoomlaBrowser extends WebDriver
 		$this->see('User saved', '#system-message-container');
 		$this->checkForPhpNoticesOrWarnings();
 	}
+
+	/**
+	 * Get a value from the configuration
+	 *
+	 * @param   string  $name  Name of the config option
+	 *
+	 * @return  mixed
+	 *
+	 * @since   4.0
+	 * @throws  \Codeception\Exception\ModuleException
+	 */
+	public function getConfig($name)
+	{
+		return $this->config[$name];
+	}
 }

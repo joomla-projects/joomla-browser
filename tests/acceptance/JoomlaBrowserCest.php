@@ -16,32 +16,33 @@ class JoomlaBrowserCest
 {
 	public function testInstallations(AcceptanceTester $I)
 	{
+		$path = $I->getConfig('cmsPath');
 		$I->wantToTest('installing Joomla');
 		$I->installJoomla();
 
 		// Resetting installation to be installed again.
-		if (is_file(__DIR__ . '/../../test-install/configuration.php'))
+		if (is_file($path . '/configuration.php'))
 		{
-			unlink(__DIR__ . '/../../test-install/configuration.php');
+			unlink($path . '/configuration.php');
 		}
 
 		$I->wantToTest('installing Joomla and removing the install folder');
 		$I->installJoomlaRemovingInstallationFolder();
 
-		if (is_dir(__DIR__ . '/../../test-install/installation'))
+		if (is_dir($path . '/installation'))
 		{
 			$I->fail('Installation folder wasn\'t deleted');
 		}
 
 		// Restoring installation folder to be installed again.
-		if (is_file(__DIR__ . '/../../test-install/configuration.php'))
+		if (is_file($path . '/configuration.php'))
 		{
-			unlink(__DIR__ . '/../../test-install/configuration.php');
+			unlink($path . '/configuration.php');
 		}
 
 		\Joomla\Filesystem\Folder::copy(
 			__DIR__ . '/../../cache/installation',
-			__DIR__ . '/../../test-install/installation'
+			$path . '/installation'
 		);
 
 		$I->wantToTest('installing Joomla with multiple languages.');
