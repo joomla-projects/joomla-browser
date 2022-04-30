@@ -33,12 +33,17 @@ steps:
       - cd cache
       - git clone https://github.com/joomla/joomla-cms.git . --depth 1
       - composer install
-      - npm i
-      - cp -a cache/. test-install/
+
+  - name: npm
+    image: node:14-alpine
+    depends_on: [ phpcs ]
+    commands:
+      - npm i --unsafe-perm
 
   - name: acceptance_tests
     image: joomlaprojects/docker-images:systemtests
     commands:
+      - cp -a cache/. test-install/
       - apache2ctl -D FOREGROUND &
       - google-chrome --version
       - xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
@@ -61,6 +66,6 @@ services:
 
 ---
 kind: signature
-hmac: d184dacf54a23885e448206fffcc0bf9beebbb98932218498dfe4529c33adb09
+hmac: 95de67b39f800fef16ffb24d7fbc93491e4d826322516a6e93394c5e611ec185
 
 ...
