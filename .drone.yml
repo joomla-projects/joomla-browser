@@ -43,6 +43,7 @@ steps:
     image: joomlaprojects/docker-images:systemtests
     commands:
       - cp -a cache/. /tests/www/test-install/
+      - chown -R www-data /tests/www/test-install/
       - apache2ctl -D FOREGROUND &
       - google-chrome --version
       - selenium-standalone start > tests/_output/selenium.log 2>&1 &
@@ -86,6 +87,6 @@ services:
 
 ---
 kind: signature
-hmac: 7b66c97aea2294814e64ff537cf3d435d74bf68fb8db0542adeb25d465b7c934
+hmac: 483099ce7da400f6c64bdc2af8686a243002c9bf64dadec5a17e18d835dfe94f
 
 ...
