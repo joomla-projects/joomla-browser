@@ -228,20 +228,14 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->debug('I open Joomla Installation Configuration Page');
 		$this->amOnPage('/installation/index.php');
-		$this->debug('I check that FTP tab is not present in installation. Otherwise it means that I have not enough '
-			. 'permissions to install joomla and execution will be stopped'
-		);
-		$this->dontSeeElement(['id' => 'ftp']);
 
 		// I Wait for the text Main Configuration, meaning that the page is loaded
 		$this->debug('I wait for Main Configuration');
 		$this->waitForElement('#jform_language', 10);
-		$this->debug('Wait for chosen to render the Languages list field');
-		$this->wait(1);
 		$this->debug('I select en-GB as installation language');
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
-		$this->wait(2);
 		$this->debug('Wait for the page to reload in the selected language');
+		$this->wait(2);
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->click(['id' => 'step1']);
@@ -259,7 +253,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->debug('I Fill the form for creating the Joomla site Database');
 
-		$this->debug('I select MySQLi');
+		$this->debug('I select ' . $this->config['database type']);
 		$this->selectOption(['id' => 'jform_db_type'], $this->config['database type']);
 		$this->debug('I fill Database Host');
 		$this->fillField(['id' => 'jform_db_host'], $this->config['database host']);
@@ -273,7 +267,6 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(['id' => 'jform_db_prefix'], $this->config['database prefix']);
 		$this->debug('I click Install Joomla Button');
 		$this->click(['id' => 'setupButton']);
-		$this->wait(1);
 		$this->waitForText('Congratulations! Your Joomla site is ready.', $this->config['timeout'], ['xpath' => '//h2']);
 	}
 
