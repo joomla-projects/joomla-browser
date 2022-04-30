@@ -189,6 +189,85 @@ class Locators
 	 */
 	public $adminManageUsersAccountDetailsTab = 'Account Details';
 
+	/**
+	 * Global Configuration - Site Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationSiteTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-site']");
+
+	/**
+	 * Global Configuration - System Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationSystemTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-system']");
+
+	/**
+	 * Global Configuration - Server Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationServerTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-server']");
+
+	/**
+	 * Global Configuration URL
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $globalConfigurationUrl = '/administrator/index.php?option=com_config';
+
+	/**
+	 * Admin Module URL
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleUrl = '/administrator/index.php?option=com_modules';
+
+	/**
+	 * Select Module Title
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleTitle = '#jform_title';
+
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $filterOptions = ['link' => 'Filtering Options'];
+
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $selectModuleCategory = '#jform_params_catid';
+
+	/**
+	 * Fill Category
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $fillModuleCategory = '//div[@id="jform_params_catid_chzn"]/ul/li/input';
+
+	/**
+	 * Select Module category
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleCategory = 'jform_params_catid_chzn';
 
 	/**
 	 * Manage User - User Group Assignment Tab - User Group checkbox
