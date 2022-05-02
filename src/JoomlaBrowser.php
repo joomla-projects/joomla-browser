@@ -236,6 +236,17 @@ class JoomlaBrowser extends WebDriver
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
 		$this->debug('Wait for the page to reload in the selected language');
 		$this->wait(2);
+
+		if ($this->grabTextFrom('#jform_language-lbl') != 'Select Language')
+		{
+			// Due to a bug, we first need to select a different language and then go back to english
+			$this->selectOption('#jform_language', 'Deutsch (Deutschland)');
+			$this->debug('Wait for the page to reload in the selected language');
+			$this->wait(2);
+			$this->selectOption('#jform_language', 'English (United Kingdom)');
+			$this->debug('Wait for the page to reload in the selected language');
+			$this->wait(2);
+		}
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->click(['id' => 'step1']);
