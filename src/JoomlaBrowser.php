@@ -405,26 +405,6 @@ class JoomlaBrowser extends WebDriver
 	 * @param   String  $path  Path for the Extension
 	 * @param   string  $type  Type of Extension
 	 *
-	 * @note: doAdminLogin() before
-	 *
-	 * @deprecated  since Joomla 3.4.4-dev. Use installExtensionFromFolder($path, $type = 'Extension') instead.
-	 *
-	 * @return   void
-	 *
-	 * @since    3.0.0
-	 */
-	public function installExtensionFromDirectory($path, $type = 'Extension')
-	{
-		$this->debug('Suggested to use installExtensionFromFolder instead of installExtensionFromDirectory');
-		$this->installExtensionFromFolder($path, $type);
-	}
-
-	/**
-	 * Installs a Extension in Joomla that is located in a folder inside the server
-	 *
-	 * @param   String  $path  Path for the Extension
-	 * @param   string  $type  Type of Extension
-	 *
 	 * {@internal doAdminLogin() before}
 	 *
 	 * @return    void
@@ -436,7 +416,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', ['css' => 'H1']);
-		$this->click(['link' => 'Install from Folder']);
+		$this->click('Install from Folder');
 		$this->debug('I enter the Path');
 		$this->fillField(['id' => 'install_directory'], $path);
 		$this->click(['id' => 'installbutton_directory']);
@@ -461,28 +441,13 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', ['css' => 'H1']);
-		$this->wait(1);
-		$this->waitForElementNotVisible(['xpath' => '//joomla-core-loader']);
-		$this->click(['link' => 'Install from URL']);
+		$this->click('Install from URL');
 		$this->debug('I enter the url');
 		$this->fillField(['id' => 'install_url'], $url);
 		$this->click(['id' => 'installbutton_url']);
 		$this->waitForText('was successful', '30', ['id' => 'system-message-container']);
 
-		if ($type == 'Extension')
-		{
-			$this->debug('Extension successfully installed from ' . $url);
-		}
-
-		if ($type == 'Plugin')
-		{
-			$this->debug('Installing plugin was successful.' . $url);
-		}
-
-		if ($type == 'Package')
-		{
-			$this->debug('Installation of the package was successful.' . $url);
-		}
+		$this->debug("$type successfully installed from $url");
 	}
 
 	/**
@@ -500,7 +465,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', array('css' => 'H1'));
-		$this->click(array('link' => 'Upload Package File'));
+		$this->click('Upload Package File');
 
 		$this->debug('I make sure legacy uploader is visible');
 		$this->executeJS('document.getElementById("legacy-uploader").style.display="block";');
@@ -510,20 +475,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->waitForText('was successful', '30', array('id' => 'system-message-container'));
 
-		if ($type == 'Extension')
-		{
-			$this->debug('Extension successfully installed.');
-		}
-
-		if ($type == 'Plugin')
-		{
-			$this->debug('Installing plugin was successful.');
-		}
-
-		if ($type == 'Package')
-		{
-			$this->debug('Installation of the package was successful.');
-		}
+		$this->debug("$type successfully installed with file upload");
 	}
 
 	/**
@@ -877,15 +829,10 @@ class JoomlaBrowser extends WebDriver
 		$this->amOnPage('administrator/index.php?option=com_installer&view=languages');
 		$this->debug('I check for Notices and Warnings');
 		$this->checkForPhpNoticesOrWarnings();
-		$this->debug('Refreshing languages');
-		$this->click(['xpath' => "//div[@id='toolbar-refresh']/button"]);
-		$this->waitForElement(['id' => 'j-main-container'], 30);
 		$this->searchForItem($languageName);
 		$this->waitForElement($this->searchResultLanguageName($languageName), 30);
-		$this->click(['id' => "cb0"]);
-		$this->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
+		$this->click(['xpath' => "//form[@id='adminForm']//table/tbody/tr[1]/td[1]/input"]);
 		$this->waitForText('was successful.', $this->config['timeout'], ['id' => 'system-message-container']);
-		$this->see('No Matching Results', ['class' => 'alert-no-items']);
 		$this->debug($languageName . ' successfully installed');
 	}
 
@@ -898,7 +845,7 @@ class JoomlaBrowser extends WebDriver
 	 */
 	private function searchResultLanguageName($languageName)
 	{
-		$xpath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
+		$xpath = "//form[@id='adminForm']//table/tbody/tr[1]/th[contains(text(),'" . $languageName . "')]";
 
 		return $xpath;
 	}

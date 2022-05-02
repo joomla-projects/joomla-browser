@@ -54,6 +54,9 @@ class JoomlaBrowserCest
 		$I->doAdministratorLogin();
 		$I->disableStatistics();
 		$I->setErrorReportingToDevelopment();
+		$I->setSiteSearchEngineFriendly();
+		$I->setSiteOffline();
+		$I->setSiteOffline(false);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->amOnPage('/administrator/index.php?option=com_config');
 		$I->verifyAvailableTabs(
@@ -71,5 +74,46 @@ class JoomlaBrowserCest
 		$I->doAdministratorLogout();
 		$I->doFrontEndLogin('testuser', 'Password123!');
 		$I->doFrontendLogout();
+	}
+
+	public function testExtensionManagement(AcceptanceTester $I)
+	{
+		// Get latest weblinks release, so that we have something to install
+		$github = new \Joomla\Github\Github();
+		$release = $github->repositories->releases->get('joomla-extensions', 'weblinks', 'latest');
+		$url = $release->assets[0]->browser_download_url;
+		$path = $I->getConfig('cmsPath');
+
+		if (!is_file($path . '/weblinks.zip'))
+		{
+			file_put_contents(
+				$path . '/weblinks.zip',
+				file_get_contents($url)
+			);
+			copy($path . '/weblinks.zip', __DIR__ . '/../_data/weblinks.zip');
+		}
+
+		$I->doAdministratorLogin();
+		$zip = new ZipArchive;
+		$res = $zip->open($path . '/weblinks.zip');
+
+		if ($res === true)
+		{
+			$zip->extractTo($path . '/tmp');
+			$zip->close();
+		}
+		else
+		{
+			$I->fail('Can\'t extract weblinks package to folder');
+		}
+
+		$I->installExtensionFromFolder($path . '/tmp', 'pkg_weblinks');
+		$I->uninstallExtension('Web Links Extension Package');
+		$I->installExtensionFromUrl($url, 'pkg_weblinks');
+		$I->uninstallExtension('Web Links Extension Package');
+		$I->installExtensionFromFileUpload('weblinks.zip', 'pkg_weblinks');
+
+		$I->doAdministratorLogin();
+		$I->installLanguage('Czech');
 	}
 }
