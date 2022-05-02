@@ -38,3 +38,9 @@ phing-latest.phar
 composer.phar
 vendor/*
 tests/vendor/*
+
+# temporary test folders
+cache/
+test-install/
+
+tests/acceptance.suite.yml

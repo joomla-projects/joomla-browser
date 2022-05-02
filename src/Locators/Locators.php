@@ -48,7 +48,7 @@ class Locators
 	 * @since  3.7.4.2
 	 */
 	public $frontEndLoginSuccess = [
-		'xpath' => "//form[@class='mod-login-logout form-vertical']/div[@class='mod-login-logout__button logout-button']"
+		'xpath' => "//form[contains(@class, 'mod-login-logout')]/div[@class='mod-login-logout__button logout-button']"
 	];
 
 	/**
@@ -57,7 +57,9 @@ class Locators
 	 * @var    array
 	 * @since  3.7.4.2
 	 */
-	public $frontEndLogoutButton = ['xpath' => "//div[contains(@class, 'logout-button')]//button[contains(text(), 'Log out')]"];
+	public $frontEndLogoutButton = [
+		'xpath' => "//div[contains(@class, 'logout-button')]//button[contains(text(), 'Log out')]"
+	];
 
 	/**
 	 * Locator for the Login Button
@@ -145,7 +147,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.5
 	 */
-	public $adminLogoutDropdown = ['css' => ".nav-link > .fa-user"];
+	public $adminLogoutDropdown = ['css' => "button[title='User Menu']"];
 
 	/**
 	 * Admin Login Text
@@ -161,7 +163,7 @@ class Locators
 	 * @var    array
 	 * @since  3.7.5
 	 */
-	public $adminLogoutText = ['xpath' => "//a[contains(text(),'Log out')]"];
+	public $adminLogoutText = ['xpath' => "//a[text()[contains(.,'Log out')]]"];
 
 	/**
 	 * Locator for the administrator login submit button
@@ -177,7 +179,7 @@ class Locators
 	 * @var    string
 	 * @since  3.9.1
 	 */
-	public $adminManageUsersUserGroupAssignmentTab = array('link' => 'Assigned User Groups');
+	public $adminManageUsersUserGroupAssignmentTab = 'Assigned User Groups';
 
 	/**
 	 * Manage User - Account Details Tab
@@ -185,13 +187,93 @@ class Locators
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	public $adminManageUsersAccountDetailsTab = array('link' => 'Account Details');
+	public $adminManageUsersAccountDetailsTab = 'Account Details';
 
+	/**
+	 * Global Configuration - Site Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationSiteTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-site']");
+
+	/**
+	 * Global Configuration - System Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationSystemTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-system']");
+
+	/**
+	 * Global Configuration - Server Tab
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $adminConfigurationServerTab = array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-server']");
+
+	/**
+	 * Global Configuration URL
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $globalConfigurationUrl = '/administrator/index.php?option=com_config';
+
+	/**
+	 * Admin Module URL
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleUrl = '/administrator/index.php?option=com_modules';
+
+	/**
+	 * Select Module Title
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleTitle = '#jform_title';
+
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $filterOptions = ['link' => 'Filtering Options'];
+
+	/**
+	 * Select Filter Options
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $selectModuleCategory = '#jform_params_catid';
+
+	/**
+	 * Fill Category
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $fillModuleCategory = '//div[@id="jform_params_catid_chzn"]/ul/li/input';
+
+	/**
+	 * Select Module category
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public static $moduleCategory = 'jform_params_catid_chzn';
 
 	/**
 	 * Manage User - User Group Assignment Tab - User Group checkbox
 	 *
-	 * @param   string $userGroup display name of the user group
+	 * @param   string  $userGroup  display name of the user group
+	 *
 	 * @return array
 	 * @since  3.9.1
 	 */

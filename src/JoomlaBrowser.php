@@ -236,6 +236,17 @@ class JoomlaBrowser extends WebDriver
 		$this->selectOption('#jform_language', 'English (United Kingdom)');
 		$this->debug('Wait for the page to reload in the selected language');
 		$this->wait(2);
+
+		if ($this->grabTextFrom('#jform_language-lbl') != 'Select Language')
+		{
+			// Due to a bug, we first need to select a different language and then go back to english
+			$this->selectOption('#jform_language', 'Deutsch (Deutschland)');
+			$this->debug('Wait for the page to reload in the selected language');
+			$this->wait(2);
+			$this->selectOption('#jform_language', 'English (United Kingdom)');
+			$this->debug('Wait for the page to reload in the selected language');
+			$this->wait(2);
+		}
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->click(['id' => 'step1']);
@@ -281,18 +292,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->installJoomla();
 
-		if ($this->haveVisible('#removeInstallationFolder'))
-		{
-			$this->debug('Removing Installation Folder');
-			$this->click(['id' => 'removeInstallationFolder']);
-
-			// Accept the confirmation alert
-			$this->seeInPopup('Are you sure you want to delete?');
-			$this->acceptPopup();
-
-			// Wait until the installation folder is gone and the "customize installation" box has been removed
-			$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
-		}
+		$this->removeInstallationFolder();
 
 		$this->debug('Joomla is now installed');
 		$this->click('Open Administrator');
@@ -321,36 +321,64 @@ class JoomlaBrowser extends WebDriver
 		$this->installJoomla();
 
 		$this->debug('I go to Install Languages page');
-		$this->click(['id' => 'instLangs']);
-		$this->waitForText('Install Language packages', $this->config['timeout'], ['xpath' => '//h3']);
+		$this->click(['id' => 'installAddFeatures']);
+		$this->waitForText('Install Additional Languages', $this->config['timeout']);
 
 		foreach ($languages as $language)
 		{
 			$this->debug('I mark the checkbox of the language: ' . $language);
+			$this->scrollTo(['xpath' => "//label[contains(text()[normalize-space()], '$language')]"]);
+			$this->wait(.5);
 			$this->click(['xpath' => "//label[contains(text()[normalize-space()], '$language')]"]);
 		}
 
-		$this->click(['link' => 'Next']);
-		$this->waitForText('Multilingual', $this->config['timeout'], ['xpath' => '//h3']);
-		$this->selectOptionInRadioField('Activate the multilingual feature', 'Yes');
-		$this->waitForElementVisible(['id' => 'jform_activatePluginLanguageCode-lbl']);
-		$this->selectOptionInRadioField('Install localised content', 'Yes');
-		$this->selectOptionInRadioField('Enable the language code plugin', 'Yes');
-		$this->click(['link' => 'Next']);
+		$this->scrollTo(['id' => 'installLanguagesButton']);
+		$this->wait(.5);
+		$this->click(['id' => 'installLanguagesButton']);
+		$this->waitForText('Set default language', $this->config['timeout'], ['id' => 'defaultLanguagesButton']);
+		$this->seeOptionIsSelected('input[name=administratorlang]', 'English (en-GB)');
+		$this->seeOptionIsSelected('input[name=frontendlang]', 'English (en-GB)');
+		$this->scrollTo('#defaultLanguagesButton');
+		$this->wait(.5);
+		$this->click('#defaultLanguagesButton');
+		$this->wait(1);
+		$this->scrollTo(['id' => 'system-message-container']);
+		$this->waitForText('Joomla has set en-GB as your default ADMINISTRATOR language.', $this->config['timeout']);
+		$this->see('Joomla has set en-GB as your default ADMINISTRATOR language.');
 
-		$this->waitForText('Congratulations! Joomla! is now installed.', $this->config['timeout'], ['xpath' => '//h2']);
+		$this->removeInstallationFolder();
 
+		$this->debug('Joomla is now installed');
+		$this->scrollTo('#installCongrat');
+		$this->wait(.5);
+		$this->see('Open Site');
+	}
+
+	/**
+	 * Remove the installation folder after installing Joomla.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws Exception
+	 *
+	 */
+	protected function removeInstallationFolder()
+	{
 		if ($this->haveVisible('#removeInstallationFolder'))
 		{
 			$this->debug('Removing Installation Folder');
-			$this->click(['xpath' => "//input[@value='Remove \"installation\" folder']"]);
+			$this->scrollTo(['id' => 'removeInstallationFolder']);
+			$this->wait(.5);
+			$this->click(['id' => 'removeInstallationFolder']);
+
+			// Accept the confirmation alert
+			$this->seeInPopup('Are you sure you want to delete?');
+			$this->acceptPopup();
 
 			// Wait until the installation folder is gone and the "customize installation" box has been removed
 			$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
 		}
-
-		$this->debug('Joomla is now installed');
-		$this->see('Congratulations! Joomla! is now installed.', ['xpath' => '//h2']);
 	}
 
 	/**
@@ -372,7 +400,7 @@ class JoomlaBrowser extends WebDriver
 
 		// TODO improve
 		$this->wait(1);
-		$this->click(array('xpath' => "//div[@role='tablist']/button[@aria-controls='page-server']"));
+		$this->click($this->locator->adminConfigurationServerTab);
 		$this->debug('I wait for error reporting dropdown');
 		$this->selectOption('Error Reporting', 'Maximum');
 		$this->debug('I click on save');
@@ -380,26 +408,6 @@ class JoomlaBrowser extends WebDriver
 		$this->debug('I wait for global configuration being saved');
 		$this->waitForText('Global Configuration', $this->config['timeout'], ['css' => '.page-title']);
 		$this->waitForText('Configuration saved.', $this->config['timeout'], ['id' => 'system-message-container']);
-	}
-
-	/**
-	 * Installs a Extension in Joomla that is located in a folder inside the server
-	 *
-	 * @param   String  $path  Path for the Extension
-	 * @param   string  $type  Type of Extension
-	 *
-	 * @note: doAdminLogin() before
-	 *
-	 * @deprecated  since Joomla 3.4.4-dev. Use installExtensionFromFolder($path, $type = 'Extension') instead.
-	 *
-	 * @return   void
-	 *
-	 * @since    3.0.0
-	 */
-	public function installExtensionFromDirectory($path, $type = 'Extension')
-	{
-		$this->debug('Suggested to use installExtensionFromFolder instead of installExtensionFromDirectory');
-		$this->installExtensionFromFolder($path, $type);
 	}
 
 	/**
@@ -419,7 +427,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', ['css' => 'H1']);
-		$this->click(['link' => 'Install from Folder']);
+		$this->click('Install from Folder');
 		$this->debug('I enter the Path');
 		$this->fillField(['id' => 'install_directory'], $path);
 		$this->click(['id' => 'installbutton_directory']);
@@ -444,28 +452,13 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', ['css' => 'H1']);
-		$this->wait(1);
-		$this->waitForElementNotVisible(['xpath' => '//joomla-core-loader']);
-		$this->click(['link' => 'Install from URL']);
+		$this->click('Install from URL');
 		$this->debug('I enter the url');
 		$this->fillField(['id' => 'install_url'], $url);
 		$this->click(['id' => 'installbutton_url']);
 		$this->waitForText('was successful', '30', ['id' => 'system-message-container']);
 
-		if ($type == 'Extension')
-		{
-			$this->debug('Extension successfully installed from ' . $url);
-		}
-
-		if ($type == 'Plugin')
-		{
-			$this->debug('Installing plugin was successful.' . $url);
-		}
-
-		if ($type == 'Package')
-		{
-			$this->debug('Installation of the package was successful.' . $url);
-		}
+		$this->debug("$type successfully installed from $url");
 	}
 
 	/**
@@ -483,7 +476,7 @@ class JoomlaBrowser extends WebDriver
 	{
 		$this->amOnPage('/administrator/index.php?option=com_installer');
 		$this->waitForText('Extensions: Install', '30', array('css' => 'H1'));
-		$this->click(array('link' => 'Upload Package File'));
+		$this->click('Upload Package File');
 
 		$this->debug('I make sure legacy uploader is visible');
 		$this->executeJS('document.getElementById("legacy-uploader").style.display="block";');
@@ -493,20 +486,7 @@ class JoomlaBrowser extends WebDriver
 
 		$this->waitForText('was successful', '30', array('id' => 'system-message-container'));
 
-		if ($type == 'Extension')
-		{
-			$this->debug('Extension successfully installed.');
-		}
-
-		if ($type == 'Plugin')
-		{
-			$this->debug('Installing plugin was successful.');
-		}
-
-		if ($type == 'Package')
-		{
-			$this->debug('Installation of the package was successful.');
-		}
+		$this->debug("$type successfully installed with file upload");
 	}
 
 	/**
@@ -531,7 +511,8 @@ class JoomlaBrowser extends WebDriver
 		$this->dontSeeInPageSource('<b>Deprecated</b>:');
 		$this->dontSeeInPageSource('Notice:');
 		$this->dontSeeInPageSource('<b>Notice</b>:');
-		$this->dontSeeInPageSource('Warning:');
+
+		// $this->dontSeeInPageSource('Warning:'); We have translation strings with this in the backend.
 		$this->dontSeeInPageSource('<b>Warning</b>:');
 		$this->dontSeeInPageSource('Strict standards:');
 		$this->dontSeeInPageSource('<b>Strict standards</b>:');
@@ -555,6 +536,29 @@ class JoomlaBrowser extends WebDriver
 		$radioId = $label->getAttribute('for');
 
 		$this->click("//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]");
+	}
+
+	/**
+	 * Selects an option of a switcher radio field with check if the field is already selected
+	 *
+	 * @param   string  $selector  Selector of the <input type="radio"/> field
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function selectOptionInSwitcherRadioField($selector)
+	{
+		$isChecked = $this->grabAttributeFrom($selector, 'checked');
+
+		if ($isChecked == 'true')
+		{
+			$this->debug('The value seems to already be checked.');
+		}
+		else
+		{
+			$this->click($selector);
+		}
 	}
 
 	/**
@@ -690,8 +694,8 @@ class JoomlaBrowser extends WebDriver
 	 */
 	public function doAdministratorLogout()
 	{
-		$this->click($this->locator->adminLogoutDropdown);
 		$this->debug("I click on Top Right corner toggle to Logout from Admin");
+		$this->click($this->locator->adminLogoutDropdown);
 		$this->click($this->locator->adminLogoutText);
 		$this->waitForElement($this->locator->adminLoginUserName, $this->config['timeout']);
 		$this->waitForText($this->locator->adminLoginText, $this->config['timeout'], $this->locator->adminLoginSubmitButton);
@@ -836,15 +840,10 @@ class JoomlaBrowser extends WebDriver
 		$this->amOnPage('administrator/index.php?option=com_installer&view=languages');
 		$this->debug('I check for Notices and Warnings');
 		$this->checkForPhpNoticesOrWarnings();
-		$this->debug('Refreshing languages');
-		$this->click(['xpath' => "//div[@id='toolbar-refresh']/button"]);
-		$this->waitForElement(['id' => 'j-main-container'], 30);
 		$this->searchForItem($languageName);
 		$this->waitForElement($this->searchResultLanguageName($languageName), 30);
-		$this->click(['id' => "cb0"]);
-		$this->click(['xpath' => "//div[@id='toolbar-upload']/button"]);
+		$this->click(['xpath' => "//form[@id='adminForm']//table/tbody/tr[1]/td[1]/input"]);
 		$this->waitForText('was successful.', $this->config['timeout'], ['id' => 'system-message-container']);
-		$this->see('No Matching Results', ['class' => 'alert-no-items']);
 		$this->debug($languageName . ' successfully installed');
 	}
 
@@ -857,7 +856,7 @@ class JoomlaBrowser extends WebDriver
 	 */
 	private function searchResultLanguageName($languageName)
 	{
-		$xpath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/label[contains(text(),'" . $languageName . "')]";
+		$xpath = "//form[@id='adminForm']//table/tbody/tr[1]/th[contains(text(),'" . $languageName . "')]";
 
 		return $xpath;
 	}
@@ -1107,7 +1106,7 @@ class JoomlaBrowser extends WebDriver
 	 *
 	 * @since   3.0.0
 	 */
-	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//joomla-tab/div[@role='tablist']/button"])
 	{
 		$actualArrayOfTabs = $this->grabMultiple($tabsLocator);
 
@@ -1184,18 +1183,18 @@ class JoomlaBrowser extends WebDriver
 	/**
 	 * Create a user in the administrator site
 	 *
-	 * @param   string  $name       Name
-	 * @param   string  $username   User name (login)
-	 * @param   string  $password   Password
-	 * @param   string  $email      Email
-	 * @param   string  $userGroup  Group id to attach to the user
+	 * @param   string  $name        Name
+	 * @param   string  $username    User name (login)
+	 * @param   string  $password    Password
+	 * @param   string  $email       Email
+	 * @param   string  $userGroups  List of user groups to add the user to
 	 *
 	 * @return  void
 	 *
 	 * @since   3.8.11
 	 * @throws  \Exception
 	 */
-	public function createUser($name, $username, $password, $email, $userGroup = 'Super Users')
+	public function createUser($name, $username, $password, $email, $userGroups = ['Super Users'])
 	{
 		$this->debug('User creation');
 		$this->doAdministratorLogin();
@@ -1218,11 +1217,21 @@ class JoomlaBrowser extends WebDriver
 		$this->fillField(array('id' => 'jform_password2'), $password);
 		$this->fillField(array('id' => 'jform_email'), $email);
 
-		if (!empty($userGroup))
+		if (!empty($userGroups))
 		{
 			$this->debug('I open the Assigned User Groups Tab and assign the user group');
 			$this->click($this->locator->adminManageUsersUserGroupAssignmentTab);
-			$this->click($this->locator->adminManageUsersUserGroupAssignmentCheckbox($userGroup));
+			$this->uncheckOption('Registered');
+
+			if (!is_array($userGroups))
+			{
+				$userGroups = [$userGroups];
+			}
+
+			foreach ($userGroups as $group)
+			{
+				$this->checkOption($this->locator->adminManageUsersUserGroupAssignmentCheckbox($group));
+			}
 		}
 
 		$this->debug('Click new user apply button');
@@ -1232,5 +1241,191 @@ class JoomlaBrowser extends WebDriver
 		$this->waitForText('User saved', $this->config['timeout'], '#system-message-container');
 		$this->see('User saved', '#system-message-container');
 		$this->checkForPhpNoticesOrWarnings();
+	}
+
+	/**
+	 * Site Offline
+	 *
+	 * @param   boolean  $enable  To set Site Online/Offline
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setSiteOffline($enable = true)
+	{
+		$this->debug($enable ? 'I set the site to be offline' : 'I set the site to be online');
+		$this->amOnPage(Locators::$globalConfigurationUrl);
+		$this->click($this->locator->adminConfigurationSiteTab);
+		$this->selectOptionInSwitcherRadioField($enable ? '#jform_offline1' : '#jform_offline0');
+
+		$this->click("Save");
+		$this->see('Configuration saved', '#system-message-container');
+	}
+
+	/**
+	 * Search Engine Optimization
+	 *
+	 * @param   boolean  $enable  To set SEO true/false
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setSiteSearchEngineFriendly($enable = true)
+	{
+		$this->debug($enable ? 'I set SEF URLs to Yes' : 'I set SEF URLs to No');
+		$this->amOnPage(Locators::$globalConfigurationUrl);
+		$this->click($this->locator->adminConfigurationSiteTab);
+		$this->scrollTo('#jform_sef');
+		$this->selectOptionInSwitcherRadioField($enable ? '#jform_sef1' : '#jform_sef0');
+
+		$this->click("Save");
+		$this->see('Configuration saved', '#system-message-container');
+	}
+
+	/**
+	 * Create Module
+	 *
+	 * @param   string             $moduleType  Type of module
+	 * @param   string             $moduleName  Name of module
+	 * @param   string             $category    category of module
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function createModule($moduleType, $moduleName, $category)
+	{
+		$this->amOnPage(Locators::$moduleUrl);
+
+		// New Module
+		$this->click('New');
+
+		// Select Module Type
+		$this->see('Select a Module Type');
+
+		// Module Type
+		$this->click($moduleType, '.new-modules');
+
+		// Title
+		$this->fillField(Locators::$moduleTitle, $moduleName);
+
+		$this->click('#jform_position-lbl');
+		$this->type('Main-top');
+		$this->pressKey('.choices__input.choices__input--cloned', \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		/**
+		 * Module Types
+		 * Articles - Archived
+		 * Articles - Categories
+		 * Articles - Category
+		 * Banners
+		 * Breadcrumbs
+		 * Articles - Most Read
+		 * Articles - Newsflash
+		 * Articles - Related
+		 * Custom
+		 * Feed Display
+		 * Latest Users
+		 * Login
+		 * Search
+		 * Smart Search
+		 * Language Switcher
+		 * Menu
+		 * Statistics
+		 * Syndication Feeds
+		 * Tags - Popular
+		 */
+		switch ($moduleType)
+		{
+			case 'Articles - Archived' :
+				break;
+			case 'Articles - Categories' :
+				// Select category as 'Google Summer Of Codes'
+				$this->click(['id' => 'jform_params_parent_select']);
+				$this->switchToIFrame('Select or Change Category');
+				$this->wait(1);
+				$this->searchForItem($category);
+				$this->wait(1);
+				$this->see($category);
+				$this->click(['link' => $category]);
+				$this->switchToPreviousTab();
+				$this->wait(1);
+				break;
+
+			case 'Articles - Category' :
+				// Filter Options
+				$this->click(['link' => 'Filtering Options']);
+				$this->selectOption(Locators::$selectModuleCategory, $category);
+				break;
+			case 'Articles - Latest' :
+				$this->scrollTo(Locators::$selectModuleCategory, $category);
+				$this->selectOption(Locators::$selectModuleCategory, $category);
+				break;
+			case 'Articles - Most Read' :
+				$this->scrollTo(Locators::$selectModuleCategory, $category);
+				$this->selectOption(Locators::$selectModuleCategory, $category);
+				break;
+			case 'Articles - Newsflash' :
+				$this->click(Locators::$moduleCategory);
+				$this->fillField(Locators::$fillModuleCategory, $category);
+				$this->pressKey(Locators::$fillModuleCategory, \Facebook\WebDriver\WebDriverKeys::ENTER);
+				break;
+			case 'Articles - Related' :
+				break;
+			case 'Banners' :
+				// Select category 'Uncategorised'
+				$this->scrollTo(['id' => 'jform_params_catid'], 'Uncategorised');
+				$this->selectOption(['id' => 'jform_params_catid'], 'Uncategorised');
+				$this->scrollTo(['id' => 'jform_params_header_text']);
+				$this->fillField(['id' => 'jform_params_header_text'], 'This is text header for Module of Banners');
+				$this->scrollTo(['id' => 'jform_params_footer_text']);
+				$this->fillField(['id' => 'jform_params_footer_text'], 'This is text footer for Module of Banners');
+				break;
+			case 'Breadcrumbs' :
+				$this->fillField(['id' => 'jform_params_homeText'], 'Home entry for Module of breadcrumbs');
+				break;
+			case 'Custom' :
+				break;
+			case 'Feed Display' :
+				$this->fillField(['id' => 'jform_params_rssurl'], 'https://www.joomla.org');
+				break;
+			case 'Language Switcher' :
+				$this->fillField(['id' => 'jform_params_header_text'], 'This is pre-text for Module');
+				$this->fillField(['id' => 'jform_params_footer_text'], 'This is post-text for Module');
+				$this->click(['id' => 'jform_params_dropdown1']);
+				break;
+			case 'Latest Users' :
+				break;
+			case 'Login' :
+				$this->fillField(['id' => 'jform_params_pretext'], 'This is pre-text for Module');
+				$this->fillField(['id' => 'jform_params_posttext'], 'This is post-text for Module');
+				$this->fillField(['id' => 'jform_params_login'], 'http://localhost/joomlaMain/test-install/');
+				$this->fillField(['id' => 'jform_params_logout'], 'https://www.joomla.org');
+				$this->scrollTo(['id' => 'jform_params_name1']);
+				$this->click(['id' => 'jform_params_name1']);
+				break;
+		}
+
+		// Save It
+		$this->clickToolbarButton('save & close');
+		$this->see('Module saved', ['id' => 'system-message-container']);
+		$this->searchForItem($moduleName);
+	}
+
+	/**
+	 * Get a value from the configuration
+	 *
+	 * @param   string  $name  Name of the config option
+	 *
+	 * @return  mixed
+	 *
+	 * @since   4.0
+	 * @throws  \Codeception\Exception\ModuleException
+	 */
+	public function getConfig($name)
+	{
+		return $this->config[$name];
 	}
 }
