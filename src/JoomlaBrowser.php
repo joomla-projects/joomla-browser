@@ -247,6 +247,7 @@ class JoomlaBrowser extends WebDriver
 			$this->debug('Wait for the page to reload in the selected language');
 			$this->wait(2);
 		}
+
 		$this->debug('I fill Site Name');
 		$this->fillField(['id' => 'jform_site_name'], 'Joomla CMS test');
 		$this->click(['id' => 'step1']);
