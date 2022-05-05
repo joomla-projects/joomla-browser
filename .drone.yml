@@ -41,6 +41,8 @@ steps:
 
   - name: acceptance_tests
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - cp -a cache/. /tests/www/test-install/
       - chown -R www-data /tests/www/test-install/
@@ -88,6 +90,6 @@ services:
 
 ---
 kind: signature
-hmac: 533dd81d2abe5dc737a387d236e69ffc9fb4064128e879bf7a4ee9dfa8759206
+hmac: 66e4e996d44257efd13125d405b53864fb4966b716903f7a21d066eb1240a6ac
 
 ...
