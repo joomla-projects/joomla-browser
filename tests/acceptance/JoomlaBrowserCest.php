@@ -20,6 +20,13 @@ class JoomlaBrowserCest
 		$I->wantToTest('installing Joomla');
 		$I->installJoomla();
 
+		/**
+		 * @TODO deleting install folder doesn't work
+		 *       before Joomla 4.2. This return needs
+		 *       to be removed when 4.2 is the default branch.
+		 */
+		return;
+
 		// Resetting installation to be installed again.
 		if (is_file($path . '/configuration.php'))
 		{
