@@ -25,6 +25,8 @@ class JoomlaBrowserCest
 		 *       before Joomla 4.2. This return needs
 		 *       to be removed when 4.2 is the default branch.
 		 */
+		\Joomla\Filesystem\Folder::delete($path . '/installation');
+
 		return;
 
 		// Resetting installation to be installed again.

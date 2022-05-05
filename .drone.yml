@@ -63,12 +63,12 @@ steps:
       PLUGIN_HOSTNAME:
         from_secret: ftphost
       PLUGIN_SRC_DIR: /tests/_output/
-      PLUGIN_DEST_DIR: /drone
+      PLUGIN_DEST_DIR: /
       PLUGIN_SECURE: false
       PLUGIN_EXCLUDE: ^\.git/$
     commands:
-      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/$DRONE_BUILD_NUMBER
-      - echo https://artifacts.joomla.org$PLUGIN_DEST_DIR
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/$DRONE_BUILD_NUMBER
+      - echo https://artifacts.joomla.org/drone$PLUGIN_DEST_DIR
       - /bin/upload.sh
     when:
       status:
