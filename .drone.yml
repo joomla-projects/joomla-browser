@@ -58,7 +58,8 @@ steps:
         from_secret: ftpusername
       FTP_PASSWORD:
         from_secret: ftppassword
-      PLUGIN_HOSTNAME: artifacts.joomla.org:21
+      PLUGIN_HOSTNAME:
+        from_secret: ftphost
       PLUGIN_SRC_DIR: /tests/_output/
       PLUGIN_DEST_DIR: /
       PLUGIN_SECURE: false
@@ -87,6 +88,6 @@ services:
 
 ---
 kind: signature
-hmac: 6e9b6bd9d1c0bccf592ef1e6cd70a568a1dced399790c43018457b458b9b01c6
+hmac: 533dd81d2abe5dc737a387d236e69ffc9fb4064128e879bf7a4ee9dfa8759206
 
 ...
