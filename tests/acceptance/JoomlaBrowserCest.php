@@ -102,7 +102,7 @@ class JoomlaBrowserCest
 			copy($path . '/weblinks.zip', __DIR__ . '/../_data/weblinks.zip');
 		}
 
-		$I->doAdministratorLogin();
+		$I->doAdministratorLogin(null, null, false);
 		$zip = new ZipArchive;
 		$res = $zip->open($path . '/weblinks.zip');
 
