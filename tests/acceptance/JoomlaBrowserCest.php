@@ -122,7 +122,7 @@ class JoomlaBrowserCest
 		$I->uninstallExtension('Web Links Extension Package');
 		$I->installExtensionFromFileUpload('weblinks.zip', 'pkg_weblinks');
 
-		$I->doAdministratorLogin();
+		$I->doAdministratorLogin(null, null, false);
 		$I->installLanguage('Czech');
 	}
 }
