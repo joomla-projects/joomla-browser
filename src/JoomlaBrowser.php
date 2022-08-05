@@ -736,7 +736,7 @@ class JoomlaBrowser extends WebDriver
 	 */
 	private function searchResultPluginName($pluginName)
 	{
-		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
+		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/th[@scope='row'][1]/a[contains(text(), '" . $pluginName . "')]";
 
 		return $path;
 	}
