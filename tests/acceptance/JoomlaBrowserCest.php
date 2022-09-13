@@ -20,6 +20,15 @@ class JoomlaBrowserCest
 		$I->wantToTest('installing Joomla');
 		$I->installJoomla();
 
+		/**
+		 * @TODO deleting install folder doesn't work
+		 *       before Joomla 4.2. This return needs
+		 *       to be removed when 4.2 is the default branch.
+		 */
+		\Joomla\Filesystem\Folder::delete($path . '/installation');
+
+		return;
+
 		// Resetting installation to be installed again.
 		if (is_file($path . '/configuration.php'))
 		{
@@ -93,7 +102,7 @@ class JoomlaBrowserCest
 			copy($path . '/weblinks.zip', __DIR__ . '/../_data/weblinks.zip');
 		}
 
-		$I->doAdministratorLogin();
+		$I->doAdministratorLogin(null, null, false);
 		$zip = new ZipArchive;
 		$res = $zip->open($path . '/weblinks.zip');
 
@@ -113,7 +122,7 @@ class JoomlaBrowserCest
 		$I->uninstallExtension('Web Links Extension Package');
 		$I->installExtensionFromFileUpload('weblinks.zip', 'pkg_weblinks');
 
-		$I->doAdministratorLogin();
+		// $I->doAdministratorLogin(null, null, false);
 		$I->installLanguage('Czech');
 	}
 }

@@ -41,6 +41,8 @@ steps:
 
   - name: acceptance_tests
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - cp -a cache/. /tests/www/test-install/
       - chown -R www-data /tests/www/test-install/
@@ -58,14 +60,15 @@ steps:
         from_secret: ftpusername
       FTP_PASSWORD:
         from_secret: ftppassword
-      PLUGIN_HOSTNAME: artifacts.joomla.org:21
+      PLUGIN_HOSTNAME:
+        from_secret: ftphost
       PLUGIN_SRC_DIR: /tests/_output/
       PLUGIN_DEST_DIR: /
       PLUGIN_SECURE: false
       PLUGIN_EXCLUDE: ^\.git/$
     commands:
-      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://artifacts.joomla.org$PLUGIN_DEST_DIR
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/$DRONE_BUILD_NUMBER
+      - echo https://artifacts.joomla.org/drone$PLUGIN_DEST_DIR
       - /bin/upload.sh
     when:
       status:
@@ -87,6 +90,6 @@ services:
 
 ---
 kind: signature
-hmac: 6e9b6bd9d1c0bccf592ef1e6cd70a568a1dced399790c43018457b458b9b01c6
+hmac: ecf9df597142deeef6101e402f4cc3cd0e3f9c02d528cd6725e7ffb03de980d6
 
 ...

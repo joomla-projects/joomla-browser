@@ -370,7 +370,7 @@ class JoomlaBrowser extends WebDriver
 		{
 			$this->debug('Removing Installation Folder');
 			$this->scrollTo(['id' => 'removeInstallationFolder']);
-			$this->wait(.5);
+			$this->wait(1);
 			$this->click(['id' => 'removeInstallationFolder']);
 
 			// Accept the confirmation alert
@@ -378,7 +378,7 @@ class JoomlaBrowser extends WebDriver
 			$this->acceptPopup();
 
 			// Wait until the installation folder is gone and the "customize installation" box has been removed
-			$this->waitForElementNotVisible(['id' => 'installAddFeatures']);
+			$this->waitForElementNotVisible(['id' => 'installAddFeatures'], 30);
 		}
 	}
 
