@@ -34,7 +34,7 @@ steps:
       - composer install
 
   - name: npm
-    image: node:14-alpine
+    image: node:16-bullseye-slim
     commands:
       - cd cache
       - npm i --unsafe-perm
@@ -90,6 +90,6 @@ services:
 
 ---
 kind: signature
-hmac: ecf9df597142deeef6101e402f4cc3cd0e3f9c02d528cd6725e7ffb03de980d6
+hmac: 1ea2fc9d8a1f85e589084eff1bdfe109f5d6df965db959f4e3e099344c9a4cf4
 
 ...
