@@ -28,7 +28,7 @@ class JoomlaBrowser extends WebDriver
 	 * @var     array
 	 * @since   3.0.0
 	 */
-	protected $requiredFields = array(
+	protected array $requiredFields = array(
 		'url',
 		'browser',
 		'username',
